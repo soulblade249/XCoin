@@ -4,5 +4,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="/Users/stevenrossi/Downloads/gson-2.8.2.jar"/>
 	<classpathentry kind="lib" path="/Users/stevenrossi/Downloads/bcprov-jdk15on-159.jar"/>
+	<classpathentry kind="lib" path="D:/Coding Files/XCoin/XCoin/Jar Files needed/bcprov-ext-jdk15on-159.jar"/>
+	<classpathentry kind="lib" path="D:/Coding Files/XCoin/XCoin/Jar Files needed/bcprov-jdk15on-159.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
