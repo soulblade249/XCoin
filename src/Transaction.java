@@ -1,4 +1,7 @@
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.security.Key;
+
 
 public class Transaction {
 
@@ -18,7 +21,18 @@ public class Transaction {
 		this.wallet = w;
 	}
 	
-	public boolean isTransactionValid() {
+	public void setupTransaction() throws IOException{
+		id = StringUtil.applySha256("test");
+		PrintWriter out = new PrintWriter("transactions.dat");
+		out.print("Transaction ID: " + id);
+		out.close();
+	}
+	
+	public boolean isAmountValid() {
 		return wallet.getBalance() >= amount ? true : false; 
+	}
+	
+	public void sendTransaction() {
+		
 	}
 }
