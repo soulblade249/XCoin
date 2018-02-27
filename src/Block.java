@@ -13,13 +13,17 @@ public class Block {
 	public Block(String previousHash ) {
 		this.previousHash = previousHash;
 		this.timeStamp = new Date().getTime();
-		
 		this.hash = calculateHash(); //Making sure we do this after we set the other values.
 	}
 	
 	//Calculate new hash based on blocks contents
 	public String calculateHash() {
-		String calculatedhash = StringUtil.applySha256(previousHash + Long.toString(timeStamp) + Integer.toString(nonce) + merkleRoot);
+		String calculatedhash = StringUtil.applySha256( 
+				previousHash +
+				Long.toString(timeStamp) +
+				Integer.toString(nonce) + 
+				merkleRoot
+				);
 		return calculatedhash;
 	}
 	
@@ -27,7 +31,7 @@ public class Block {
 	public void mineBlock(int difficulty) {
 		String target = StringUtil.getDificultyString(difficulty); //Create a string with difficulty * "0" 
 		while(!hash.substring( 0, difficulty).equals(target)) {
-			nonce++;
+			nonce ++;
 			hash = calculateHash();
 		}
 		System.out.println("Block Mined!!! : " + hash);
