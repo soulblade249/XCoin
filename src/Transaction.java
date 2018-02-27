@@ -6,11 +6,23 @@ public class Transaction {
 	public Key sender;
 	public Key reciever;
 	public long timeStamp;
+	public String id;
+	private Wallet wallet;
 	
-	public Transaction (int a, Key r, Key s, long t) {
+	public Transaction (int a, Key r, Key s, long t, String i, Wallet w) {
 		this.amount = a;
 		this.timeStamp = t;
 		this.reciever = r;
 		this.sender = s;
+		this.id = i;
+		this.wallet = w;
+	}
+	
+	public boolean isTransactionValid() {
+		if(wallet.getBalance() >= amount) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 }

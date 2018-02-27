@@ -33,8 +33,9 @@ public class Wallet {
 		}
 	}
 	
-	public void getBalance() {
-		for
+	public int getBalance() {
+		//returns the balance of the user
+		return balance;
 	}
 	
 
