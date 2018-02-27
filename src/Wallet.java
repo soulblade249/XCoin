@@ -33,6 +33,9 @@ public class Wallet {
 		}
 	}
 	
+	public void getBalance() {
+		for
+	}
 	
 
 	
