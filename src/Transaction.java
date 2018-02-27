@@ -19,10 +19,6 @@ public class Transaction {
 	}
 	
 	public boolean isTransactionValid() {
-		if(wallet.getBalance() >= amount) {
-			return true;
-		}else {
-			return false;
-		}
+		return wallet.getBalance() >= amount ? true : false; 
 	}
 }
