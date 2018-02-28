@@ -16,16 +16,13 @@ public class Transaction {
 	public Key reciever;
 	public long timeStamp;
 	public String id;
-	private Wallet wallet;
-	private LinkedHashMap<Integer, String> transactionMap = new LinkedHashMap<Integer, String>();
 	
-	public Transaction (int a, Key r, Key s, long t, String i, Wallet w) {
+	public Transaction (int a, Key r, Key s, long t, String i) {
 		this.amount = a;
 		this.timeStamp = t;
 		this.reciever = r;
 		this.sender = s;
 		this.id = i;
-		this.wallet = w;
 		//Later expand for transaction type
 		
 	}
@@ -37,7 +34,7 @@ public class Transaction {
 		out.close();
 	}
 	
-	public boolean isAmountValid() {
+	/*public boolean isAmountValid() {
 		return wallet.getBalance() >= amount ? true : false; 
 	}
 	
@@ -49,4 +46,5 @@ public class Transaction {
 			 wallet.removeFunds(amount);
 		 }
 	}
+	*/
 }
