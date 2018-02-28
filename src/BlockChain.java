@@ -11,11 +11,11 @@ import java.util.Map;
 
 public class BlockChain {
 	
-	public static ArrayList<Block> blockchain = new ArrayList<Block>();
-	public static HashMap<Integer, String> transactionMap = new HashMap<Integer, String>();
+	private static ArrayList<Block> blockchain = new ArrayList<Block>();
+	private static ArrayList<Transaction> mempool = new ArrayList<Transaction>();
 	
-	public static int difficulty = 3;
-	public static float minimumTransaction = 0.1f;
+	private static int difficulty = 3;
+	private static float minimumTransaction = 0.1f;
 	public static Wallet walletA;
 	public static Wallet walletB;
 
