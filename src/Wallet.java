@@ -38,7 +38,13 @@ public class Wallet {
 		return balance;
 	}
 	
-
+	public void removeFunds(int amount) {
+		balance = balance - amount;
+	}
+	
+	public void addFunds(int amount) {
+		balance = balance + amount;
+	}
 	
 }
 

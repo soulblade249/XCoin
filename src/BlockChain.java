@@ -41,8 +41,6 @@ public class BlockChain {
 		System.out.println(su.verifyECDSASig(walletA.publicKey, pwd, su.applyECDSASig(walletA.privateKey, pwd)));
 		
 		//isChainValid();
-		
-		//Sup bitches
 	}
 	
 	public static boolean isChainValid() {
