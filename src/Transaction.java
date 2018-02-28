@@ -22,17 +22,10 @@ public class Transaction {
 		this.timeStamp = t;
 		this.reciever = r;
 		this.sender = s;
-		this.id = i;
-		//Later expand for transaction type
-		
+		this.id = StringUtil.applySha256(Integer.toString(a) + Long.toString(t) + StringUtil.getStringFromKey(r) + StringUtil.getStringFromKey(s));
 	}
 	
-	public void setupTransaction() throws IOException{
-		id = StringUtil.applySha256("test");
-		PrintWriter out = new PrintWriter("transactions.dat");
-		out.print(id);
-		out.close();
-	}
+	
 	
 	/*public boolean isAmountValid() {
 		return wallet.getBalance() >= amount ? true : false; 
