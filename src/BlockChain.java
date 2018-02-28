@@ -12,6 +12,7 @@ import java.util.Map;
 public class BlockChain {
 	
 	public static ArrayList<Block> blockchain = new ArrayList<Block>();
+	public static HashMap<Integer, String> transactionMap = new HashMap<Integer, String>();
 	
 	public static int difficulty = 3;
 	public static float minimumTransaction = 0.1f;
