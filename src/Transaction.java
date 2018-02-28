@@ -17,7 +17,7 @@ public class Transaction {
 	public long timeStamp;
 	public String id;
 	
-	public Transaction (int a, Key r, Key s, long t, String i) {
+	public Transaction (int a, Key r, Key s, long t) {
 		this.amount = a;
 		this.timeStamp = t;
 		this.reciever = r;
