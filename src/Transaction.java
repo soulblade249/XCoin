@@ -26,6 +26,8 @@ public class Transaction {
 		this.sender = s;
 		this.id = i;
 		this.wallet = w;
+		//Later expand for transaction type
+		
 	}
 	
 	public void setupTransaction() throws IOException{
