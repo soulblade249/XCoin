@@ -3,11 +3,11 @@ import java.io.*;
 
 public class foreignCoin {
 
-	public static HashMap<String, String> currencyList = new HashMap<String, String>();
+	public static HashMap<String, String> currencyList = new HashMap<String, String>(); // A list of all the currencies
 	public static String coinId;
 	public long valueToDollar;
 
-	public foreignCoin(String c, long v) {
+	public foreignCoin(String c, long v) { 
 		this.coinId = c;
 		this.valueToDollar = v;
 	}
@@ -20,6 +20,11 @@ public class foreignCoin {
 			Currency c1 = Currency.getInstance(currencyCode);
 			currencyList.put(c1.getCurrencyCode(), c1.getDisplayName());
 		}
+	}
+	
+	public static int getCurrencyCode(String coin) {
+		Currency c1 = Currency.getInstance(coin);
+		return c1.getNumericCode();
 	}
 
 	public static void main(String[] args) {
