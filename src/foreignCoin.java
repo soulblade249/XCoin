@@ -3,7 +3,7 @@ import java.io.*;
 
 public class foreignCoin {
 
-	public static ArrayList<String> currencyList = new ArrayList<String>();
+	public static HashMap<String, String> currencyList = new HashMap<String, String>();
 	public static String coinId;
 	public long valueToDollar;
 
@@ -18,9 +18,7 @@ public class foreignCoin {
 		while(in.hasNextLine()) {
 			String currencyCode = in.nextLine();
 			Currency c1 = Currency.getInstance(currencyCode);
-			for(int a = 0; in.hasNextLine(); a++) {
-				currencyList.add(a, c1.getCurrencyCode());
-			}
+			currencyList.put(c1.getCurrencyCode(), c1.getDisplayName());
 		}
 	}
 
