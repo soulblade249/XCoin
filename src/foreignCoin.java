@@ -28,7 +28,8 @@ public class foreignCoin {
 	}
 
 	public static String getSymbol() {
-		
+		Currency c1 = Currency.getInstance(coinId);
+		return c1.getSymbol();
 	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
