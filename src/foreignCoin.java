@@ -22,11 +22,14 @@ public class foreignCoin {
 		}
 	}
 	
-	public static int getCurrencyCode(String coin) {
-		Currency c1 = Currency.getInstance(coin);
+	public static int getCurrencyCode() {
+		Currency c1 = Currency.getInstance(coinId);
 		return c1.getNumericCode();
 	}
 
+	public static String getSymbol() {
+		
+	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
