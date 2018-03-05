@@ -3,83 +3,116 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.regex.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Peer2Peer {
-	private int port;
-	public ArrayList<Peer> peers = new ArrayList(); ; 
-	public DataInputStream inputStream;
-	public DataOutputStream outputStream;
-	public Thread clientThread;
-	public Thread serverThread;
-	public boolean runningServer = false;
-    private HashMap<String, Command> commands = new HashMap<>();
 
-	
-	public Peer2Peer(int port) {
-		this.port = port;
-		peers = new ArrayList();
-		serverThread = new Thread(new Runnable() {
-			public void run() {
+    private int port = 8888;
+    private HashSet<Peer>    peers;
+    private DataInputStream  inputStream;
+    private DataOutputStream outputStream;
+    private Thread           serverThread;
+    private Thread           clientThread;
+    private boolean          runningServer;
+    private HashMap<String, Command> commands = new HashMap<>();
+    private ServerSocket server;
+    private Socket socket = null;
+
+    public Peer2Peer(int port){
+    		System.out.println("Making node");
+        this.port = port;
+        peers = new HashSet<>();
+        serverThread = new Thread(new Runnable() {
+            public void run() {
                 try {
                     listen();
+                    System.out.println("Thread Ending");
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-		});
-	}	
-	
-	public void listen() throws IOException {
-		System.out.println("Server Starting...");
-		ServerSocket server = new ServerSocket(this.port);
-        System.out.println("Server started on port " + this.port);
+        });		
+        
+    }
 
+    public void start(){
+        if(serverThread.isAlive()){
+            System.out.println("Server is already running.");
+            return;
+        }
+        runningServer = true;
+        serverThread.start();
+    }
+
+    public void stop() throws IOException{
+    		Thread t = Thread.currentThread();    		
+    		runningServer = false;
+    		try {
+        		serverThread.interrupt();
+    			socket.close();
+        } catch (NullPointerException n) {
+        		n.printStackTrace();
+        }
+        System.out.println("Server Stopped");
+    }
+
+    public void listen() throws IOException, SocketTimeoutException{
+        System.out.println("Server starting...");
+        server = new ServerSocket(this.port);
+        System.out.println("Server started on port " + this.port);
+        		
         String command;
         Peer peer;
         while(runningServer){
-        		System.out.println("Waiting for client...");
-            Socket socket = server.accept();
-            DataInputStream in = new DataInputStream(socket.getInputStream());
-            DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-            String clientAddress = socket.getInetAddress().getHostAddress();
-            int clientPort = socket.getPort();
-            System.out.println("Connection received from: " + clientAddress + ":" + clientPort);
-            peer = new Peer(socket.getInetAddress().getHostAddress(), clientPort);
-            peers.add(peer);
+            server.setSoTimeout(5000);
+        		System.out.println("Waiting for a connection");
+        		try{
+        			socket = server.accept();
+                System.out.println("Passed Accept");
+                DataInputStream in = new DataInputStream(socket.getInputStream());
+                DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+                String clientAddress = socket.getInetAddress().getHostAddress();
+                int clientPort = socket.getPort();
+                System.out.println("Connection received from: " + clientAddress + ":" + clientPort);
+                peer = new Peer(socket.getInetAddress().getHostAddress(), clientPort);
+                peers.add(peer);
 
-            System.out.println("New peer: " + peer.toString());
-            command = receive(in);
-            send(serve(command), out);
-        }
-        System.out.println("Ending Thread:");
-	}
-	
-	public void send(String data, DataOutputStream out){
-        System.out.println("Sending message: " + data);
-        try {
-            out.writeUTF(data);
-            out.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
+                System.out.println("New peer: " + peer.toString());
+                command = receive(in);
+                send(serve(command), out);
+                System.out.println("Done waiting");
+                
+                System.out.println("New peer: " + peer.toString());
+                command = receive(in);
+                send(serve(command), out);
+                System.out.println("Done waiting");
+        		} catch (SocketTimeoutException e) {
+        			e.printStackTrace();
+        		}
+            
+
         }
     }
-	
-	public String receive(DataInputStream in){
-        String data = null;
+
+    public void connect(String host, int port){
         try {
-            data = in.readUTF();
-            System.out.println("Received message: "+data);
+            Socket socket = new Socket(host, port);
+            outputStream = new DataOutputStream(socket.getOutputStream());
+            inputStream = new DataInputStream(socket.getInputStream());
+
         } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
-        return data;
     }
-	
-	private String serve(String input) {
+
+    private String serve(String input) {
         List<String> list = new ArrayList<>();
         Matcher m = Pattern.compile("([^\"]\\S*|\".+?\")\\s*").matcher(input);
         while (m.find()) {
@@ -99,40 +132,58 @@ public class Peer2Peer {
 
         return commands.get(command).execute(args);
     }
-	
-	public void start(){
-        if(serverThread.isAlive()){
-            System.out.println("Server is already running.");
-            return;
-        }
-        runningServer = true;
-        serverThread.start();
-    }
-	
-	 public void stop() {
-		 runningServer = false;
-	 }
-	 
-	 public void connect(String host, int port) {
-		 try {
-			Socket socket = new Socket(host, port);
-			outputStream = new DataOutputStream(socket.getOutputStream());
-			inputStream = new DataInputStream(socket.getInputStream());
-		 } catch (IOException e){
-			 e.printStackTrace();
-		 }
-	 }
-	 
-	 public static void main(String [] args) {
-		 Peer2Peer node1 = new Peer2Peer(8888);
-		 Peer2Peer node2 = new Peer2Peer(8888);
-		 
-		 node1.start();
-		 
-		 node2.connect("127.0.0.1", 8888);
-	     node2.send("ping", node2.outputStream);
 
-	     node1.stop();
-	     node2.stop();
-	 }
+    public void send(String data, DataOutputStream out){
+        System.out.println("Sending message: " + data);
+        try {
+            out.writeUTF(data);
+            out.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String receive(DataInputStream in){
+        String data = null;
+        try {
+            data = in.readUTF();
+            System.out.println("Received message: "+data);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return data;
+    }
+
+    public static void main(String[] args) throws IOException {
+        Peer2Peer node1 = new Peer2Peer(8888);
+        Peer2Peer node2 = new Peer2Peer(8888);
+        Peer2Peer node3 = new Peer2Peer(8888);
+
+        System.out.println(node1.serverThread.isAlive());
+        node1.start();
+        System.out.println(node1.serverThread.isAlive());
+        /*node2.connect("127.0.0.1", 8888);
+        node2.send("ping", node2.outputStream);
+        node3.connect("127.0.0.1", 8888);
+        node3.send("Ping", node3.outputStream);
+        */
+        Thread t = Thread.currentThread();
+        try {
+			t.sleep(10000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        node1.stop();
+        try {
+			t.sleep(10000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        System.out.println(node1.serverThread.isAlive());
+
+        //System.out.println("");
+    }
+
 }
