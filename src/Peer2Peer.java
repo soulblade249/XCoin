@@ -41,6 +41,7 @@ public class Peer2Peer {
         String command;
         Peer peer;
         while(runningServer){
+        		System.out.println("Waiting for client...");
             Socket socket = server.accept();
             DataInputStream in = new DataInputStream(socket.getInputStream());
             DataOutputStream out = new DataOutputStream(socket.getOutputStream());
@@ -54,6 +55,7 @@ public class Peer2Peer {
             command = receive(in);
             send(serve(command), out);
         }
+        System.out.println("Ending Thread:");
 	}
 	
 	public void send(String data, DataOutputStream out){
@@ -106,7 +108,31 @@ public class Peer2Peer {
         runningServer = true;
         serverThread.start();
     }
+	
 	 public void stop() {
 		 runningServer = false;
+	 }
+	 
+	 public void connect(String host, int port) {
+		 try {
+			Socket socket = new Socket(host, port);
+			outputStream = new DataOutputStream(socket.getOutputStream());
+			inputStream = new DataInputStream(socket.getInputStream());
+		 } catch (IOException e){
+			 e.printStackTrace();
+		 }
+	 }
+	 
+	 public static void main(String [] args) {
+		 Peer2Peer node1 = new Peer2Peer(8888);
+		 Peer2Peer node2 = new Peer2Peer(8888);
+		 
+		 node1.start();
+		 
+		 node2.connect("127.0.0.1", 8888);
+	     node2.send("ping", node2.outputStream);
+
+	     node1.stop();
+	     node2.stop();
 	 }
 }
