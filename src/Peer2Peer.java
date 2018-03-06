@@ -39,6 +39,13 @@ public class Peer2Peer {
             }
         });		
         
+        initializeCommands();
+
+    }
+    
+    private void initializeCommands() {
+        this.commands.put("ping", new PingCommandHandler());
+       
     }
 
     public void start(){
@@ -69,7 +76,7 @@ public class Peer2Peer {
         		
         String command;
         Peer peer;
-        server.setSoTimeout(5000);
+        server.setSoTimeout(100000);
         while(runningServer){
         		System.out.println("Waiting for a connection");
         		try{
@@ -82,11 +89,6 @@ public class Peer2Peer {
                 System.out.println("Connection received from: " + clientAddress + ":" + clientPort);
                 peer = new Peer(socket.getInetAddress().getHostAddress(), clientPort);
                 peers.add(peer);
-
-                System.out.println("New peer: " + peer.toString());
-                command = receive(in);
-                send(serve(command), out);
-                System.out.println("Done waiting");
                 
                 System.out.println("New peer: " + peer.toString());
                 command = receive(in);
@@ -105,7 +107,8 @@ public class Peer2Peer {
             Socket socket = new Socket(host, port);
             outputStream = new DataOutputStream(socket.getOutputStream());
             inputStream = new DataInputStream(socket.getInputStream());
-
+            send("ping", outputStream);
+            receive(inputStream);
         } catch (IOException e) {
             //e.printStackTrace();
         }
@@ -156,8 +159,6 @@ public class Peer2Peer {
     public static void main(String[] args) throws IOException {
         Peer2Peer node1 = new Peer2Peer(8888);
         node1.connect("10.70.21.139", 8888);
-        node1.send("ping", node1.outputStream);
-
     }
 
 }
