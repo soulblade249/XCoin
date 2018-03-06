@@ -155,7 +155,8 @@ public class Peer2Peer {
 
     public static void main(String[] args) throws IOException {
         Peer2Peer node1 = new Peer2Peer(8888);
-        node1.start();
+        node1.connect("10.70.21.139", 8888);
+        node1.send("ping", node1.outputStream);
 
     }
 
