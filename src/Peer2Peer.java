@@ -6,7 +6,6 @@ import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -14,7 +13,7 @@ import java.util.regex.Pattern;
 public class Peer2Peer {
 
     private int port = 8888;
-    private HashSet<Peer>    peers;
+    private ArrayList<Peer>    peers;
     private DataInputStream  inputStream;
     private DataOutputStream outputStream;
     private Thread           serverThread;
@@ -27,7 +26,7 @@ public class Peer2Peer {
     public Peer2Peer(int port){
     		System.out.println("Making node");
         this.port = port;
-        peers = new HashSet<>();
+        peers = new ArrayList<>();
         serverThread = new Thread(new Runnable() {
             public void run() {
                 try {
@@ -70,8 +69,8 @@ public class Peer2Peer {
         		
         String command;
         Peer peer;
+        server.setSoTimeout(5000);
         while(runningServer){
-            server.setSoTimeout(5000);
         		System.out.println("Waiting for a connection");
         		try{
         			socket = server.accept();
@@ -156,34 +155,8 @@ public class Peer2Peer {
 
     public static void main(String[] args) throws IOException {
         Peer2Peer node1 = new Peer2Peer(8888);
-        Peer2Peer node2 = new Peer2Peer(8888);
-        Peer2Peer node3 = new Peer2Peer(8888);
-
-        System.out.println(node1.serverThread.isAlive());
         node1.start();
-        System.out.println(node1.serverThread.isAlive());
-        /*node2.connect("127.0.0.1", 8888);
-        node2.send("ping", node2.outputStream);
-        node3.connect("127.0.0.1", 8888);
-        node3.send("Ping", node3.outputStream);
-        */
-        Thread t = Thread.currentThread();
-        try {
-			t.sleep(10000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        node1.stop();
-        try {
-			t.sleep(10000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        System.out.println(node1.serverThread.isAlive());
 
-        //System.out.println("");
     }
 
 }
