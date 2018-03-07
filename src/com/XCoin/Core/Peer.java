@@ -1,3 +1,4 @@
+package com.XCoin.Core;
 
 public class Peer {
 	public final int port;

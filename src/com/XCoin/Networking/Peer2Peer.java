@@ -1,3 +1,5 @@
+package com.XCoin.Networking;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -9,6 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import com.XCoin.Core.Peer;
 
 public class Peer2Peer {
 

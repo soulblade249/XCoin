@@ -1,3 +1,4 @@
+package com.XCoin.Core;
 import java.security.*;
 import java.util.ArrayList;
 import java.util.Base64;

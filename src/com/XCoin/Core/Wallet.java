@@ -1,3 +1,4 @@
+package com.XCoin.Core;
 import java.security.*;
 import java.security.spec.ECGenParameterSpec;
 import java.util.ArrayList;
