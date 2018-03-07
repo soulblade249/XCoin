@@ -1,3 +1,7 @@
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -8,6 +12,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 //import com.google.gson.GsonBuilder;
 import java.util.Map;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 public class BlockChain {
 	
@@ -26,6 +32,24 @@ public class BlockChain {
 		//Import StringUtil
 		StringUtil su = new StringUtil();
 
+		JFrame frame = new JFrame("Test Run");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		Color c = new Color(245, 167, 238);
+		
+		
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		frame.setLocation(dim.width/2-frame.getSize().width/2, dim.height/2-frame.getSize().height/2);
+		JLabel label = new JLabel("Hello World", SwingConstants.CENTER);
+		JButton testButton = new JButton("Test Button");
+		testButton.setPreferredSize(new Dimension(70, 40));
+		frame.getContentPane().add(label);
+		frame.getContentPane().setBackground(c);
+		//frame.getContentPane().add(testButton,SwingConstants.CENTER);
+		frame.setPreferredSize(new Dimension(400, 300));
+		frame.pack();
+		frame.setVisible(true);
+		
 		//Create wallets:
 		walletA = new Wallet();
 		walletB = new Wallet();		
@@ -74,6 +98,10 @@ public class BlockChain {
 		}	
 		System.out.println("Blockchain is valid");
 		return true;
+	}
+	
+	public void JSwingFrame() {
+		
 	}
 	
 	public static void addBlock(Block newBlock) {

@@ -6,6 +6,7 @@ import java.util.Map;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.BufferedWriter;
+import javax.swing.*;
 
 public class Wallet {
 	
