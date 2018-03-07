@@ -1,3 +1,5 @@
+package com.XCoin.Networking;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -9,6 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import com.XCoin.Core.Peer;
 
 public class Peer2Peer {
 
@@ -113,7 +117,6 @@ public class Peer2Peer {
             //e.printStackTrace();
         }
     }
-
     private String serve(String input) {
         List<String> list = new ArrayList<>();
         Matcher m = Pattern.compile("([^\"]\\S*|\".+?\")\\s*").matcher(input);
