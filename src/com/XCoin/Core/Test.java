@@ -2,6 +2,7 @@ package com.XCoin.Core;
 import java.io.IOException;
 import java.security.Security;
 
+import com.XCoin.Networking.Peer;
 import com.XCoin.Networking.Peer2Peer;
 
 public class Test {

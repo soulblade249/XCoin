@@ -12,8 +12,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.XCoin.Core.Peer;
-
 public class Peer2Peer {
 
     private int port = 8888;
@@ -93,11 +91,9 @@ public class Peer2Peer {
                 System.out.println("Connection received from: " + clientAddress + ":" + clientPort);
                 peer = new Peer(socket.getInetAddress().getHostAddress(), clientPort);
                 peers.add(peer);
-                
                 System.out.println("New peer: " + peer.toString());
                 command = receive(in);
                 send(serve(command), out);
-                System.out.println("Done waiting");
         		} catch (SocketTimeoutException e) {
         			e.printStackTrace();
         		}
@@ -161,7 +157,13 @@ public class Peer2Peer {
 
     public static void main(String[] args) throws IOException {
         Peer2Peer node1 = new Peer2Peer(8888);
-        node1.connect("10.70.21.139", 8888);
+        Peer2Peer node2 = new Peer2Peer(8888);
+        node2.start();
+        node1.connect("127.0.0.1", 8888);
+        node1.stop();
+        node2.stop();
+
+
     }
 
 }
