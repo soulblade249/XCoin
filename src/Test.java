@@ -9,11 +9,12 @@ public class Test extends JFrame implements ActionListener{
 	
 	static JPanel panel = new JPanel();
 	static JButton button = new JButton("Hello");
+	static JButton yetAnotherButton = new JButton("Cool!");
 	static JTextField field = new JTextField("Test");
 	static JTextArea area = new JTextArea("How \n are \n you");
 	
 	public static void main(String args[]) {
-		new Test();
+		new Test(); 
 	}
 	
 	public Test() {
@@ -27,6 +28,7 @@ public class Test extends JFrame implements ActionListener{
 		panel.add(button);
 		panel.setLayout(new GridLayout(10,1));
 		{
+		yetAnotherButton.addActionListener(this);
 		button.addActionListener(this);
 		}
 		//panel.add(field);
@@ -41,8 +43,12 @@ public class Test extends JFrame implements ActionListener{
 		
 		if(src.equals(button)) {
 			panel.add(field);
+			panel.add(yetAnotherButton);
 			System.out.println("Test");
-			setVisible(true);
+		}else if(src.equals(yetAnotherButton)) {
+			panel.add(area);
 		}
+		
+		setVisible(true);
 	}
 }
