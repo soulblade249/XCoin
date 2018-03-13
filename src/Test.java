@@ -1,26 +1,48 @@
-import java.security.Security;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class Test {
-	public static void main(String [] args) {
-		//Tester Class
-		StringUtil su = new StringUtil();
-		Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider()); //Setup Bouncey castle as a Security Provider
+import javax.swing.*;
 
-		//Create wallets:
-		Wallet walletA = new Wallet();
-		Wallet walletB = new Wallet();		
-		Wallet coinbase = new Wallet();
+public class Test extends JFrame implements ActionListener{
+	
+	static JPanel panel = new JPanel();
+	static JButton button = new JButton("Hello");
+	static JTextField field = new JTextField("Test");
+	static JTextArea area = new JTextArea("How \n are \n you");
+	
+	public static void main(String args[]) {
+		new Test();
+	}
+	
+	public Test() {
+		//Create Java Swing Window
+		super("Basic Swing Test");
 		
-		System.out.println();
-		System.out.println(su.getStringFromKey(walletA.privateKey));
-		//System.out.println(su.getStringFromKey(walletA.publicKey));
-
+		setSize(400, 300); // Size of Window
+		setResizable(true); // Can we resize it?
 		
-		//Encrypt String Password 
-		String pwd = "Password";
-		System.out.println(su.applyECDSASig(walletA.privateKey, pwd));
-		System.out.println(su.verifyECDSASig(walletA.publicKey, pwd, su.applyECDSASig(walletA.privateKey, pwd)));
+		//Add all the elements to the panel.
+		panel.add(button);
+		panel.setLayout(new GridLayout(10,1));
+		{
+		button.addActionListener(this);
+		}
+		//panel.add(field);
+		//panel.add(area);
+		add(panel);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setVisible(true);
+	}
+	
+	public void actionPerformed(ActionEvent e) {
+		Object src = e.getSource();
 		
-		//isChainValid();
+		if(src.equals(button)) {
+			panel.add(field);
+			System.out.println("Test");
+			setVisible(true);
+		}
 	}
 }
