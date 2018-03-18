@@ -9,24 +9,18 @@ import java.net.SocketTimeoutException;
 
 
 public class Peer {
-	public final int    port;
-	public final String address;
-    private Thread      peerThread;
-    private ServerSocket server;
-    private Socket socket = null;
 	
-    Peer2Peer p2p = new Peer2Peer(8888);
+    private Thread peerThread;  
+    private Socket socket;
     
-	public Peer(String address, int port)  {
-		this.address = address;
-		this.port = port;
+	public Peer(Socket socket)  {
+		this.socket = socket;
 		//System.out.println("TEst");
 		peerThread = new Thread(new Runnable() {
 			public void run() {
                 try {
                     listen();
-                    System.out.println("Thread Ending");
-                    
+                    System.out.println("Closing connection to " + socket.getInetAddress() + ":" + socket.getPort());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -36,14 +30,11 @@ public class Peer {
 	}
 
 	public void listen() throws IOException {
-        server = new ServerSocket(this.port);
-		System.out.println("TEst");
 		while(true){
-	    		System.out.println("Listening for commands");
+	    		//System.out.println("Listening for commands");
 	    		try{
-        			socket = server.accept();
-        			DataInputStream in = new DataInputStream(socket.getInputStream());
-        			DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+	    			DataInputStream in = new DataInputStream(this.socket.getInputStream());
+        			DataOutputStream out = new DataOutputStream(this.socket.getOutputStream());
         			
 
 	    		} catch (SocketTimeoutException e) {
@@ -56,6 +47,6 @@ public class Peer {
 
     @Override
     public String toString() {
-        return String.format("[%s:%s]", address, port);
+        return String.format("[%s:%s]", socket.getInetAddress(), socket.getPort());
     }
 }

@@ -31,10 +31,6 @@ public class Test {
 		 
 		 */
 		
-		Peer2Peer p2p = new Peer2Peer(8888);
-		p2p.listen();
 		
-		Peer peer = new Peer("0.0.0.0", 8888);
-		System.out.println(peer.toString());
 	}
 }

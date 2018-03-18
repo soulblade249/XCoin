@@ -33,7 +33,7 @@ public class Peer2Peer {
             public void run() {
                 try {
                     listen();
-                    System.out.println("Thread Ending");
+                    System.out.println("Connection Ended");
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -78,7 +78,7 @@ public class Peer2Peer {
         		
         String command;
         Peer peer;
-        server.setSoTimeout(100000);
+        server.setSoTimeout(1000);
         while(runningServer){
         		System.out.println("Waiting for a connection");
         		try{
@@ -89,13 +89,13 @@ public class Peer2Peer {
                 String clientAddress = socket.getInetAddress().getHostAddress();
                 int clientPort = socket.getPort();
                 System.out.println("Connection received from: " + clientAddress + ":" + clientPort);
-                peer = new Peer(socket.getInetAddress().getHostAddress(), clientPort);
+                peer = new Peer(socket);
                 peers.add(peer);
                 System.out.println("New peer: " + peer.toString());
                 command = receive(in);
                 send(serve(command), out);
         		} catch (SocketTimeoutException e) {
-        			e.printStackTrace();
+        			//e.printStackTrace();
         		}
             
 
@@ -159,9 +159,9 @@ public class Peer2Peer {
         Peer2Peer node1 = new Peer2Peer(8888);
         Peer2Peer node2 = new Peer2Peer(8888);
         node2.start();
-        node1.connect("127.0.0.1", 8888);
-        node1.stop();
-        node2.stop();
+        //node1.connect("127.0.0.1", 8888);
+        //node1.stop();
+        //node2.stop();
 
 
     }
