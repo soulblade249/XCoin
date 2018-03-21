@@ -8,10 +8,10 @@ import javax.swing.*;
 public class Test extends JFrame implements ActionListener{
 	
 	static JPanel panel = new JPanel();
-	static JButton button = new JButton("Hello");
-	static JButton yetAnotherButton = new JButton("Cool!");
-	static JTextField field = new JTextField("Test");
-	static JTextArea area = new JTextArea("How \n are \n you");
+	static JButton button = new JButton("Login");
+	static JButton yetAnotherButton = new JButton("Register");
+	static JTextField userField = new JTextField();
+	static JTextField passField = new JTextField();
 	
 	public static void main(String args[]) {
 		new Test(); 
@@ -21,7 +21,7 @@ public class Test extends JFrame implements ActionListener{
 		//Create Java Swing Window
 		super("Basic Swing Test");
 		
-		setSize(400, 300); // Size of Window
+		setSize(600, 500); // Size of Window
 		setResizable(true); // Can we resize it?
 		
 		//Add all the elements to the panel.
@@ -38,13 +38,13 @@ public class Test extends JFrame implements ActionListener{
 		setVisible(true);
 	}
 	
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object src = e.getSource();
-		
 		if(src.equals(button)) {
-			panel.add(field);
-			panel.add(yetAnotherButton);
-			System.out.println("Test");
+			panel.add(userField);
+			panel.add(passField);
+			
 		}else if(src.equals(yetAnotherButton)) {
 			panel.add(area);
 		}
