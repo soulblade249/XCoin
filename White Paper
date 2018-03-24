@@ -1,0 +1,33 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{XCoin}
+\date{March 2018}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+\caption{\Large Next-Generation Electronic Currency and \newline Decentralized  Global Finance Platform}
+\paragraph{Currently there are 180 currencies globally recognized by the United Nations. There are vast differences in value, amount and economic strength of each, and their respected exchange rates to each other vary, making it difficult for the average international transaction to be valued. Without having a global force monitoring every currency, control between them is difficult. The idea of a decentralized currency has been popularized by Satoshi Nakamoto’s Bitcoin as it has created the a ‘digital currency’ not controlled by any one body. These cryptocurrencies have vastly grown form the standard blockchain technology, and now feature tools such as smart contracts and alternatives to Proof Of Work. XCoin will provide a decentralized blockchain based platform that is controlled by individual governments instead of the classical miners to create a seamless trading system for cross currency transactions and a true exchange of value.\newline \newline \newline}
+
+\caption{\Large XCoin}
+\paragraph{The intentions of XCoin is to create a more globalized financial world by breaking walls between individual national currencies. By providing seamless foreign exchange we hope to promote the economy and help lesser used currencies become widely acceptable and exchangeable. With applications built on top of this platform, the security and efficiencience of many processes can be improved. With smart contract technology, periodic tasks like rent, and mortgage can be paid instantly, with any form of value, lower fees, and more securely. The XCoin platform will evolve traditional currency into a universal store of value with it’s own coin. The main goal of the XCoin currency will not be to undermine national currencies, but to support and aid global projects as a true value where it is unfit for a national currency to take jurisdiction.}
+
+\section{Structure}
+\caption{\Large Layered Sharding}
+
+\paragraph{XCoin is our solution to creating a seamless global economy that is not bounded by local currencies. Xcoin provides foreign exchange trading without the usual 1-3% fees that 
+the average bank charges. It tackles this with a tri-layered decentralized network. Starting at a international level, Layer 3 is controlled by no one country, as all must abide by agreed upon protocols. This Layer protocols affect all layers under it and has the ability to determine international affairs and deals that span across borders, both physically and economically. Layer 2 consists of a national government protocol, which can include tax, and monitoring of accounts by local powers to prevent money laundering, tax evasions and other illegal activities. This government controlled layer will add security and privacy to individuals, as now they can run on a monitored trustless system. Last is Layer 1 which is controlled on a separate individual based protocols, for companies and the general nontaxed transaction. \newline \newline \newline}
+
+\caption{\Large Government Support}
+
+\paragraph{Unlike other blockchain applications, XCoin will be distributed between local governments, compared to the traditional set of miners, which tries to avoid large centralized bodies. By having local governments support and enforce protocols for XCoin, we are able to integrate laws for their respected network. This shared network allows tax collection, and visibility for all transactions to law enforcement, while also ensuring privacy to users. This visibility to only the people involved in the transaction alongside with government protects the individual's finances while also ensuring that there is no laundering or fraud in the system. \newline \newline \newline}
+
+\caption{\Large Miners} 
+
+\paragraph{Like most blockchain applications, distribution is still important to XCoin, despite the protocols being in the hands of governments. Miners are our solution of keeping XCoin distributed, as they are a source of transaction verification. In reality a fee less system is not realistic, but with mining, XCoin can run off of minimal fees. Miners also give XCoin a way to distribute it's global currency, as in every block confirmed, coins are printed and distributed to governments, banks, and the miner who verified.}
+
+\end{document}
