@@ -17,32 +17,12 @@ public class BlockChain {
 	
 	private static int difficulty = 3;
 	private static float minimumTransaction = 0.1f;
-	public static Wallet walletA;
-	public static Wallet walletB;
-
+	private static Block newBlock;
 	
 	public static void main(String[] args) throws IOException {	
-		//add our blocks to the blockchain ArrayList:
 		Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider()); //Setup Bouncey castle as a Security Provider
-		//Import StringUtil
 		StringUtil su = new StringUtil();
-
-		//Create wallets:
-		walletA = new Wallet();
-		walletB = new Wallet();		
-		Wallet coinbase = new Wallet();
-		
-		System.out.println();
-		System.out.println(su.getStringFromKey(walletA.privateKey));
-		//System.out.println(su.getStringFromKey(walletA.publicKey));
-
-		
-		//Encrypt String Password 
-		String pwd = "Password";
-		System.out.println(su.applyECDSASig(walletA.privateKey, pwd));
-		System.out.println(su.verifyECDSASig(walletA.publicKey, pwd, su.applyECDSASig(walletA.privateKey, pwd)));
-		
-		//isChainValid();
+	
 	}
 	
 	public static boolean isChainValid() {
@@ -77,7 +57,9 @@ public class BlockChain {
 		return true;
 	}
 	
-	public static void addBlock(Block newBlock) {
+	
+	public static void mine() {
+		newBlock = new Block(blockchain.get(0).hash);
 		newBlock.mineBlock(difficulty);
 		blockchain.add(newBlock);
 	}
