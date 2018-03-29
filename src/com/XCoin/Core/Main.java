@@ -5,7 +5,7 @@ import java.security.Security;
 import com.XCoin.Networking.Peer;
 import com.XCoin.Networking.Peer2Peer;
 
-public class Test {
+public class Main {
 	public static void main(String [] args) throws IOException {
 		
 		BlockChain bc = new BlockChain();
