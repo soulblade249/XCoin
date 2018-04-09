@@ -12,12 +12,13 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.XCoin.Core.BlockChain;
 import com.XCoin.Networking.Commands.Command;
 import com.XCoin.Networking.Commands.PingCommandHandler;
 
 public class Peer2Peer {
 
-    private int port = 8888;
+	private int port;
     private ArrayList<Peer>    peers;
     private DataInputStream  inputStream;
     private DataOutputStream outputStream;
@@ -28,7 +29,8 @@ public class Peer2Peer {
     private ServerSocket server;
     private Socket socket = null;
 
-    public Peer2Peer(int port){
+    //Node with access to blockchain
+    public Peer2Peer(int port, BlockChain bc){
     		System.out.println("Making node");
         this.port = port;
         peers = new ArrayList<>();
@@ -47,6 +49,27 @@ public class Peer2Peer {
         initializeCommands();
 
     }
+    
+    //Node with out storing Blockchain
+    public Peer2Peer(int port){
+		System.out.println("Making node");
+    this.port = port;
+    peers = new ArrayList<>();
+    serverThread = new Thread(new Runnable() {
+        public void run() {
+            try {
+                listen();
+                System.out.println("Connection Ended");
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    });		
+    
+    initializeCommands();
+
+}
     
     private void initializeCommands() {
         this.commands.put("ping", new PingCommandHandler());
@@ -103,23 +126,15 @@ public class Peer2Peer {
             outputStream = new DataOutputStream(socket.getOutputStream());
             inputStream = new DataInputStream(socket.getInputStream());
             //System.out.println("Sending Message");
-            Peer.send("ping", outputStream);
+            Peer.send("ping", outputStream);		
         } catch (IOException e) {
             //e.printStackTrace();
         }
     }
 
     public static void main(String[] args) throws IOException {
-        Peer2Peer node1 = new Peer2Peer(8888);
-        Peer2Peer node2 = new Peer2Peer(8888);
-
-        node2.start();
-        Socket socket = new Socket("127.0.0.1", 8888);
-        node1.connect(socket);
-        //node1.stop();
-        //node2.stop();
-
-
+        Peer2Peer node = new Peer2Peer(8888);
+        node.start();
     }
 
 }
