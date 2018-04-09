@@ -4,11 +4,12 @@ import java.security.spec.ECGenParameterSpec;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.BufferedWriter;
 
-public class Wallet {
+public class Wallet{
 	
 	public PrivateKey privateKey;
 	public PublicKey publicKey;
@@ -46,6 +47,7 @@ public class Wallet {
 	public void addFunds(int amount) {
 		balance = balance + amount;
 	}
+
 	
 }
 
