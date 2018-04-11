@@ -40,7 +40,7 @@ public class Main {
 						mining = new Thread(new Runnable() {
 				            public void run() {
 				                try {
-				                    BlockChain.mine();				                    
+				                    bc.mine();				                    
 				                } catch (Exception e) {
 				                    e.printStackTrace();
 				                }

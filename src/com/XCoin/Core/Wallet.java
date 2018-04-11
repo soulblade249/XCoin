@@ -40,18 +40,6 @@ public class Wallet{
 		//returns the balance of the user
 		return balance;
 	}
-<<<<<<< HEAD
 	
-	public void removeFunds(int amount) {
-		balance = balance - amount;
-	}
-	
-	public void addFunds(int amount) {
-		balance = balance + amount;
-	}
-
-	
-=======
->>>>>>> CLI
 }
 
