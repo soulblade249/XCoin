@@ -14,24 +14,20 @@ import java.awt.event.*;
 import java.util.*;
 import java.io.*;
 
-public class MinerGui extends JFrame implements ActionListener{
+public class MinerGui extends JPanel implements ActionListener{
 
-	private JButton startMine;
-	private JButton stopMine;
-	private JTextArea loggerOutput;
-	private JPanel middlePanel;
-	private JScrollPane pane;
+	private final JButton startMine;
+	private final JButton stopMine;
+	private final JTextArea loggerOutput;
+	private final JScrollPane pane;
 
 	/**
 	 * Default Constructor to start the gui program
 	 */
 	public MinerGui() {
-		super("XCoin Miner G.U.I"); // Calls the JFrame class to create a new frame with title
+		super(new BorderLayout()); // Calls the JFrame class to create a new frame with title
 		JPanel panel = new JPanel(new GridBagLayout()); // Creates  a new panel with a layout
-		GridBagConstraints constraints = new GridBagConstraints(); //Creates the layout
-
-		constraints.fill = GridBagConstraints.HORIZONTAL; // Horizontal Layout
-
+		
 		loggerOutput = new JTextArea(); //Set up the output log
 		loggerOutput.setEditable(false); // No Editing output
 		loggerOutput.setPreferredSize(new Dimension(400,400));
@@ -49,31 +45,54 @@ public class MinerGui extends JFrame implements ActionListener{
 		JPanel button = new JPanel();
 		button.add(startMine);
 		button.add(stopMine);
-		getContentPane().add(panel, BorderLayout.CENTER);
-		getContentPane().add(button, BorderLayout.PAGE_END);
-		pack(); // Pack the frame
-		setResizable(true);
+		add(panel, BorderLayout.CENTER);
+		add(button, BorderLayout.PAGE_END);
 		setSize(500, 500);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setVisible(true);
+	}
+	
+	protected void displayText(String todisplay) {
+		//System.out.println("Displaying: " + todisplay);
+		loggerOutput.append(todisplay + "\n");
+		//System.out.println("Appended the string");
+		loggerOutput.setCaretPosition(loggerOutput.getDocument().getLength());
+		//System.out.println("Caret");
+	}
+	
+	public static void main(String[] args) {
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				createAndShowGUI();
+			}
+		});
+	}
+	
+	public static void createAndShowGUI() {
+		JFrame frame = new JFrame("XCoin");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		frame.add(new MinerGui());
+		
+		frame.setResizable(true);
+		frame.pack();
+		frame.setVisible(true);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e){
+		BufferedReader f = null;
+		Scanner input = null;
+		try {
+		f = new BufferedReader(new FileReader("MinerTestFile.in"));
+		input = new Scanner(f);
+		}catch(FileNotFoundException b) {
+			b.printStackTrace();
+		}
 		if(e.getSource().equals(startMine)) {
-			System.out.println("Start Mining");
-			BufferedReader f = null;
-			try {
-				f = new BufferedReader(new FileReader("MinerTestFile.in"));
-			} catch (FileNotFoundException e1) {
-				e1.printStackTrace();
-			}                                   
-			Scanner input = new Scanner(f);
-			while(input.hasNextLine()) {
-				String output = input.nextLine();
-				loggerOutput.append(output + "\n");
-				loggerOutput.setCaretPosition(loggerOutput.getDocument().getLength());
-				this.setLayout(new FlowLayout());
+			System.out.println("Start Mining");                                 
+			while(input.hasNext()) {
+				String output = input.next();
+				System.out.println(output);
+				displayText(output);
 			}
 		}else {
 			System.out.println("Stop Mining");
