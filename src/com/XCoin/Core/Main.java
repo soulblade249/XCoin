@@ -1,9 +1,8 @@
 package com.XCoin.Core;
 import java.io.IOException;
-import java.security.Security;
+import java.util.Date;
 import java.util.Scanner;
 
-import com.XCoin.Networking.Peer;
 import com.XCoin.Networking.Peer2Peer;
 
 public class Main {
@@ -16,34 +15,56 @@ public class Main {
 		boolean running = true;
 		String command;
 		BlockChain bc = new BlockChain();
-		Scanner input = new Scanner(System.in);
+		Scanner pInput = new Scanner(System.in);
 		Peer2Peer p2p = new Peer2Peer(DEFAULT_PORT, bc);
+		Date date = new Date();
+		//////////////////
+		//
+		// Test Wallets
+		//
+		Wallet A = new Wallet();
+		Wallet B = new Wallet();
+		
+		System.out.println(A.publicKey.toString());
 		while(running) {
-			command = input.next();
+			command = pInput.next();
 			switch(command) {
 				case "help" : 
 					help();
+					break;
 				case "mine" :
 					System.out.println("Entered mining");
+					command = pInput.next();
 					if(command.equals("-s")) {
+						System.out.println("minign");
 						mining = new Thread(new Runnable() {
 				            public void run() {
 				                try {
-				                    bc.mine();				                    
+				                    BlockChain.mine();				                    
 				                } catch (Exception e) {
 				                    e.printStackTrace();
 				                }
 				            }
 				        });		
 						mining.start();
+						break;
 					} else if(command.equals("-c")) {
-						mining.interrupt();
-						System.out.println("Stopped mining");
+						bc.bMining = false;
+						break;
+					} else {
+						break;
 					}
-				default :
+				case "tx":
+					command = pInput.next();
+					if(command.equals("-c")) {
+						//bc.addTransaction(new Transaction(pInput.nextInt(), pInput.next(), A.publicKey, date.getTime()));
+					} else {
+						break;
+					}
 					break;
-					
-
+				default :
+					System.out.println("Enter valid command >");
+					break;
 			}
 		}
 	}
@@ -57,7 +78,11 @@ public class Main {
 		System.out.println("mine -Launches block miner");
 		System.out.println("    -s Starts the mining program");
 		System.out.println("    -c Closes the mining program");
-		System.out.println("\n");
+		System.out.println("tx -Transaction creator");
+		System.out.println("    -c (amount) (address) Creates transaction"); 
+		System.out.print("\n");
+		System.out.print(">");
+
 	}
 	
 }

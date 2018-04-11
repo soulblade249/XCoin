@@ -15,7 +15,7 @@ public class BlockChain {
 	private static ArrayList<Block> blockchain = new ArrayList<Block>();
 	private static ArrayList<Transaction> mempool = new ArrayList<Transaction>();
 	public static boolean bMining;
-	private static int difficulty = 5;
+	private static int difficulty = 3;
 	private static float minimumTransaction = 0.1f;
 	private static Block newBlock;
 	
@@ -57,16 +57,30 @@ public class BlockChain {
 		return true;
 	}
 	
-	
+	public static void addTransaction(Transaction t) {
+		
+	}
+
 	public static void mine() {
 		Block genesisBlock = new Block("0");
 		blockchain.add(genesisBlock);
 		bMining = true;
+		String target = new String(new char[difficulty]).replace('\0', '0'); //Create a string with difficulty * "0" 
 		while(bMining) {
 			newBlock = new Block(blockchain.get(0).hash);
-			newBlock.mineBlock(difficulty);
-			blockchain.add(newBlock);
+			while(!newBlock.hash.substring( 0, difficulty).equals(target)) {
+				newBlock.nonce ++;
+				newBlock.hash = Block.calculateHash();
+				if(!bMining) {
+					break;
+				}
+			}
+			if(newBlock.hash.substring(0, difficulty).equals(target)) {
+				blockchain.add(newBlock);
+				System.out.println("Block found: " + newBlock.hash + "!!!");
+			}
 		}
+		System.out.println("Stopping mining");
 	}
 }
 

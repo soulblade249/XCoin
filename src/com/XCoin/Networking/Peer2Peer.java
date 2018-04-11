@@ -19,7 +19,7 @@ import com.XCoin.Networking.Commands.PingCommandHandler;
 public class Peer2Peer {
 
 	private int port;
-    private ArrayList<Peer>    peers;
+    private ArrayList<Peer>  peers;
     private DataInputStream  inputStream;
     private DataOutputStream outputStream;
     private Thread           serverThread;
@@ -31,7 +31,6 @@ public class Peer2Peer {
 
     //Node with access to blockchain
     public Peer2Peer(int port, BlockChain bc){
-    		System.out.println("Making node");
         this.port = port;
         peers = new ArrayList<>();
         serverThread = new Thread(new Runnable() {

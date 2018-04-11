@@ -25,20 +25,4 @@ public class Transaction {
 		this.sender = s;
 		this.id = StringUtil.applySha256(Integer.toString(a) + Long.toString(t) + StringUtil.getStringFromKey(r) + StringUtil.getStringFromKey(s));
 	}
-	
-	
-	
-	/*public boolean isAmountValid() {
-		return wallet.getBalance() >= amount ? true : false; 
-	}
-	
-	public void sendTransaction() throws IOException{
-		 BufferedReader buffer = new BufferedReader(new FileReader("transactions.dat"));
-		 Scanner in = new Scanner(buffer);
-		 String ID = in.nextLine();
-		 if(ID.equals(id)) { // Transaction ID's Match
-			 wallet.removeFunds(amount);
-		 }
-	}
-	*/
 }

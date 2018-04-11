@@ -15,6 +15,7 @@ public class Wallet {
 	public int balance;
 	
 	public Wallet() {
+		Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider()); //Setup Bouncey castle as a Security Provider	
 		generateKeyPair();
 	}
 		
@@ -38,14 +39,5 @@ public class Wallet {
 		//returns the balance of the user
 		return balance;
 	}
-	
-	public void removeFunds(int amount) {
-		balance = balance - amount;
-	}
-	
-	public void addFunds(int amount) {
-		balance = balance + amount;
-	}
-	
 }
 
