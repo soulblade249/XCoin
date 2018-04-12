@@ -15,7 +15,8 @@ public class MinerGui extends JFrame implements ActionListener{
 	private final JButton stopMine;
 	private final JTextArea loggerOutput;
 	private final JScrollPane pane;
-	private static Thread mining;
+	public static Thread mining = new Thread();
+	private BlockChain bc = new BlockChain();
 
 	/**
 	 * Default Constructor to start the gui program
@@ -28,7 +29,7 @@ public class MinerGui extends JFrame implements ActionListener{
 		//Make it scrollable
 		pane = new JScrollPane(loggerOutput);
 		//Custom Size(T.B.C)
-		pane.setPreferredSize(new Dimension(400, 400));
+		pane.setPreferredSize(new Dimension(900, 900));
 		//Have a scroll bar
 		pane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
@@ -50,14 +51,14 @@ public class MinerGui extends JFrame implements ActionListener{
 		this.add(pane, SwingConstants.CENTER);
 		this.add(button, SwingConstants.CENTER);
 
-		this.setSize(500,500);
+		this.setSize(1000,1000);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 		this.setVisible(true);
 
 	}
 
-	protected void displayText(String todisplay) {
+	public void displayText(String todisplay) {
 		loggerOutput.append(todisplay + "\n");
 		loggerOutput.setCaretPosition(loggerOutput.getDocument().getLength());	
 	}
@@ -66,19 +67,9 @@ public class MinerGui extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e){
 		if(e.getSource().equals(startMine)) {
-			BlockChain bc = new BlockChain();
-			mining = new Thread(new Runnable() {
-	            public void run() {
-	                try {
-	                    bc.mine();
-	                } catch (Exception e) {
-	                    e.printStackTrace();
-	                }
-	            }
-	        });
 			mining.start();
 		}else {
-			mining.interrupt();
+			bc.bMining = false;
 			displayText("Stopped Miner");
 			System.out.println("Stopped Mining");
 		}

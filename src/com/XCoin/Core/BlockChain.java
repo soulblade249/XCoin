@@ -7,15 +7,16 @@ import java.security.Security;
 import java.util.ArrayList;
 //import java.util.Base64;
 import java.util.HashMap;
+import com.XCoin.GUI.*;
 //import com.google.gson.GsonBuilder;
 import java.util.Map;
 
-public class BlockChain {
+public class BlockChain{
 	
 	private static ArrayList<Block> blockchain = new ArrayList<Block>();
 	private static ArrayList<Transaction> mempool = new ArrayList<Transaction>();
 	public static boolean bMining;
-	private static int difficulty = 3;
+	private static int difficulty = 4;
 	private static float minimumTransaction = 0.1f;
 	private static Block newBlock;
 	
@@ -61,9 +62,12 @@ public class BlockChain {
 		
 	}
 
-	public static void mine() {
-		Block genesisBlock = new Block("0");
-		blockchain.add(genesisBlock);
+	public static void mine(MinerGui gui) {
+		Block genesisBlock = null;
+		if(blockchain.size() == 0) {
+			genesisBlock = new Block("0");
+			blockchain.add(genesisBlock);
+		}
 		bMining = true;
 		String target = new String(new char[difficulty]).replace('\0', '0'); //Create a string with difficulty * "0" 
 		while(bMining) {
@@ -77,7 +81,7 @@ public class BlockChain {
 			}
 			if(newBlock.hash.substring(0, difficulty).equals(target)) {
 				blockchain.add(newBlock);
-				System.out.println("Block found: " + newBlock.hash + "!!!");
+				gui.displayText("Block Mined: " + newBlock.hash);
 			}
 		}
 		System.out.println("Stopping mining");

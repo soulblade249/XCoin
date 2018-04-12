@@ -41,5 +41,20 @@ public class Wallet{
 		return balance;
 	}
 	
+	public void removeFunds(int amount) {
+		balance = balance - amount;
+	}
+	
+	public void addFunds(int amount) {
+		balance = balance + amount;
+	}
+	
+	public String getPrivate() {
+		return this.privateKey.toString();
+	}
+	
+	public String getPublic() {
+		return this.publicKey.toString();
+	}
 }
 

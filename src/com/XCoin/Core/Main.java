@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.Scanner;
 
+import com.XCoin.GUI.MinerGui;
 import com.XCoin.Networking.Peer2Peer;
 
 public class Main {
@@ -37,16 +38,18 @@ public class Main {
 					command = pInput.next();
 					if(command.equals("-s")) {
 						System.out.println("minign");
+						MinerGui gui = new MinerGui();
+						
 						mining = new Thread(new Runnable() {
 				            public void run() {
 				                try {
-				                    bc.mine();				                    
+				                    bc.mine(gui);				                    
 				                } catch (Exception e) {
 				                    e.printStackTrace();
 				                }
 				            }
 				        });		
-						mining.start();
+						gui.mining = mining;
 						break;
 					} else if(command.equals("-c")) {
 						bc.bMining = false;
