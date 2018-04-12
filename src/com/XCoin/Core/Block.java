@@ -27,6 +27,5 @@ public class Block {
 				);
 		return calculatedhash;
 	}
-	
 }
 

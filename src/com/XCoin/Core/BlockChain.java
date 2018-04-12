@@ -81,7 +81,7 @@ public class BlockChain{
 			}
 			if(newBlock.hash.substring(0, difficulty).equals(target)) {
 				blockchain.add(newBlock);
-				gui.displayText("Block Mined: " + newBlock.hash);
+				gui.displayText("Block Mined: " + newBlock.hash + " Time: " + newBlock.timeStamp);
 			}
 		}
 		System.out.println("Stopping mining");
