@@ -7,11 +7,11 @@ import com.XCoin.GUI.MinerGui;
 import com.XCoin.Networking.Peer2Peer;
 
 public class Main {
-	
+
 	private static Thread mining;
 	private static final int DEFAULT_PORT = 8888;
 	public static void main(String [] args) throws IOException {
-				
+
 		help();
 		boolean running = true;
 		String command;
@@ -25,54 +25,48 @@ public class Main {
 		//
 		Wallet A = new Wallet();
 		Wallet B = new Wallet();
-		
-		System.out.println(A.publicKey.toString());
+
+		//System.out.println(A.publicKey.toString());
 		while(running) {
 			command = pInput.next();
-			switch(command) {
-				case "help" : 
-					help();
-					break;
-				case "mine" :
-					System.out.println("Entered mining");
-					command = pInput.next();
-					if(command.equals("-s")) {
-						System.out.println("minign");
-						MinerGui gui = new MinerGui();
-						
-						mining = new Thread(new Runnable() {
-				            public void run() {
-				                try {
-				                    bc.mine(gui);				                    
-				                } catch (Exception e) {
-				                    e.printStackTrace();
-				                }
-				            }
-				        });		
-						gui.mining = mining;
-						break;
-					} else if(command.equals("-c")) {
-						bc.bMining = false;
-						break;
-					} else {
-						break;
-					}
-				case "tx":
-					command = pInput.next();
-					if(command.equals("-c")) {
-						//bc.addTransaction(new Transaction(pInput.nextInt(), pInput.next(), A.publicKey, date.getTime()));
-					} else {
-						break;
-					}
-					break;
-				default :
-					System.out.println("Enter valid command >");
-					break;
+			if(command.equals("help")) {
+				help();
+			}else if(command.equals("mine")) {
+				command = pInput.next();
+				if(command.equals("-s")) {
+					MinerGui gui = new MinerGui();
+					mining = new Thread(new Runnable() {
+						public void run() {
+							try {
+								bc.mine(gui);				                    
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						}
+					});		
+					gui.mining = mining;
+				}else {
+					System.out.println("Error: Invalid argument");
+					System.out.print(">");
+				}
+			}else if(command.equals("tx")) {
+				command = pInput.next();
+				if(command.equals("-c")) {
+					Scanner amount = new Scanner(System.in);
+					Scanner adress = new Scanner(System.in);
+					//bc.addTransaction(new Transaction(pInput.nextInt(), pInput.next(), A.publicKey, date.getTime()));
+				}else {
+					System.out.println("Error: Invalid argument" + ">");
+				}
+			}else if(command.equals("quit")) {
+				System.exit(0);
+			}else {
+				System.out.println("Please enter a valid command.");
 			}
 		}
 	}
-	
-	
+
+
 	public static void help() {
 		System.out.println("====================");
 		System.out.println("      Commands");
@@ -83,9 +77,9 @@ public class Main {
 		System.out.println("    -c Closes the mining program");
 		System.out.println("tx -Transaction creator");
 		System.out.println("    -c (amount) (address) Creates transaction"); 
+		System.out.println("quit -Quits the program");
 		System.out.print("\n");
 		System.out.print(">");
-
 	}
-	
+
 }

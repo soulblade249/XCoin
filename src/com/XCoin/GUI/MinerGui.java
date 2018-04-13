@@ -1,8 +1,10 @@
 package com.XCoin.GUI;
 //Imports
 import javax.swing.*;
+import javax.swing.UIManager.LookAndFeelInfo;
 
 import com.XCoin.Core.BlockChain;
+import com.XCoin.Core.Main;
 
 import java.awt.event.*;
 import java.awt.*;
@@ -23,6 +25,16 @@ public class MinerGui extends JFrame implements ActionListener{
 	 */
 	public MinerGui() {
 		super("XCoin Miner G.U.I");
+		try { //Using Nimbus for a cleaner ui
+		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		        if ("Nimbus".equals(info.getName())) {
+		            UIManager.setLookAndFeel(info.getClassName());
+		            break;
+		        }
+		    }
+		} catch (Exception e) {
+		    // If Nimbus is not available, you can set the GUI to another look and feel.
+		}
 
 		//Create text area with 5 rows, 30 col.
 		loggerOutput = new JTextArea(5,30);
@@ -72,6 +84,8 @@ public class MinerGui extends JFrame implements ActionListener{
 			bc.bMining = false;
 			displayText("Stopped Miner");
 			System.out.println("Stopped Mining");
+			this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+			Main.help();
 		}
 	}
 }

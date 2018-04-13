@@ -1,6 +1,9 @@
 package com.XCoin.GUI;
 //Imports
 import javax.swing.*;
+import javax.swing.SpringLayout.Constraints;
+import javax.swing.UIManager.LookAndFeelInfo;
+
 import com.XCoin.Core.*;
 
 import java.awt.Color;
@@ -22,7 +25,18 @@ public class WalletGui extends JFrame implements ActionListener{
 	 * Default Constructor to start the gui program
 	 */
 	public WalletGui() {
+		
 		super("XCoin Wallet G.U.I");
+		try {
+		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		        if ("Nimbus".equals(info.getName())) {
+		            UIManager.setLookAndFeel(info.getClassName());
+		            break;
+		        }
+		    }
+		} catch (Exception e) {
+		    // If Nimbus is not available, you can set the GUI to another look and feel.
+		}
 		walletPaneTabs = new JTabbedPane();
 		walletPaneTabs.addTab("Send Money", createPanel("money"));
 		walletPaneTabs.addTab("Test", createPanel("Test"));
@@ -49,6 +63,9 @@ public class WalletGui extends JFrame implements ActionListener{
 			sendTransaction = new JButton("Send Transaction");
 			sendTransaction.addActionListener(this);
 			panel.add(stuff);
+			JPanel buttonPanel = new JPanel();
+			buttonPanel.add(sendTransaction);
+			panel.add(buttonPanel);
 			break;
 		case "userInfo":
 			break;
@@ -59,7 +76,7 @@ public class WalletGui extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource().equals("sendTransaction")) {
-			JPanel pain = new JPanel();
+			
 		}
 		
 	}
