@@ -24,9 +24,14 @@ public class Main {
 		// Test Wallets
 		//
 		Wallet A = new Wallet();
-		Wallet B = new Wallet();
+		System.out.println(StringUtil.publicKeyToString(A.publicKey));
+		System.out.println(StringUtil.privateKeyToString(A.privateKey));
 
-		//System.out.println(A.publicKey.toString());
+		
+		//////////////////
+		//
+		// CLI Menu
+		//
 		while(running) {
 			command = pInput.next();
 			if(command.equals("help")) {

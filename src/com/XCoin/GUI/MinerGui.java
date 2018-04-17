@@ -64,7 +64,7 @@ public class MinerGui extends JFrame implements ActionListener{
 		this.add(button, SwingConstants.CENTER);
 
 		this.setSize(1000,1000);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setResizable(false);
 		this.setVisible(true);
 

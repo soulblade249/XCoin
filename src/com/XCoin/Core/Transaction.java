@@ -23,6 +23,6 @@ public class Transaction {
 		this.timeStamp = t;
 		this.reciever = r;
 		this.sender = s;
-		this.id = StringUtil.applySha256(Integer.toString(a) + Long.toString(t) + StringUtil.getStringFromKey(r) + StringUtil.getStringFromKey(s));
+		//this.id = StringUtil.applySha256(Integer.toString(a) + Long.toString(t) + StringUtil.getStringFromKey(r) + StringUtil.getStringFromKey(s));
 	}
 }

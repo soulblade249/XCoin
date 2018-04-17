@@ -1,9 +1,19 @@
 package com.XCoin.Core;
-import java.security.*;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.SecureRandom;
+import java.security.Security;
+import java.security.interfaces.ECPrivateKey;
+import java.security.interfaces.ECPublicKey;
 import java.security.spec.ECGenParameterSpec;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.bouncycastle.util.encoders.Hex;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -11,8 +21,9 @@ import java.io.BufferedWriter;
 
 public class Wallet{
 	
-	public PrivateKey privateKey;
-	public PublicKey publicKey;
+	public ECPrivateKey privateKey;
+	public ECPublicKey publicKey;
+	public String address;
 	public int balance;
 	
 	public Wallet() {
@@ -24,13 +35,14 @@ public class Wallet{
 		try {
 			KeyPairGenerator keyGen = KeyPairGenerator.getInstance("ECDSA","BC");
 			SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
-			ECGenParameterSpec ecSpec = new ECGenParameterSpec("prime192v1");
+			ECGenParameterSpec ecSpec = new ECGenParameterSpec("secp256r1");
 			// Initialize the key generator and generate a KeyPair
 			keyGen.initialize(ecSpec, random); //256 
 	        KeyPair keyPair = keyGen.generateKeyPair();
-	        // Set the public and private keys from the keyPair
-	        privateKey = keyPair.getPrivate();
-	        publicKey = keyPair.getPublic();
+            ECPrivateKey privkey = (ECPrivateKey) keyPair.getPrivate();
+            ECPublicKey pubkey = (ECPublicKey) keyPair.getPublic();
+            //converting key to address:
+            String address = StringUtil.publicKeyToAddress(pubkey);
 		}catch(Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -47,14 +59,6 @@ public class Wallet{
 	
 	public void addFunds(int amount) {
 		balance = balance + amount;
-	}
-	
-	public String getPrivate() {
-		return this.privateKey.toString();
-	}
-	
-	public String getPublic() {
-		return this.publicKey.toString();
 	}
 }
 
