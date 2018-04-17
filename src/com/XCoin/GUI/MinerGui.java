@@ -8,8 +8,6 @@ import com.XCoin.Core.Main;
 
 import java.awt.event.*;
 import java.awt.*;
-import java.util.*;
-import java.io.*;
 
 public class MinerGui extends JFrame implements ActionListener{
 
@@ -25,6 +23,11 @@ public class MinerGui extends JFrame implements ActionListener{
 	 */
 	public MinerGui() {
 		super("XCoin Miner G.U.I");
+                //Scene scene = new Scene(grid, 300, 275);
+               //primaryStage.setScene(scene);
+               /// scene.getStylesheets().add
+               //(Login.class.getResource("Login.css").toExternalForm());
+               // primaryStage.show();
 		try { //Using Nimbus for a cleaner ui
 		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
 		        if ("Nimbus".equals(info.getName())) {
