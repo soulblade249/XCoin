@@ -6,6 +6,8 @@ import java.util.Scanner;
 import com.XCoin.GUI.MinerGui;
 import com.XCoin.Networking.Peer2Peer;
 
+import Util.StringUtil;
+
 public class Main {
 
 	private static Thread mining;
@@ -25,7 +27,7 @@ public class Main {
 		//
 		Wallet A = new Wallet();
 		System.out.println(StringUtil.publicKeyToString(A.publicKey));
-		System.out.println(StringUtil.privateKeyToString(A.privateKey));
+		System.out.println(A.address);
 
 		
 		//////////////////

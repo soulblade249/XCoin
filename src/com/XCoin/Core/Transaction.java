@@ -12,17 +12,21 @@ import java.util.Scanner;
 
 public class Transaction {
 
-	private int amount;
-	public Key sender;
-	public Key reciever;
+	private byte[] blockHash;
+	private int blockHeight;
+	public String sender;
+	public String reciever;
+	private String hash;
+	private int nonce;
 	public long timeStamp;
-	public String id;
+	private int index;
+	public int value;
 	
-	public Transaction (int a, Key r, Key s, long t) {
-		this.amount = a;
+	public Transaction (int v, String r, String s, long t) {
+		this.value = v;
 		this.timeStamp = t;
 		this.reciever = r;
 		this.sender = s;
-		//this.id = StringUtil.applySha256(Integer.toString(a) + Long.toString(t) + StringUtil.getStringFromKey(r) + StringUtil.getStringFromKey(s));
+		
 	}
 }

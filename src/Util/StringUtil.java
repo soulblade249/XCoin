@@ -1,4 +1,4 @@
-package com.XCoin.Core;
+package Util;
 
 import java.math.BigInteger;
 import java.security.KeyFactory;
@@ -15,8 +15,6 @@ import java.security.spec.ECParameterSpec;
 import java.security.spec.ECPoint;
 import java.security.spec.ECPrivateKeySpec;
 import java.security.spec.ECPublicKeySpec;
-import java.util.ArrayList;
-import java.util.Base64;
 
 import org.bouncycastle.util.encoders.Hex;
 
@@ -101,7 +99,6 @@ public class StringUtil {
 	}
 	
 	public static byte[] encodeECPublicKey(ECPublicKey publicKey){
-		System.out.println("W-X:" + publicKey.getW().getAffineX());
         return ByteUtil.ecPointToBytes(publicKey.getW());
     }
     
@@ -157,21 +154,35 @@ public class StringUtil {
         return Hex.toHexString(pubKeyBytes);
     }
     
-    public static String publicKeyToAddress(ECPublicKey publicKey){
-        byte[] pubKeyBytes = encodeECPublicKey(publicKey);
-        byte[] pubKeyHash = HashUtil.applySHA256(pubKeyBytes);
-        StringBuffer hexString = new StringBuffer(); // This will contain hash as hexidecimal
-		for (int i = 0; i < pubKeyHash.length; i++) {
-			String hex = Integer.toHexString(0xff & pubKeyHash[i]);
-			if(hex.length() == 1) hexString.append('0');
-			hexString.append(hex);
-		}
-		return hexString.toString();
-    }
+	 public static String publicKeyToAddress(ECPublicKey publicKey){
+	        byte[] pubKeyBytes = encodeECPublicKey(publicKey);
+	        byte[] pubKeyHash = HashUtil.applySHA256(pubKeyBytes);
+	        StringBuffer hexString = new StringBuffer(); // This will contain hash as hexidecimal
+	        for (int i = 0; i < pubKeyHash.length; i++) {
+	            String hex = Integer.toHexString(0xff & pubKeyHash[i]);
+	            if(hex.length() == 1) hexString.append('0');
+	            hexString.append(hex);
+	        }
+	        return hexString.toString();
+	    }
     
 	//Returns difficulty string target, to compare to hash. eg difficulty of 5 will return "00000"  
 	public static String getDificultyString(int difficulty) {
 		return new String(new char[difficulty]).replace('\0', '0');
 	}
-	
+
+	public static KeyPair GenerateKeyPair(){
+        SetupEC();
+        try {
+            kg = KeyPairGenerator.getInstance("ECDSA","BC");
+            kg.initialize(ecSpec);
+            KeyPair newKeyPair = kg.generateKeyPair();
+            return newKeyPair;
+        } catch (Exception e) {
+            //TODO notify...
+            System.err.println(e);
+            return null;
+        }
+    }
+
 }

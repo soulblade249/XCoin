@@ -2,6 +2,8 @@ package com.XCoin.Core;
 import java.util.ArrayList;
 import java.util.Date;
 
+import Util.StringUtil;
+
 public class Block {
 	
 	public static String hash;

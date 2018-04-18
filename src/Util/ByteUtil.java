@@ -1,4 +1,4 @@
-package com.XCoin.Core;
+package Util;
 
 import java.math.BigInteger;
 import java.security.spec.ECPoint;
@@ -8,7 +8,6 @@ public class ByteUtil {
 
 	/* Converts ecPoint to a bytearray, java.security.spec.ECPoint not to be confused with bouncey castle ecpoint.*/
     public static byte[] ecPointToBytes( ECPoint input ){
-    		System.out.println(input);
     		BigInteger qx = input.getAffineX();
         BigInteger qy = input.getAffineY();
         byte[] qyBytes = bigIntegerToBytes(qy);
@@ -20,7 +19,6 @@ public class ByteUtil {
 
         byte[] buffer = concatenateBytes(xlengthBytes,bigIntegerToBytes(qx));
         buffer = concatenateBytes(buffer,bigIntegerToBytes(qy));
-        System.out.println(buffer.length);
         return buffer;        
     }
     
@@ -53,7 +51,6 @@ public class ByteUtil {
         int midpoint = (int) input[0];
         BigInteger qx = bytesToBigInteger(Arrays.copyOfRange(input,1, midpoint+1));
         BigInteger qy = bytesToBigInteger(Arrays.copyOfRange(input,midpoint+1,input.length));
-        System.out.println(new ECPoint(qx,qy));
         return new ECPoint(qx,qy);
     }
 }

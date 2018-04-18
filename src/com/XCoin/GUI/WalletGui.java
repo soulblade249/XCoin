@@ -58,7 +58,7 @@ public class WalletGui extends JFrame implements ActionListener{
 		case "money":
 			stuff = new JTextArea(2, 50);
 			stuff.setEditable(false);
-			stuff.append("Your Public Key: " + userWallet.getPublic());
+			stuff.append("Your Public Key: " + userWallet.publicKey);
 			stuff.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 			sendTransaction = new JButton("Send Transaction");
 			sendTransaction.addActionListener(this);
