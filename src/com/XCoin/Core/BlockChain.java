@@ -87,4 +87,3 @@ public class BlockChain{
 		System.out.println("Stopping mining");
 	}
 }
-

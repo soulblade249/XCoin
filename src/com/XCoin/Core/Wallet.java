@@ -13,7 +13,6 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
-import Util.ECDSAUtil.ECKey;
 import org.bouncycastle.util.encoders.Hex;
 
 import com.XCoin.Util.StringUtil;
@@ -24,16 +23,31 @@ import java.io.BufferedWriter;
 
 public class Wallet{
 	
-	ECKey keypair;
+	public ECPrivateKey privateKey;
+	public ECPublicKey publicKey;
 	public String address;
 	public int balance;
 	
 	public Wallet() {
-		keypair = new ECKey();
+		Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider()); //Setup Bouncey castle as a Security Provider	
+		generateKeyPair();
 	}
-
-	public void importWallet(byte[] privKey) {
-		keypair = ECKey.fromPrivate(privKey);
+		
+	public void generateKeyPair() {
+		try {
+			KeyPairGenerator keyGen = KeyPairGenerator.getInstance("ECDSA","BC");
+			SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
+			ECGenParameterSpec ecSpec = new ECGenParameterSpec("secp256r1");
+			// Initialize the key generator and generate a KeyPair
+			keyGen.initialize(ecSpec, random); //256 
+	        KeyPair keyPair = StringUtil.GenerateKeyPair();
+            privateKey = (ECPrivateKey) keyPair.getPrivate();
+            publicKey = (ECPublicKey) keyPair.getPublic();
+            //converting key to address:
+            address = StringUtil.publicKeyToAddress(publicKey);
+		}catch(Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 	
 	public int getBalance() {
