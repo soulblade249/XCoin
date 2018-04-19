@@ -1,4 +1,4 @@
-package Util;
+package com.XCoin.Util;
 
 import java.math.BigInteger;
 import java.security.spec.ECPoint;

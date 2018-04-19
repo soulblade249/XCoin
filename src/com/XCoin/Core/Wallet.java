@@ -15,7 +15,7 @@ import java.util.Map;
 
 import org.bouncycastle.util.encoders.Hex;
 
-import Util.StringUtil;
+import com.XCoin.Util.StringUtil;
 
 import java.io.File;
 import java.io.FileWriter;

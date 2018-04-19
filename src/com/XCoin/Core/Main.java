@@ -5,8 +5,7 @@ import java.util.Scanner;
 
 import com.XCoin.GUI.MinerGui;
 import com.XCoin.Networking.Peer2Peer;
-
-import Util.StringUtil;
+import com.XCoin.Util.StringUtil;
 
 public class Main {
 

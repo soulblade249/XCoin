@@ -2,7 +2,7 @@ package com.XCoin.Core;
 import java.util.ArrayList;
 import java.util.Date;
 
-import Util.StringUtil;
+import com.XCoin.Util.StringUtil;
 
 public class Block {
 	

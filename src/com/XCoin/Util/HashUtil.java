@@ -1,4 +1,4 @@
-package Util;
+package com.XCoin.Util;
 
 import java.security.MessageDigest;
 
