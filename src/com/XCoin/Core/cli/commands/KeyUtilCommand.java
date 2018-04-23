@@ -66,7 +66,6 @@ public class KeyUtilCommand implements Command {
 			System.out.println("- " +  "Raw-Private-Key: " + KeyUtil.privateKeyToString(privkey));
 			System.out.println("- " +  "Raw-Public-Key:  " + KeyUtil.publicKeyToString(pubkey));
 			System.out.println("- " +  "Address:         " + KeyUtil.publicKeyToAddress(pubkey));
-
 		}else if(args[0].equals("-help")){
 			System.out.println("- " + getHelp());
 		}else {

@@ -6,7 +6,7 @@ public class PingCommand implements Command {
 
 	@Override
 	public String getHelp() {
-		return  "cmd: -help \n" +
+		return  "cmd: ping \n" +
 				"- description: Displays help for all known commands. \n" + 
 				"------------------------------------------------------------------------";
 	}
@@ -18,12 +18,7 @@ public class PingCommand implements Command {
 
 	@Override
 	public void run(String[] args) {
-		System.out.println("\n------------------------------------------------------------------------\n"+
-				"-  XCoin HELP\n" +
-				"------------------------------------------------------------------------");
-		for( String key : Commander.getInstance().cmds.keySet() ){
-			System.out.println("- " + Commander.getInstance().cmds.get(key).getHelp());
-		}
-
+		System.out.println("Not Implemented Yet");
+		Commander.invalidArg = true;
 	}
 }
