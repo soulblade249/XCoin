@@ -8,7 +8,7 @@ import java.util.Scanner;
 import com.XCoin.Core.cli.commands.Command;
 import com.XCoin.Core.cli.commands.HelpCommand;
 import com.XCoin.Core.cli.commands.KeyUtilCommand;
-import com.XCoin.Core.cli.commands.NodeCommand;
+//import com.XCoin.Core.cli.commands.NodeCommand;
 import com.XCoin.Core.cli.commands.PingCommand;
 
 
@@ -44,13 +44,14 @@ public class Commander {
 	public void Menu(){
 		cmds = new HashMap<String,Command>();
 		cmds.put("key-util", new KeyUtilCommand());
-		cmds.put("node", new NodeCommand());
+		//cmds.put("node", new NodeCommand());
 		cmds.put("ping", new PingCommand());
 		cmds.put("-help", new HelpCommand());
 		scanner = new Scanner(System.in);
 
-		System.out.println("XCoin-cli: ");
+		System.out.print("XCoin-cli: ");
 		String input = (String) scanner.nextLine(); //Casted as string just in case
+		new HelpCommand().getHelp();
 		while(true) {
 			if(input.equals("quit")) {
 				break;
@@ -72,7 +73,7 @@ public class Commander {
 	}
 
 	public Commander(){
-		Menu();
 		instance = this;
+		Menu();
 	}
 }

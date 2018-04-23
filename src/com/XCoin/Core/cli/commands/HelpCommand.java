@@ -24,11 +24,11 @@ public class HelpCommand implements Command{
 
     @Override
     public void run(String[] args) {
-        Commander.CommanderPrint("\n------------------------------------------------------------------------\n"+
+        System.out.println("\n------------------------------------------------------------------------\n"+
                 "-  XCoin HELP\n" +
                 "------------------------------------------------------------------------");
         for( String key : Commander.getInstance().cmds.keySet() ){
-            Commander.CommanderPrint(Commander.getInstance().cmds.get(key).getHelp());
+        	System.out.println(Commander.getInstance().cmds.get(key).getHelp());
         }
         
     }

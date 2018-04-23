@@ -88,7 +88,6 @@ public class MinerGui extends JFrame implements ActionListener{
 			displayText("Stopped Miner");
 			System.out.println("Stopped Mining");
 			this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
-			Main.help();
 		}
 	}
 }
