@@ -2,7 +2,7 @@ package com.XCoin.Core;
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.XCoin.Util.StringUtil;
+import com.XCoin.Util.KeyUtil;
 
 public class Block {
 	
@@ -21,7 +21,7 @@ public class Block {
 	
 	//Calculate new hash based on blocks contents
 	public static String calculateHash() {
-		String calculatedhash = StringUtil.applySha256( 
+		String calculatedhash = KeyUtil.applySha256( 
 				previousHash +
 				Long.toString(timeStamp) +
 				Integer.toString(nonce) + 

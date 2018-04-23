@@ -25,8 +25,10 @@ import java.security.PublicKey;
 import java.security.interfaces.ECPrivateKey;
 import java.security.interfaces.ECPublicKey;
 import java.util.Arrays;
-import org.dilithium.cli.Commander;
-import org.dilithium.util.KeyUtil;
+
+import com.XCoin.Core.cli.Commander;
+import com.XCoin.Util.KeyUtil;
+
 
 /**
  * This class 
@@ -69,7 +71,7 @@ public class KeyUtilCommand implements Command {
                 publicKey = keys.getPublic();
             }
             
-            Commander.CommanderPrint("--- [DILITHIUM KEY PAIR] ---");
+            Commander.CommanderPrint("--- [XCoin KEY PAIR] ---");
             //converting key pairs to string:
             String priv = KeyUtil.privateKeyToString((ECPrivateKey) privateKey);
             String pub = KeyUtil.publicKeyToString((ECPublicKey) publicKey);
@@ -77,11 +79,11 @@ public class KeyUtilCommand implements Command {
             ECPrivateKey privkey = KeyUtil.stringToPrivateKey(priv);
             ECPublicKey pubkey = KeyUtil.stringToPublicKey(pub);
             //converting key to address:
-            String address = KeyUtil.publicKeyToAddressString(pubkey);
+            String address = KeyUtil.publicKeyToAddress(pubkey);
             
             Commander.CommanderPrint( "Raw-Private-Key: " + KeyUtil.privateKeyToString(privkey));
             Commander.CommanderPrint( "Raw-Public-Key:  " + KeyUtil.publicKeyToString(pubkey));
-            Commander.CommanderPrint( "Address:         " + KeyUtil.publicKeyToAddressString(pubkey));
+            Commander.CommanderPrint( "Address:         " + KeyUtil.publicKeyToAddress(pubkey));
             
         }else if(args[0].equals("-help")){
             Commander.CommanderPrint(getHelp());

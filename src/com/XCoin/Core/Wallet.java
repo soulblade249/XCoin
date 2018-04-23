@@ -15,7 +15,7 @@ import java.util.Map;
 
 import org.bouncycastle.util.encoders.Hex;
 
-import com.XCoin.Util.StringUtil;
+import com.XCoin.Util.KeyUtil;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -40,11 +40,11 @@ public class Wallet{
 			ECGenParameterSpec ecSpec = new ECGenParameterSpec("secp256r1");
 			// Initialize the key generator and generate a KeyPair
 			keyGen.initialize(ecSpec, random); //256 
-	        KeyPair keyPair = StringUtil.GenerateKeyPair();
+	        KeyPair keyPair = KeyUtil.GenerateKeyPair();
             privateKey = (ECPrivateKey) keyPair.getPrivate();
             publicKey = (ECPublicKey) keyPair.getPublic();
             //converting key to address:
-            address = StringUtil.publicKeyToAddress(publicKey);
+            address = KeyUtil.publicKeyToAddress(publicKey);
 		}catch(Exception e) {
 			throw new RuntimeException(e);
 		}

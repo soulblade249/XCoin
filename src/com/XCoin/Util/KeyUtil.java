@@ -1,6 +1,7 @@
 package com.XCoin.Util;
 
 import java.math.BigInteger;
+import java.security.GeneralSecurityException;
 import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -10,16 +11,19 @@ import java.security.PublicKey;
 import java.security.Signature;
 import java.security.interfaces.ECPrivateKey;
 import java.security.interfaces.ECPublicKey;
+import java.security.spec.ECField;
+import java.security.spec.ECFieldFp;
 import java.security.spec.ECGenParameterSpec;
 import java.security.spec.ECParameterSpec;
 import java.security.spec.ECPoint;
 import java.security.spec.ECPrivateKeySpec;
 import java.security.spec.ECPublicKeySpec;
+import java.security.spec.EllipticCurve;
 
 import org.bouncycastle.util.encoders.Hex;
 
 
-public class StringUtil {
+public class KeyUtil {
 	
 	private static KeyFactory kf;
     private static KeyPairGenerator kg;
@@ -144,13 +148,13 @@ public class StringUtil {
     
     public static String privateKeyToString(ECPrivateKey privateKey){
 		SetupEC();
-		byte[] privKeyBytes = StringUtil.encodeECPrivateKey(privateKey);
+		byte[] privKeyBytes = KeyUtil.encodeECPrivateKey(privateKey);
 	    return Hex.toHexString(privKeyBytes);
 	}
 	
 	public static String publicKeyToString(ECPublicKey publicKey){
 		SetupEC();
-		byte[] pubKeyBytes = StringUtil.encodeECPublicKey(publicKey);
+		byte[] pubKeyBytes = KeyUtil.encodeECPublicKey(publicKey);
         return Hex.toHexString(pubKeyBytes);
     }
     
@@ -184,5 +188,4 @@ public class StringUtil {
             return null;
         }
     }
-
 }

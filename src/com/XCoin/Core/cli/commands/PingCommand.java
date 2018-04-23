@@ -1,6 +1,6 @@
 package com.XCoin.Core.cli.commands;
 
-import org.dilithium.cli.Commander;
+import com.XCoin.Core.cli.Commander;
 
 public class PingCommand implements Command {
 	
@@ -19,7 +19,7 @@ public class PingCommand implements Command {
 	    @Override
 	    public void run(String[] args) {
 	        Commander.CommanderPrint("\n------------------------------------------------------------------------\n"+
-	                "-  DILITHIUM HELP\n" +
+	                "-  XCoin HELP\n" +
 	                "------------------------------------------------------------------------");
 	        for( String key : Commander.getInstance().cmds.keySet() ){
 	            Commander.CommanderPrint(Commander.getInstance().cmds.get(key).getHelp());

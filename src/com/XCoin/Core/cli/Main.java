@@ -7,7 +7,7 @@ import com.XCoin.Core.BlockChain;
 import com.XCoin.Core.Wallet;
 import com.XCoin.GUI.MinerGui;
 import com.XCoin.Networking.Peer2Peer;
-import com.XCoin.Util.StringUtil;
+import com.XCoin.Util.KeyUtil;
 
 public class Main {
 
@@ -27,8 +27,8 @@ public class Main {
 		// Test Wallets
 		//
 		Wallet A = new Wallet();
-		System.out.println(StringUtil.publicKeyToString(A.publicKey));
-		System.out.println(A.address);
+		System.out.println(KeyUtil.publicKeyToString(A.publicKey));
+		System.out.println("0x"+A.address);
 
 		
 		//////////////////
