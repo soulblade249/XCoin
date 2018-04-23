@@ -1,8 +1,10 @@
-package com.XCoin.Core;
+package com.XCoin.Core.cli;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Scanner;
 
+import com.XCoin.Core.BlockChain;
+import com.XCoin.Core.Wallet;
 import com.XCoin.GUI.MinerGui;
 import com.XCoin.Networking.Peer2Peer;
 import com.XCoin.Util.StringUtil;
@@ -62,6 +64,13 @@ public class Main {
 					Scanner adress = new Scanner(System.in);
 					//bc.addTransaction(new Transaction(pInput.nextInt(), pInput.next(), A.publicKey, date.getTime()));
 				}else {
+					System.out.println("Error: Invalid argument" + ">");
+				}
+			}else if(command.equals("key-util")) {
+				command = pInput.next();
+				if(command.equals("-generate")) {
+					
+				} else {
 					System.out.println("Error: Invalid argument" + ">");
 				}
 			}else if(command.equals("quit")) {

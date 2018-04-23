@@ -3,7 +3,6 @@ package com.XCoin.Networking;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
@@ -48,7 +47,6 @@ public class Peer {
 	public void listen() throws IOException {
 		String command;
 		while(true){
-	    		//System.out.println("Listening for commands");
 	    		try{
 	    			DataInputStream in = new DataInputStream(this.socket.getInputStream());
         			DataOutputStream out = new DataOutputStream(this.socket.getOutputStream());

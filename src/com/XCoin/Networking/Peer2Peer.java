@@ -1,6 +1,5 @@
 package com.XCoin.Networking;
 
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -8,9 +7,6 @@ import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import com.XCoin.Core.BlockChain;
 import com.XCoin.Networking.Commands.Command;
@@ -20,10 +16,8 @@ public class Peer2Peer {
 
 	private int port;
     private ArrayList<Peer>  peers;
-    private DataInputStream  inputStream;
     private DataOutputStream outputStream;
     private Thread           serverThread;
-    private Thread           clientThread;
     private boolean          runningServer;
     private HashMap<String, Command> commands = new HashMap<>();
     private ServerSocket server;
@@ -65,9 +59,7 @@ public class Peer2Peer {
             }
         }
     });		
-    
     initializeCommands();
-
 }
     
     private void initializeCommands() {
@@ -85,7 +77,6 @@ public class Peer2Peer {
     }
 
     public void stop() throws IOException{
-    		Thread t = Thread.currentThread();    		
     		runningServer = false;
     		try {
         		serverThread.interrupt();
@@ -123,17 +114,9 @@ public class Peer2Peer {
     public void connect(Socket socket){
         try {
             outputStream = new DataOutputStream(socket.getOutputStream());
-            inputStream = new DataInputStream(socket.getInputStream());
-            //System.out.println("Sending Message");
             Peer.send("ping", outputStream);		
         } catch (IOException e) {
             //e.printStackTrace();
         }
     }
-
-    public static void main(String[] args) throws IOException {
-        Peer2Peer node = new Peer2Peer(8888);
-        node.start();
-    }
-
 }

@@ -27,6 +27,5 @@ public class Transaction {
 		this.timeStamp = t;
 		this.reciever = r;
 		this.sender = s;
-		
 	}
 }

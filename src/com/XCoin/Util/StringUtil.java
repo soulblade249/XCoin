@@ -155,16 +155,16 @@ public class StringUtil {
     }
     
 	 public static String publicKeyToAddress(ECPublicKey publicKey){
-	        byte[] pubKeyBytes = encodeECPublicKey(publicKey);
-	        byte[] pubKeyHash = HashUtil.applySHA256(pubKeyBytes);
-	        StringBuffer hexString = new StringBuffer(); // This will contain hash as hexidecimal
-	        for (int i = 0; i < pubKeyHash.length; i++) {
-	            String hex = Integer.toHexString(0xff & pubKeyHash[i]);
-	            if(hex.length() == 1) hexString.append('0');
-	            hexString.append(hex);
-	        }
-	        return hexString.toString();
-	    }
+        byte[] pubKeyBytes = encodeECPublicKey(publicKey);
+        byte[] pubKeyHash = HashUtil.applySHA256(pubKeyBytes);
+        StringBuffer hexString = new StringBuffer(); // This will contain hash as hexidecimal
+        for (int i = 0; i < pubKeyHash.length; i++) {
+            String hex = Integer.toHexString(0xff & pubKeyHash[i]);
+            if(hex.length() == 1) hexString.append('0');
+            hexString.append(hex);
+        }
+        return hexString.toString();
+    }
     
 	//Returns difficulty string target, to compare to hash. eg difficulty of 5 will return "00000"  
 	public static String getDificultyString(int difficulty) {

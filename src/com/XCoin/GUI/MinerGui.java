@@ -4,7 +4,7 @@ import javax.swing.*;
 import javax.swing.UIManager.LookAndFeelInfo;
 
 import com.XCoin.Core.BlockChain;
-import com.XCoin.Core.Main;
+import com.XCoin.Core.cli.Main;
 
 import java.awt.event.*;
 import java.awt.*;
