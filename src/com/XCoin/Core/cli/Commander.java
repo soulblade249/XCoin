@@ -1,32 +1,17 @@
-/* 
- * Copyright (C) 2018 Dilithium Team .
- *
- * The Dilithium library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
- * MA 02110-1301  USA
- */
 
 package com.XCoin.Core.cli;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
-import org.dilithium.cli.commands.Command;
-import org.dilithium.cli.commands.HelpCommand;
-import org.dilithium.cli.commands.KeyUtilCommand;
-import org.dilithium.cli.commands.NodeCommand;
-import org.dilithium.cli.commands.WalletCommand;
+
+import com.XCoin.Core.cli.commands.Command;
+import com.XCoin.Core.cli.commands.HelpCommand;
+import com.XCoin.Core.cli.commands.KeyUtilCommand;
+import com.XCoin.Core.cli.commands.NodeCommand;
+import com.XCoin.Core.cli.commands.PingCommand;
+import com.XCoin.Core.cli.commands.WalletCommand;
+
 
 /**
  * This class 
