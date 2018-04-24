@@ -4,6 +4,7 @@ package com.XCoin.Core.cli.commands;
 import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.security.Security;
 import java.security.interfaces.ECPrivateKey;
 import java.security.interfaces.ECPublicKey;
 import java.util.Arrays;
@@ -22,17 +23,18 @@ public class KeyUtilCommand implements Command {
 		return  "cmd: key-util \n" +
 				"- description: A tool for creating and/or extracting keys \n" +
 				"- usage: key-util param [situational...] \n"+
-				"- param: 'generate' [-private], 'pem' location [-private], 'info', '-help', '-params' \n"+
+				"- param: 'generate' [-private] [-save], 'pem' location [-private], 'info', '-help', '-params' \n"+
 				"------------------------------------------------------------------------";
 	}
 
 	@Override
 	public String[] getParams() {
-		return new String[]{ "-help", "-params", "generate", "pem", "info" };
+		return new String[]{ "-help", "-params", "generate", "pem", "info"};
 	}
 
 	@Override
 	public void run(String[] args) {
+		Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider()); //Setup Bouncey castle as a Security Provider
 		if( !Arrays.asList(getParams()).contains(args[0]) ){
 			System.out.println("- " + "ERROR ! unknown parameters...");
 			System.out.println("- " + Arrays.toString(getParams()));
@@ -44,6 +46,10 @@ public class KeyUtilCommand implements Command {
 			PublicKey publicKey = null;
 			KeyPair keys = null;
 
+			
+			if(args[1].equals("-private") && args[2].equals("-save")) {
+			}
+			
 			if(args.length > 1) {
 				privateKey = KeyUtil.stringToPrivateKey(args[1]);
 				//publicKey = KeyUtil.privateKeyToPublicKey((ECPrivateKey)privateKey);
