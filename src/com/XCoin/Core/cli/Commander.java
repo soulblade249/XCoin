@@ -30,19 +30,28 @@ public class Commander {
 	/* we get the command object from cmds and call command.run(args)*/
 	public void call(String[] rawArgs){
 		try{
+                    //System.out.println("Test");
 			String function = rawArgs[0];
+                         //System.out.println("Test2");
 			String[] args = Arrays.copyOfRange(rawArgs, 1,rawArgs.length);
+                         //System.out.println("Test3");
+                        //for(String out : args) {
+                        //    System.out.println(out);
+                        //}
 
 			Command command = cmds.get(function);
+                        //System.out.println("Test4");
 			if(command == null){        
-				System.out.println("- " + "command function: '" + function +"' not found. Type -help for a list of functions");
+				System.out.println("- " + "command function: '" + function +"' not found. Type help for a list of functions");
 			}else{
+                            //System.out.println("Test5");
 				command.run(args);
 			}
 		}catch(ArrayIndexOutOfBoundsException e){
 			System.out.println("- " + "command couldn't execute, perhaps not enough arguments? try: "+ rawArgs[0] + " -help");
 			//invalidArg = true;
 		}catch(Exception e){
+                        e.printStackTrace();
 			System.out.println("- " + "command failed to execute.");
 		}
 
@@ -53,7 +62,7 @@ public class Commander {
 		cmds.put("key-util", new KeyUtilCommand());
 		//cmds.put("node", new NodeCommand());
 		cmds.put("ping", new PingCommand());
-		cmds.put("-help", new HelpCommand());
+		cmds.put("help", new HelpCommand());
 		cmds.put("miner", new MinerCommand());
 		scanner = new Scanner(System.in);
 	}
