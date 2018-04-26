@@ -10,9 +10,12 @@ import java.security.interfaces.ECPublicKey;
 import java.util.Arrays;
 
 import com.XCoin.Util.KeyUtil;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.PrintWriter;
+import java.util.Scanner;
 
 
 /**
@@ -75,12 +78,12 @@ public class KeyUtilCommand implements Command {
 			System.out.println("- " +  "Raw-Private-Key: " + KeyUtil.privateKeyToString(privkey));
 			System.out.println("- " +  "Raw-Public-Key:  " + KeyUtil.publicKeyToString(pubkey));
 			System.out.println("- " +  "Address:         " + KeyUtil.publicKeyToAddress(pubkey));
+                        File file = new File("keypair.txt");
                         if(args[1].equals("-save")) {
                            // File outputFile = new File("%appdata%/XCoin/KeyPair/keypair.txt");
-                            File outputFile = new File("keypair.txt");
 //                            outputFile.getParentFile().mkdirs();
                             try{
-                             PrintWriter out = new PrintWriter(outputFile);
+                             PrintWriter out = new PrintWriter(file);
                                out.println("--- [XCoin KEY PAIR] ---");
                                out.println("Raw-Private-Key: " + priv);
                                out.println("Raw-Public-Key:  " + pub);
@@ -91,6 +94,13 @@ public class KeyUtilCommand implements Command {
                                 e.printStackTrace();
                             }
 			}else if(args[1].equals("-get")) {
+                            try {
+                                BufferedReader f = new BufferedReader(new FileReader(file));
+                                Scanner in = new Scanner(f);
+                                
+                            }catch(FileNotFoundException e) {
+                                e.printStackTrace();
+                            }
                             
                         }
 		}else if(args[0].equals("-help")){
