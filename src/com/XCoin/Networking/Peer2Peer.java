@@ -114,7 +114,7 @@ public class Peer2Peer {
     public void connect(Socket socket){
         try {
             outputStream = new DataOutputStream(socket.getOutputStream());
-            Peer.send("ping", outputStream);		
+            Peer.send("ping".getBytes(), outputStream);		
         } catch (IOException e) {
             //e.printStackTrace();
         }
