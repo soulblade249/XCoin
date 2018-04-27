@@ -60,7 +60,7 @@ public class Peer {
 		}
 	}
 	
-	public static byte[] serve(String input) {
+	public static String serve(String input) {
         List<String> list = new ArrayList<>();
         Matcher m = Pattern.compile("([^\"]\\S*|\".+?\")\\s*").matcher(input);
         while (m.find()) {
@@ -70,8 +70,7 @@ public class Peer {
         String command = list.remove(0); // Get the command and remove it from the list.
 
         if(!commands.containsKey(command)){
-        		System.out.println("That is not a command!");
-        		return null;
+            return "'" + command + "' is not a command.";
         }
 
         String[] args = null;
@@ -82,10 +81,10 @@ public class Peer {
         return commands.get(command).execute(args);
     }
 
-    public static void send(byte[] data, DataOutputStream out){
-        System.out.println("Sending message: " + data.toString());
+    public static void send(String data, DataOutputStream out){
+        System.out.println("Sending message: " + data);
         try {
-            out.writeUTF(data.toString());
+            out.writeUTF(data);
             out.flush();
         } catch (IOException e) {
             e.printStackTrace();

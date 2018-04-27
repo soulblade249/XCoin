@@ -16,7 +16,7 @@ public class MinerCommand implements Command{
 
 	@Override
 	public String[] getParams() {
-		return new String[] {"-gui", "-help", "-params", "info", "start"};
+		return new String[] {"-cli, , -help, -params, info"};
 	}
 
 	@Override
@@ -27,8 +27,6 @@ public class MinerCommand implements Command{
 			return;
 		}
 		
-		
-		//TODO implement mining thread
 		if(args[0].equals("start")) {
 			if(args.length > 1) {
 				System.out.println("Starting miner with GUI");

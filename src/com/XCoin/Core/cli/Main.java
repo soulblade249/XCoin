@@ -26,9 +26,9 @@ public class Main {
 		// Test Wallets
 		//
 		/////////////////
-		/*Wallet A = new Wallet();
+		Wallet A = new Wallet();
 		System.out.println(KeyUtil.publicKeyToString(A.publicKey));
-		System.out.println("0x"+A.address);*/
+		System.out.println("0x"+A.address);
 		Commander cmd = new Commander();
 		cmd.menu();
 	}

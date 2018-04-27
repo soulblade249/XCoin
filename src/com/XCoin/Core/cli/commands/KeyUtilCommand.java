@@ -4,7 +4,6 @@ package com.XCoin.Core.cli.commands;
 import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
-import java.security.Security;
 import java.security.interfaces.ECPrivateKey;
 import java.security.interfaces.ECPublicKey;
 import java.util.Arrays;
@@ -17,7 +16,6 @@ import com.XCoin.Util.KeyUtil;
  * This class 
  */
 public class KeyUtilCommand implements Command {
-
 
 	@Override
 	public String getHelp() {
@@ -35,8 +33,6 @@ public class KeyUtilCommand implements Command {
 
 	@Override
 	public void run(String[] args) {
-		Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider()); //Setup Bouncey castle as a Security Provider	
-
 		if( !Arrays.asList(getParams()).contains(args[0]) ){
 			System.out.println("- " + "ERROR ! unknown parameters...");
 			System.out.println("- " + Arrays.toString(getParams()));
