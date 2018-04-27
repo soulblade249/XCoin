@@ -23,6 +23,10 @@ import java.util.Scanner;
  */
 public class KeyUtilCommand implements Command {
     
+         File file;
+         BufferedReader f;
+         Scanner in;
+    
 	@Override
 	public String getHelp() {
 		return  "cmd: key-util \n" +
@@ -40,12 +44,26 @@ public class KeyUtilCommand implements Command {
 	@Override
 	public void run(String[] args){
 		Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider()); //Setup Bouncey castle as a Security Provider
+                String os = System.getProperty("os.name");
+                
+                if(os.startsWith("Windows")) {
+                    file = new File("%appdata%/XCoin/KeyPair/keypair.txt");
+                }else {
+                    file = new File("Desktop/keypair.txt");
+                }
+                System.out.println("File: " + file);
+                try{
+                   f = new BufferedReader(new FileReader(file));
+                   System.out.println("BufferedReader created");
+                }catch(FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+               
 		if( !Arrays.asList(getParams()).contains(args[0]) ){
 			System.out.println("- " + "ERROR ! unknown parameters...");
 			System.out.println("- " + Arrays.toString(getParams()));
 			return;
 		}
-		File file = new File("keypair.txt");
 		if(args[0].equals("generate")){
 			PrivateKey privateKey = null;
 			PublicKey publicKey = null;
@@ -78,11 +96,20 @@ public class KeyUtilCommand implements Command {
 			System.out.println("- " +  "Raw-Private-Key: " + KeyUtil.privateKeyToString(privkey));
 			System.out.println("- " +  "Raw-Public-Key:  " + KeyUtil.publicKeyToString(pubkey));
 			System.out.println("- " +  "Address:         " + KeyUtil.publicKeyToAddress(pubkey));
-                        
                         if(args[1].equals("-save")) {
-                           // File outputFile = new File("%appdata%/XCoin/KeyPair/keypair.txt");
-//                            outputFile.getParentFile().mkdirs();
+                            boolean proceed = false;
+                            in = new Scanner(f);
+                            if(in.hasNextLine()) {
+                                System.out.print("- Alert! You already have a keypair. If you would like to override please confirm(y/n): ");
+                                Scanner user = new Scanner(System.in);
+                                String choice = user.next();
+                                if(choice.charAt(0) == 'y') {
+                                    System.out.println("Overriding");
+                                    proceed = true;
+                                }
+                            }
                             try{
+                            if(proceed) {
                              PrintWriter out = new PrintWriter(file);
                                out.println("--- [XCoin KEY PAIR] ---");
                                out.println("Raw-Private-Key: " + priv);
@@ -90,6 +117,8 @@ public class KeyUtilCommand implements Command {
                                out.println("Address:         " + address);
                                out.println("------------------------");
                                out.close();
+                               System.out.println("The file has been saved at " + file);
+                            }
                             }catch(FileNotFoundException e) {
                                 e.printStackTrace();
                             }
@@ -97,23 +126,18 @@ public class KeyUtilCommand implements Command {
 		}else if(args[0].equals("-help")){
 			System.out.println("- " + getHelp());
 		}else if(args[0].equals("-get")) {
-            try {
-                BufferedReader f = new BufferedReader(new FileReader(file));
-                Scanner in = new Scanner(f);
-                
-                while(in.hasNextLine()) {
-                	String curLine = in.nextLine();
-                	if(curLine.contains("Raw") || curLine.contains("Address")) {
-                		System.out.println(curLine);
-                	}
-                }
-            }catch(FileNotFoundException e) {
-                e.printStackTrace();
-            }
-            
-        }else {
+                        in = new Scanner(f);
+                        System.out.println("--- [XCoin KEY PAIR] ---");
+                        while(in.hasNextLine()) {
+                            String curLine = in.nextLine();
+                            if(curLine.contains("Raw") || curLine.contains("Address")) {
+                                System.out.println(curLine);
+                            }
+                        }
+                        System.out.println("------------------------");
+                    
+                }else {
 			System.out.println("- " + "Sorry param not yet implemented");
 		}
 	}
-
 }
