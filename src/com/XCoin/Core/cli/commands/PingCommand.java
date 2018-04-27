@@ -1,7 +1,5 @@
 package com.XCoin.Core.cli.commands;
 
-import java.util.Arrays;
-
 import com.XCoin.Core.cli.Commander;
 
 public class PingCommand implements Command {
@@ -15,18 +13,12 @@ public class PingCommand implements Command {
 
 	@Override
 	public String[] getParams() {
-		return new String[] {"-adress", "-help"};
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 
 	@Override
 	public void run(String[] args) {
-		
-		if(args.length == 0) {
-			//TODO ping command
-		} else {
-			System.out.println("- " + "ERROR ! unknown parameters...");
-			System.out.println("- " + Arrays.toString(getParams()));
-			return;
-		}
-	}
+		System.out.println("Not Implemented Yet");
+		//Commander.invalidArg = true;
+        }
 }

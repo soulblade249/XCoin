@@ -1,5 +1,6 @@
 package com.XCoin.Core.cli.commands;
 
+import com.XCoin.Core.BlockChain;
 import java.util.Arrays;
 import com.XCoin.GUI.MinerGui;
 
@@ -16,7 +17,7 @@ public class MinerCommand implements Command{
 
 	@Override
 	public String[] getParams() {
-		return new String[] {"-gui", "-help", "-params", "info", "start"};
+		return new String[] {"-gui","help","-params","info", "start"};
 	}
 
 	@Override
@@ -27,17 +28,10 @@ public class MinerCommand implements Command{
 			return;
 		}
 		
-		
-		//TODO implement mining thread
 		if(args[0].equals("start")) {
-			if(args.length > 1) {
-				System.out.println("Starting miner with GUI");
-				MinerGui gui = new MinerGui();
-			}else {
-				System.out.println("Starting miner without GUI");
-				System.out.println("- " + "Sorry param not yet implemented");
-			}
-		}else if(args[0].equals("-help")){
+                        BlockChain bc = new BlockChain();
+                        bc.mine(new MinerGui());
+		}else if(args[0].equals("help")){
 			System.out.println("- " + getHelp());
 		}else {
 			System.out.println("- " + "Sorry param not yet implemented");
