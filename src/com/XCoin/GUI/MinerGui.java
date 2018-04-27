@@ -11,7 +11,7 @@ import java.awt.*;
 
 public class MinerGui extends JFrame implements ActionListener{
 
-	private final JButton startMine;
+	//private final JButton startMine;
 	private final JButton stopMine;
 	private final JTextArea loggerOutput;
 	private final JScrollPane pane;
@@ -55,11 +55,11 @@ public class MinerGui extends JFrame implements ActionListener{
 
 		//Set up the buttons
 		JPanel button = new JPanel();
-		startMine = new JButton("Start Miner");
-		startMine.addActionListener(this);
+		//startMine = new JButton("Start Miner");
+		//startMine.addActionListener(this);
 		stopMine = new JButton("Stop Miner");
 		stopMine.addActionListener(this);
-		button.add(startMine);
+		//button.add(startMine);
 		button.add(stopMine);
 
 		this.setLayout(new FlowLayout());
@@ -81,14 +81,14 @@ public class MinerGui extends JFrame implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e){
-		if(e.getSource().equals(startMine)) {
-			mining.start();
-		}else {
+		//if(e.getSource().equals(startMine)) {
+		//	mining.start();
+		//}else {
 			bc.bMining = false;
 			displayText("Stopped Miner");
 			System.out.println("Stopped Mining");
 			this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
-		}
+		//}
 	}
 }
 

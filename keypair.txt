@@ -1,0 +1,5 @@
+--- [XCoin KEY PAIR] ---
+Raw-Private-Key: 161b6324a7fc2b20713596f67cc1e4cba81d1ed56a8342bc0fdd2bf6aa8ef016
+Raw-Public-Key:  205453df1ea0fae440e23e14cfdc976c1da326ca4c5e358f50b3b46e89587390e558ff6762ab4ecabcd16a28b736b0b23487dccf76c29f0d7439afe87d2fedd1a5
+Address:         d332de834c9b2de098077b5609cb3228382e366ceb536b7adce005c05f0b33fc
+------------------------
