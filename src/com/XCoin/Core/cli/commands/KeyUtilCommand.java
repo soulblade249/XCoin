@@ -34,7 +34,7 @@ public class KeyUtilCommand implements Command {
 
 	@Override
 	public String[] getParams() {
-		return new String[]{ "-help", "-params", "generate", "pem", "info"};
+		return new String[]{ "-help", "-params", "generate", "pem", "info", "-get"};
 	}
 
 	@Override
@@ -45,7 +45,7 @@ public class KeyUtilCommand implements Command {
 			System.out.println("- " + Arrays.toString(getParams()));
 			return;
 		}
-
+		File file = new File("keypair.txt");
 		if(args[0].equals("generate")){
 			PrivateKey privateKey = null;
 			PublicKey publicKey = null;
@@ -78,7 +78,7 @@ public class KeyUtilCommand implements Command {
 			System.out.println("- " +  "Raw-Private-Key: " + KeyUtil.privateKeyToString(privkey));
 			System.out.println("- " +  "Raw-Public-Key:  " + KeyUtil.publicKeyToString(pubkey));
 			System.out.println("- " +  "Address:         " + KeyUtil.publicKeyToAddress(pubkey));
-                        File file = new File("keypair.txt");
+                        
                         if(args[1].equals("-save")) {
                            // File outputFile = new File("%appdata%/XCoin/KeyPair/keypair.txt");
 //                            outputFile.getParentFile().mkdirs();
@@ -93,19 +93,25 @@ public class KeyUtilCommand implements Command {
                             }catch(FileNotFoundException e) {
                                 e.printStackTrace();
                             }
-			}else if(args[1].equals("-get")) {
-                            try {
-                                BufferedReader f = new BufferedReader(new FileReader(file));
-                                Scanner in = new Scanner(f);
-                                
-                            }catch(FileNotFoundException e) {
-                                e.printStackTrace();
-                            }
-                            
-                        }
+			}
 		}else if(args[0].equals("-help")){
 			System.out.println("- " + getHelp());
-		}else {
+		}else if(args[0].equals("-get")) {
+            try {
+                BufferedReader f = new BufferedReader(new FileReader(file));
+                Scanner in = new Scanner(f);
+                
+                while(in.hasNextLine()) {
+                	String curLine = in.nextLine();
+                	if(curLine.contains("Raw") || curLine.contains("Address")) {
+                		System.out.println(curLine);
+                	}
+                }
+            }catch(FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            
+        }else {
 			System.out.println("- " + "Sorry param not yet implemented");
 		}
 	}
