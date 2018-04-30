@@ -21,4 +21,6 @@ public class PingCommand implements Command {
 		System.out.println("Not Implemented Yet");
 		Commander.invalidArg = true;
 	}
+		//Commander.invalidArg = true;
 }
+
