@@ -188,4 +188,60 @@ public class KeyUtil {
             return null;
         }
     }
+	
+	private static ECPublicKey getPublicKey(final ECPrivateKey pk) throws GeneralSecurityException {
+        final ECParameterSpec params = pk.getParams();
+        final ECPoint w = scalmult(params.getCurve(), pk.getParams().getGenerator(), pk.getS());
+        final KeyFactory kg = KeyFactory.getInstance("EC");
+        return (ECPublicKey)kg.generatePublic (new ECPublicKeySpec (w, params));
+    }
+	
+	private static BigInteger BIG2 = BigInteger.valueOf(2);
+    private static BigInteger BIG3 = BigInteger.valueOf(3);
+    
+	public static ECPoint scalmult   (final EllipticCurve curve, final ECPoint g, final BigInteger kin) {
+	    final ECField         field    = curve.getField();
+	    if(!(field instanceof ECFieldFp)) throw new UnsupportedOperationException(field.getClass().getCanonicalName());
+	    final BigInteger p = ((ECFieldFp)field).getP();
+	    final BigInteger a = curve.getA();
+	    ECPoint R = ECPoint.POINT_INFINITY;
+	    BigInteger k = kin.mod(p);
+	    final int length = k.bitLength();
+	    final byte[] binarray = new byte[length];
+	    for(int i=0;i<=length-1;i++){
+	        binarray[i] = k.mod(BIG2).byteValue();
+	        k = k.shiftRight(1);
+	    }
+	    for(int i = length-1;i >= 0;i--){
+	        R = doublePoint(p, a, R);
+	        if(binarray[i]== 1) R = addPoint(p, a, R, g);
+	    }
+	    return R;
+	}
+	
+	private static ECPoint doublePoint(final BigInteger p, final BigInteger a, final ECPoint R) {
+	    if (R.equals(ECPoint.POINT_INFINITY)) return R;
+	    BigInteger slope = (R.getAffineX().pow(2)).multiply(BIG3 );
+	    slope = slope.add(a);
+	    slope = slope.multiply((R.getAffineY().multiply(BIG2)).modInverse(p));
+	    final BigInteger Xout = slope.pow(2).subtract(R.getAffineX().multiply(BIG2)).mod(p);
+	    final BigInteger Yout = (R.getAffineY().negate()).add(slope.multiply(R.getAffineX().subtract(Xout))).mod(p);
+	    return new ECPoint(Xout, Yout);
+	}
+
+	    private static ECPoint addPoint   (final BigInteger p, final BigInteger a, final ECPoint r, final ECPoint g) {
+	    if (r.equals(ECPoint.POINT_INFINITY)) return g;
+	    if (g.equals(ECPoint.POINT_INFINITY)) return r;
+	    if (r==g || r.equals(g)) return doublePoint(p, a, r);
+	    final BigInteger gX    = g.getAffineX();
+	    final BigInteger sY    = g.getAffineY();
+	    final BigInteger rX    = r.getAffineX();
+	    final BigInteger rY    = r.getAffineY();
+	    final BigInteger slope = (rY.subtract(sY)).multiply(rX.subtract(gX).modInverse(p)).mod(p);
+	    final BigInteger Xout  = (slope.modPow(BIG2, p).subtract(rX)).subtract(gX).mod(p);
+	    BigInteger Yout =   sY.negate().mod(p);
+	    Yout = Yout.add(slope.multiply(gX.subtract(Xout))).mod(p);
+	    return new ECPoint(Xout, Yout);
+	}
+
 }
