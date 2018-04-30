@@ -9,23 +9,35 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Scanner;
 
+import com.XCoin.Util.ByteUtil;
+import com.XCoin.Util.HashUtil;
+
 
 public class Transaction {
-
-	private byte[] blockHash;
-	private int blockHeight;
-	public String sender;
-	public String reciever;
-	private String hash;
-	private int nonce;
-	public long timeStamp;
-	private int index;
-	public int value;
+	private final byte[] hash;
+	private final byte[] nonce;
+	private final byte[] sender;
+	private final byte[] receiver;
+	private final byte[] signature;
+	private final byte[] networkId;
+	/* First byte is amount of different currency type, leading bytes will be currencies involved(firstByte(currencyType), secondByte(amount of bytes needed to hold the amount), thirdByte(amount)). */
+	private final byte[] data;
 	
-	public Transaction (int v, String r, String s, long t) {
-		this.value = v;
-		this.timeStamp = t;
-		this.reciever = r;
-		this.sender = s;
+	public Transaction(byte[] nonce, byte[] sender, byte[] receiver, byte[] signature, byte[] networkid, byte[] data) {
+		this.hash = getHash();
+		this.data = data;
+		this.nonce = nonce;
+		this.sender = sender;
+		this.receiver = receiver;
+		this.signature = signature;
+		this.networkId = networkid;
+	}
+	
+	private byte[] getHash() {
+		return HashUtil.applySHA256(ByteUtil.concat(nonce, sender, receiver, signature, networkId));
+	}
+	
+	private byte[] getLeadingByte() {
+		return data[0];
 	}
 }
