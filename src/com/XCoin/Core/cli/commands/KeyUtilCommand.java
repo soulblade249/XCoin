@@ -79,7 +79,7 @@ public class KeyUtilCommand implements Command {
 
 			if(args[1].equals("-private")) {
 				privateKey = KeyUtil.stringToPrivateKey(args[1]);
-				//publicKey = KeyUtil.privateKeyToPublicKey((ECPrivateKey)privateKey);
+				publicKey = KeyUtil.getPublicKey((ECPrivateKey)privateKey);
 			}else{
 				keys = KeyUtil.GenerateKeyPair();
 				privateKey = keys.getPrivate();

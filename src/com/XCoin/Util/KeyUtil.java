@@ -189,7 +189,7 @@ public class KeyUtil {
         }
     }
 	
-	private static ECPublicKey getPublicKey(final ECPrivateKey pk) throws GeneralSecurityException {
+	public static ECPublicKey getPublicKey(final ECPrivateKey pk) throws GeneralSecurityException {
         final ECParameterSpec params = pk.getParams();
         final ECPoint w = scalmult(params.getCurve(), pk.getParams().getGenerator(), pk.getS());
         final KeyFactory kg = KeyFactory.getInstance("EC");
