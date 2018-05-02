@@ -69,6 +69,7 @@ public class KeyUtilCommand implements Command {
 			System.out.println("- " + Arrays.toString(getParams()));
 			return;
 		}
+		
 		if(args[0].equals("generate")){
 			PrivateKey privateKey = null;
 			PublicKey publicKey = null;
@@ -77,7 +78,7 @@ public class KeyUtilCommand implements Command {
 
 
 
-			if(args[1].equals("-private")) {
+			if(args.length > 2 && args[1].equals("-private")) {
 				
 				privateKey = KeyUtil.stringToPrivateKey(args[1]);
 				//publicKey = KeyUtil.getPublicKey((ECPrivateKey)privateKey);
@@ -87,6 +88,7 @@ public class KeyUtilCommand implements Command {
 				publicKey = keys.getPublic();
 			}
 
+			
 			System.out.println("- " + "--- [XCoin KEY PAIR] ---");
 			//converting key pairs to string:
 			String priv = KeyUtil.privateKeyToString((ECPrivateKey) privateKey);
@@ -103,7 +105,7 @@ public class KeyUtilCommand implements Command {
 			System.out.println("- " +  "Raw-Public-Key:  " + KeyUtil.publicKeyToString(pubkey));
 			System.out.println("- " +  "Address:         " + KeyUtil.publicKeyToAddress(pubkey));
 			System.out.println("- " + "------------------------");
-			if(args[1].equals("-save")) {
+			if(args.length > 2 && args[1].equals("-save")) {
 				boolean proceed = false;
 				boolean blank = true;
 				in = new Scanner(f);

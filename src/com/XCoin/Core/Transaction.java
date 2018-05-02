@@ -43,7 +43,7 @@ public class Transaction {
 	}
 	
 	public static void main(String args[]) {
-		byte[] data = "1".getBytes(;
+		byte[] data = "1".getBytes();
 		Transaction test = new Transaction("test".getBytes(), "jules".getBytes(), "steven".getBytes(), "ghy".getBytes(), "main".getBytes(), "123".getBytes());
 		String output = new String(new byte[] {test.getLeadingByte()});
 		System.out.println("Leading Byte: " + output);
