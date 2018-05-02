@@ -43,16 +43,12 @@ public class Transaction {
 		return data[0];
 	}
 	
-	private static byte getBytes() {
-		return 0;
-	}
-	
 	public static void main(String args[]) {
 		int test2 = 136;
 		String te = "test";
-		byte[] dat = {(byte)test2};
-		byte[] dat2 = te.getBytes();
-		byte[] realDat = ByteUtil.merge(dat, dat2);
+		byte[] dat = {(byte)test2};//Array 1
+		byte[] dat2 = te.getBytes(); //Array 2
+		byte[] realDat = ByteUtil.merge(dat, dat2); //Array being merged
 		Transaction test = new Transaction("test".getBytes(), "jules".getBytes(), "steven".getBytes(), "ghy".getBytes(), "main".getBytes(), realDat);
 		//int i = getLeadingByte().intValue() & 0xFF; -- This code gets you the unisgned value of the first element of data
 		//System.out.println("Leading Number: " + i);
