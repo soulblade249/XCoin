@@ -1,26 +1,14 @@
 package com.XCoin.Core;
 import java.security.GeneralSecurityException;
 import java.security.KeyPair;
-import java.security.KeyPairGenerator;
 import java.security.PrivateKey;
 import java.security.PublicKey;
-import java.security.SecureRandom;
-import java.security.Security;
 import java.security.interfaces.ECPrivateKey;
 import java.security.interfaces.ECPublicKey;
-import java.security.spec.ECGenParameterSpec;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.bouncycastle.util.encoders.Hex;
 
 import com.XCoin.Util.KeyUtil;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.BufferedWriter;
+import java.math.BigInteger;
 
 public class Wallet{
 	/**
@@ -38,7 +26,7 @@ public class Wallet{
 	/**
 	 * The balance of the wallet
 	 */
-	private BigInteger balance;
+	private long balance;
 	
 	/**
 	 * Default constructor with no arguments
@@ -91,6 +79,7 @@ public class Wallet{
 	}
 	/**
 	 * Gets the private key of the wallet
+         * @return the private key
 	 */
 	public ECPrivateKey getPrivate() {
 		return this.privateKey;
@@ -98,6 +87,7 @@ public class Wallet{
 	
 	/**
 	 * Returns the address of the wallet
+         * @return the address
 	 */
 	public byte[] getAdress() {
 		return this.adress;
@@ -125,6 +115,15 @@ public class Wallet{
 	public void removeFunds(long amount) {
 		this.balance -= amount;
 	}
+        
+        /**
+         * Overriden wallet toString
+         * @return the toString 
+         */
+        @Override
+        public String toString() {
+            return "Private Key: " + this.privateKey + " | Public Key: " + this.publicKey + " | Balance: " + this.balance;
+        }
 	
 }
 

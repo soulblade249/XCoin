@@ -1,15 +1,13 @@
 package com.XCoin.Core;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.security.Security;
 import java.util.ArrayList;
 //import java.util.Base64;
-import java.util.HashMap;
 import com.XCoin.GUI.*;
+import java.io.FileNotFoundException;
 //import com.google.gson.GsonBuilder;
-import java.util.Map;
+import java.io.PrintWriter;
 
 public class BlockChain{
 	
@@ -86,4 +84,12 @@ public class BlockChain{
 		}
 		System.out.println("Stopping mining");
 	}
+        
+        public static void onTerminate() throws FileNotFoundException {
+            PrintWriter out = new PrintWriter(new File("blockChain.txt"));
+            for(Block b : blockchain) {
+                out.println("Block Hash: " + b.hash + " Time: " + b.timeStamp);
+            }
+            out.close();
+        }
 }
