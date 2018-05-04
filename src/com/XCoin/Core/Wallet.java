@@ -1,4 +1,5 @@
 package com.XCoin.Core;
+import java.security.GeneralSecurityException;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.PrivateKey;
@@ -22,45 +23,108 @@ import java.io.FileWriter;
 import java.io.BufferedWriter;
 
 public class Wallet{
+	/**
+	 * The private key of the wallet
+	 */
+	private ECPrivateKey privateKey;
+	/**
+	 * The public key of the wallet
+	 */
+	private ECPublicKey publicKey;
+	/**
+	 * The address of the wallet
+	 */
+	private byte[] adress;
+	/**
+	 * The balance of the wallet
+	 */
+	private BigInteger balance;
 	
-	public ECPrivateKey privateKey;
-	public ECPublicKey publicKey;
-	public String address;
-	public int balance;
-	
+	/**
+	 * Default constructor with no arguments
+	 */
 	public Wallet() {
-		Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider()); //Setup Bouncey castle as a Security Provider	
-		generateKeyPair();
-	}
-		
-	public void generateKeyPair() {
-		try {
-			KeyPairGenerator keyGen = KeyPairGenerator.getInstance("ECDSA","BC");
-			SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
-			ECGenParameterSpec ecSpec = new ECGenParameterSpec("secp256r1");
-			// Initialize the key generator and generate a KeyPair
-			keyGen.initialize(ecSpec, random); //256 
-	        KeyPair keyPair = KeyUtil.GenerateKeyPair();
-            privateKey = (ECPrivateKey) keyPair.getPrivate();
-            publicKey = (ECPublicKey) keyPair.getPublic();
-            //converting key to address:
-            address = KeyUtil.publicKeyToAddress(publicKey);
-		}catch(Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-	
-	public int getBalance() {
-		//returns the balance of the user
-		return balance;
+		/*
+		 * Create the key pair and the different keys
+		 */
+		KeyPair keys = null;
+		PrivateKey priv = null;
+		PublicKey pub = null;
+
+		/*
+		 * Generate the keys and get private and public ones 
+		 */
+		keys = KeyUtil.GenerateKeyPair();
+		priv = keys.getPrivate();
+		pub = keys.getPublic();
+		String privateK = KeyUtil.privateKeyToString((ECPrivateKey) priv);
+		String pubK = KeyUtil.publicKeyToString((ECPublicKey) pub);
+		this.privateKey = KeyUtil.stringToPrivateKey(privateK);
+		this.publicKey = KeyUtil.stringToPublicKey(pubK);
+		this.adress = (KeyUtil.publicKeyToAddress(publicKey)).getBytes();
+		this.balance = 0;
 	}
 	
-	public void removeFunds(int amount) {
-		balance = balance - amount;
+	/**
+	 * Creates a new wallet
+	 * @param privKey the private key of the wallet
+	 * @throws GeneralSecurityException 
+	 */
+	
+	public Wallet(ECPrivateKey privKey) throws GeneralSecurityException {
+		this.privateKey = privKey;
+		this.publicKey = KeyUtil.getPublicKey(privKey);
+		this.adress = (KeyUtil.publicKeyToAddress(this.publicKey)).getBytes();
+		this.balance = 0;
+	}
+	/**
+	 * Creates a new wallet
+	 * @param privKey the private key of the wallet
+	 * @param bal the balance
+	 * @throws GeneralSecurityException 
+	 */
+	public Wallet(ECPrivateKey privKey, long bal) throws GeneralSecurityException {
+		this.privateKey = privKey;
+		this.publicKey = KeyUtil.getPublicKey(privKey);;
+		this.adress = (KeyUtil.publicKeyToAddress(this.publicKey)).getBytes();
+		this.balance = bal;
+	}
+	/**
+	 * Gets the private key of the wallet
+	 */
+	public ECPrivateKey getPrivate() {
+		return this.privateKey;
 	}
 	
-	public void addFunds(int amount) {
-		balance = balance + amount;
+	/**
+	 * Returns the address of the wallet
+	 */
+	public byte[] getAdress() {
+		return this.adress;
 	}
+	
+	/**
+	 * Returns the balance
+	 */
+	public long getBal() {
+		return this.balance;
+	}
+	
+	/**
+	 * Adds funds to the wallet
+	 * @param amount to add
+	 */
+	public void addFunds(long amount) {
+		this.balance += amount;
+	}
+	
+	/**
+	 * Removes funds from the wallet
+	 * @param amount to remove
+	 */
+	public void removeFunds(long amount) {
+		this.balance -= amount;
+	}
+	
 }
 
