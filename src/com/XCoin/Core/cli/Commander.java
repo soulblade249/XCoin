@@ -33,7 +33,7 @@ public class Commander {
 	public PingCommand ping = new PingCommand();
 	public KeyUtilCommand keyUtil = new KeyUtilCommand();
 	public MinerCommand miner = new MinerCommand();
-        public WalletCommand wallet = new WalletCommand();
+    public WalletCommand wallet = new WalletCommand();
 	public static boolean invalidArg = false;
 
 	/* we get the command object from cmds and call command.run(args)*/
