@@ -33,7 +33,7 @@ public class Commander {
 	public PingCommand ping = new PingCommand();
 	public KeyUtilCommand keyUtil = new KeyUtilCommand();
 	public MinerCommand miner = new MinerCommand();
-    public WalletCommand wallet = new WalletCommand();
+	public WalletCommand wallet = new WalletCommand();
 	public static boolean invalidArg = false;
 
 	/* we get the command object from cmds and call command.run(args)*/
@@ -41,14 +41,18 @@ public class Commander {
 		try{
 			String function = rawArgs[0];
 			String[] args = Arrays.copyOfRange(rawArgs, 1,rawArgs.length);
-
 			Command command = cmds.get(function);
 			if(command == null){        
 				System.out.println("- " + "command function: '" + function +"' not found. Type -help for a list of functions");
 			}else{
+				System.out.print("Running with ");
+				for(String s : args) {
+					System.out.println(s + "");
+				}
 				command.run(args);
 			}
 		}catch(ArrayIndexOutOfBoundsException e){
+			e.printStackTrace();
 			System.out.println("- " + "command couldn't execute, perhaps not enough arguments? try: "+ rawArgs[0] + " -help");
 			invalidArg = true;
 		}catch(Exception e){
@@ -64,7 +68,7 @@ public class Commander {
 		cmds.put("ping", new PingCommand());
 		cmds.put("-help", new HelpCommand());
 		cmds.put("miner", new MinerCommand());
-                cmds.put("wallet", new WalletCommand());
+		cmds.put("wallet", new WalletCommand());
 		scanner = new Scanner(System.in);
 	}
 
@@ -88,13 +92,13 @@ public class Commander {
 				System.out.println(ping.getHelp());
 				System.out.println(keyUtil.getHelp());
 				System.out.println(miner.getHelp());
-                                System.out.println(wallet.getHelp());
+				System.out.println(wallet.getHelp());
 				System.out.println("cmd: quit");
 			}
 			System.out.print("XCoin-cli: ");
 			String input = (String) scanner.nextLine(); //Casted as string just in case
 			if(input.equals("quit")) {
-                                onTerminate();
+				onTerminate();
 				break;
 			}
 			String[] argumentArray = input.split("\\s+");
@@ -110,12 +114,12 @@ public class Commander {
 		setup();
 		instance = this;
 	}
-        
-        public void onTerminate() throws FileNotFoundException {
-            PrintWriter out = new PrintWriter(new File("wallets.txt"));
-            for(Map.Entry<Wallet, byte[]> w : Main.wallets.entrySet()) {
-                out.println(w.getKey().toString() + " " + w.getValue());
-            }
-            out.close();
-        }
+
+	public void onTerminate() throws FileNotFoundException {
+		PrintWriter out = new PrintWriter(new File("wallets.txt"));
+		for(Map.Entry<Wallet, byte[]> w : Main.wallets.entrySet()) {
+			out.println(w.getKey().toString() + " " + w.getValue());
+		}
+		out.close();
+	}
 }
