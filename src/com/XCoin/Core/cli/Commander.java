@@ -56,6 +56,7 @@ public class Commander {
 			System.out.println("- " + "command couldn't execute, perhaps not enough arguments? try: "+ rawArgs[0] + " -help");
 			invalidArg = true;
 		}catch(Exception e){
+			e.printStackTrace();
 			System.out.println("- " + "command failed to execute.");
 		}
 
@@ -116,7 +117,7 @@ public class Commander {
 	}
 
 	public void onTerminate() throws FileNotFoundException {
-		PrintWriter out = new PrintWriter(new File("wallets.txt"));
+		PrintWriter out = new PrintWriter(new File("wallets.dat"));
 		for(Map.Entry<Wallet, byte[]> w : Main.wallets.entrySet()) {
 			out.println(w.getKey().toString() + " " + w.getValue());
 		}

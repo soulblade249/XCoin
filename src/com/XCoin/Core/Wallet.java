@@ -6,6 +6,7 @@ import java.security.PublicKey;
 import java.security.interfaces.ECPrivateKey;
 import java.security.interfaces.ECPublicKey;
 
+import com.XCoin.Core.cli.Main;
 import com.XCoin.Util.KeyUtil;
 
 import java.math.BigInteger;
@@ -27,6 +28,11 @@ public class Wallet{
 	 * The balance of the wallet
 	 */
 	private long balance;
+	
+	/**
+	 * The id of the wallet
+	 */
+	private long walletId;
 	
 	/**
 	 * Default constructor with no arguments
@@ -51,6 +57,7 @@ public class Wallet{
 		this.publicKey = KeyUtil.stringToPublicKey(pubK);
 		this.adress = (KeyUtil.publicKeyToAddress(publicKey)).getBytes();
 		this.balance = 0;
+		this.walletId = Main.wallets.size();
 	}
 	
 	/**
@@ -64,19 +71,9 @@ public class Wallet{
 		this.publicKey = KeyUtil.getPublicKey(privKey);
 		this.adress = (KeyUtil.publicKeyToAddress(this.publicKey)).getBytes();
 		this.balance = 0;
+		this.walletId = Main.wallets.size();
 	}
-	/**
-	 * Creates a new wallet
-	 * @param privKey the private key of the wallet
-	 * @param bal the balance
-	 * @throws GeneralSecurityException 
-	 */
-	public Wallet(ECPrivateKey privKey, long bal) throws GeneralSecurityException {
-		this.privateKey = privKey;
-		this.publicKey = KeyUtil.getPublicKey(privKey);;
-		this.adress = (KeyUtil.publicKeyToAddress(this.publicKey)).getBytes();
-		this.balance = bal;
-	}
+	
 	/**
 	 * Gets the private key of the wallet
          * @return the private key
@@ -115,15 +112,17 @@ public class Wallet{
 	public void removeFunds(long amount) {
 		this.balance -= amount;
 	}
-        
-        /**
-         * Overriden wallet toString
-         * @return the toString 
-         */
-        @Override
-        public String toString() {
-            return "Private Key: " + this.privateKey + " | Public Key: " + this.publicKey + " | Balance: " + this.balance;
-        }
 	
+	public long getId() {
+		return this.walletId;
+	}
+	
+	/**
+	 * To String for a file
+	 */
+	@Override
+	public String toString() {
+		return "Priv: " + KeyUtil.privateKeyToString(this.privateKey) + " \n" + "Pub: " + KeyUtil.publicKeyToString(this.publicKey) + " \n" + "Bal: "+ this.balance + " \n"+ "Id: " + this.walletId;
+	}
 }
 
