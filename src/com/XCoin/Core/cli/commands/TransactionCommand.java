@@ -1,26 +1,68 @@
 package com.XCoin.Core.cli.commands;
 
+import java.security.GeneralSecurityException;
+import java.security.Security;
+import java.util.Arrays;
+
+import com.XCoin.Core.Transaction;
+import com.XCoin.Core.Wallet;
+import com.XCoin.Util.ByteUtil;
+import com.XCoin.Util.KeyUtil;
+
 public class TransactionCommand implements Command{
 
 	@Override
 	public String getHelp() {
 		return  "cmd: transaction \n" +
-				"- description: A tool for creating transactions \n" +
+				"- description: A tool for creating transactions, if more info is needed about parameter, please type 'transaction help paramName' \n" +
 				"- usage: transaction param [situational...] \n"+
-				"- param: 'create' [-senderKey] [-receiverKey] [-tbd], 'pem' location [-private], 'info', '-help', '-params' \n"+
+				"- param: 'create' [-private] [-receiver] [-amount] [-currency], 'accept' [-privateKey], 'help' [-param] \n"+
 				"------------------------------------------------------------------------";
 	}
 
 	@Override
 	public String[] getParams() {
-		// TODO Auto-generated method stub
-		return null;
+		return new String[] {"create", "-private", "-receiver", "-amount", "-currency", "accept", "privateKey", "help", "-param"};
 	}
 
 	@Override
 	public void run(String[] args) {
-		// TODO Auto-generated method stub
-		
+		Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider()); //Setup Bouncey castle as a Security Provider
+
+		if(!Arrays.asList(getParams()).contains(args[0]) ){
+			System.out.println("- " + "ERROR ! unknown parameters...");
+			System.out.println("- " + Arrays.toString(getParams()));
+			return;
+		}
+
+		if(args[0].equals("create")) {
+			if(args.length > 2 && args[1].equals("-private")) {
+				if(args.length > 4 && args[3].equals("-receiver")) {
+					if(args.length > 6 && args[5].equals("-amount")) {
+						if(args.length > 8 && args[7].equals("-currency")) {
+							if(args[2].length() != 0) {
+								Wallet w = null;
+								try {
+									w = new Wallet(KeyUtil.stringToPrivateKey(args[2]));
+								} catch (GeneralSecurityException e) {
+									e.printStackTrace();
+								}
+								byte[] currencyNumber = {(byte)(args.length - 7)};
+								byte[] currency1 = args[8].getBytes();
+								byte[] currency2 = args[9].getBytes();
+								byte[] currencies = ByteUtil.concat(currency1, currency2);
+								byte[] data = ByteUtil.concat(currencyNumber, currencies);
+								Transaction t = new Transaction(Long.toString(w.getId()).getBytes(), w.getAdress(), args[4].getBytes(), "transactionCommand".getBytes(), "main".getBytes(), data);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	public void getParamHelp(String param) {
+
 	}
 
 }

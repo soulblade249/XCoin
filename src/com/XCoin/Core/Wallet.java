@@ -117,6 +117,10 @@ public class Wallet{
 		return this.walletId;
 	}
 	
+	public String fileToString() {
+		return "Priv: " + KeyUtil.privateKeyToString(this.privateKey);
+	}
+	
 	/**
 	 * To String for a file
 	 */
