@@ -43,16 +43,21 @@ public class Transaction {
 		return data[0];
 	}
 	
-	public static void main(String args[]) {
-		int test2 = 136;
-		String te = "test";
-		byte[] dat = {(byte)test2};//Array 1
-		byte[] dat2 = te.getBytes(); //Array 2
-		byte[] realDat = ByteUtil.merge(dat, dat2); //Array being merged
-		Transaction test = new Transaction("test".getBytes(), "jules".getBytes(), "steven".getBytes(), "ghy".getBytes(), "main".getBytes(), realDat);
-		//int i = getLeadingByte().intValue() & 0xFF; -- This code gets you the unisgned value of the first element of data
-		//System.out.println("Leading Number: " + i);
-		//System.out.println("Real Data Array: " + realDa);
+	@Override
+	public String toString() {
+		String hash = "", nonce = "", sender = "", receiver = "", sig = "", net = "", data = "";
+		try {
+			hash = new String(this.hash, "UTF-8");
+			nonce = new String(this.nonce, "UTF-8");
+			sender = new String(this.sender, "UTF-8");
+			receiver = new String(this.receiver, "UTF-8");
+			sig = new String(this.signature, "UTF-8");
+			net = new String(this.networkId, "UTF-8");
+			data = new String(this.data, "UTF-8");
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return "Hash: " + hash + " | Nonce: " + nonce + " | Sender: " + sender + " | Receiver: " + receiver + " | Signature Id: " + sig + " | Network Id: " + net + " | Data: " + data;
 	}
 	
 }

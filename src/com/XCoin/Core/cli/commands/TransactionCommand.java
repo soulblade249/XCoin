@@ -1,5 +1,6 @@
 package com.XCoin.Core.cli.commands;
 
+import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
 import java.security.Security;
 import java.util.Arrays;
@@ -11,6 +12,9 @@ import com.XCoin.Util.KeyUtil;
 
 public class TransactionCommand implements Command{
 
+	private byte[] currencies;
+	private byte[] data;
+	
 	@Override
 	public String getHelp() {
 		return  "cmd: transaction \n" +
@@ -47,12 +51,23 @@ public class TransactionCommand implements Command{
 								} catch (GeneralSecurityException e) {
 									e.printStackTrace();
 								}
-								byte[] currencyNumber = {(byte)(args.length - 7)};
-								byte[] currency1 = args[8].getBytes();
-								byte[] currency2 = args[9].getBytes();
-								byte[] currencies = ByteUtil.concat(currency1, currency2);
-								byte[] data = ByteUtil.concat(currencyNumber, currencies);
+								if(args.length > 8) {
+									data = args[8].getBytes();
+									for(int i = 9; i < args.length; i++) {
+										System.out.println("Currency: " + args[i]);
+										currencies = args[i].getBytes();
+										data = ByteUtil.concat(data, " ".getBytes(), currencies);
+									}
+								}
+								try {
+									String dataCur = new String(data, "UTF-8");
+									System.out.println(dataCur);
+								} catch (UnsupportedEncodingException e) {
+									e.printStackTrace();
+								}
+								System.out.println("Transaction Created");
 								Transaction t = new Transaction(Long.toString(w.getId()).getBytes(), w.getAdress(), args[4].getBytes(), "transactionCommand".getBytes(), "main".getBytes(), data);
+								t.toString();
 							}
 						}
 					}

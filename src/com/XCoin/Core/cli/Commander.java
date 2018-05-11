@@ -14,6 +14,7 @@ import com.XCoin.Core.cli.commands.KeyUtilCommand;
 import com.XCoin.Core.cli.commands.MinerCommand;
 //import com.XCoin.Core.cli.commands.NodeCommand;
 import com.XCoin.Core.cli.commands.PingCommand;
+import com.XCoin.Core.cli.commands.TransactionCommand;
 import com.XCoin.Core.cli.commands.WalletCommand;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -34,6 +35,7 @@ public class Commander {
 	public KeyUtilCommand keyUtil = new KeyUtilCommand();
 	public MinerCommand miner = new MinerCommand();
 	public WalletCommand wallet = new WalletCommand();
+	public TransactionCommand transaction = new TransactionCommand();
 	public static boolean invalidArg = false;
 
 	/* we get the command object from cmds and call command.run(args)*/
@@ -45,10 +47,6 @@ public class Commander {
 			if(command == null){        
 				System.out.println("- " + "command function: '" + function +"' not found. Type -help for a list of functions");
 			}else{
-				System.out.print("Running with ");
-				for(String s : args) {
-					System.out.println(s + "");
-				}
 				command.run(args);
 			}
 		}catch(ArrayIndexOutOfBoundsException e){
@@ -70,6 +68,7 @@ public class Commander {
 		cmds.put("-help", new HelpCommand());
 		cmds.put("miner", new MinerCommand());
 		cmds.put("wallet", new WalletCommand());
+		cmds.put("transaction", new TransactionCommand());
 		scanner = new Scanner(System.in);
 	}
 
@@ -94,6 +93,7 @@ public class Commander {
 				System.out.println(keyUtil.getHelp());
 				System.out.println(miner.getHelp());
 				System.out.println(wallet.getHelp());
+				System.out.println(transaction.getHelp());
 				System.out.println("cmd: quit");
 			}
 			System.out.print("XCoin-cli: ");
