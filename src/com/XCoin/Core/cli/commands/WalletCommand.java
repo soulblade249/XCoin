@@ -13,6 +13,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.GeneralSecurityException;
@@ -30,12 +31,12 @@ import java.security.interfaces.ECPublicKey;
 public class WalletCommand implements Command{
 
 	private Wallet userWallet;
-	
+
 	private File file;
-	
+
 	private 	BufferedReader f;
-	
-	
+
+
 	@Override
 	public String getHelp() {
 		return "cmd: wallet \n" +
@@ -83,8 +84,8 @@ public class WalletCommand implements Command{
 			}
 			PrintWriter out = null;
 			try {
-				out = new PrintWriter(file);
-			} catch (FileNotFoundException e) {
+				out = new PrintWriter(new FileWriter(file, true));
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			out.println(userWallet.fileToString());

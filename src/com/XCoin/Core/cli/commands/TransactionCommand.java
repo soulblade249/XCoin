@@ -45,6 +45,12 @@ public class TransactionCommand implements Command{
 					if(args.length > 6 && args[5].equals("-amount")) {
 						if(args.length > 8 && args[7].equals("-currency")) {
 							if(args[2].length() != 0) {
+								/*
+								 * TODO:
+								 * Data is not working, hashing returns non unicode characters
+								 * Data:
+								 * 	Needs to include amount of the currencies.
+								 */
 								Wallet w = null;
 								try {
 									w = new Wallet(KeyUtil.stringToPrivateKey(args[2]));
@@ -52,8 +58,8 @@ public class TransactionCommand implements Command{
 									e.printStackTrace();
 								}
 								if(args.length > 8) {
-									data = args[8].getBytes();
-									for(int i = 9; i < args.length; i++) {
+									data = args[6].getBytes();
+									for(int i = 8; i < args.length; i++) {
 										System.out.println("Currency: " + args[i]);
 										currencies = args[i].getBytes();
 										data = ByteUtil.concat(data, " ".getBytes(), currencies);
@@ -67,7 +73,7 @@ public class TransactionCommand implements Command{
 								}
 								System.out.println("Transaction Created");
 								Transaction t = new Transaction(Long.toString(w.getId()).getBytes(), w.getAdress(), args[4].getBytes(), "transactionCommand".getBytes(), "main".getBytes(), data);
-								t.toString();
+								System.out.println(t.toString());
 							}
 						}
 					}

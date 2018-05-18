@@ -12,6 +12,7 @@ import java.util.Scanner;
 
 import com.XCoin.Util.ByteUtil;
 import com.XCoin.Util.HashUtil;
+import com.XCoin.Util.KeyUtil;
 
 
 public class Transaction {
