@@ -13,6 +13,8 @@ import com.XCoin.Util.KeyUtil;
 public class TransactionCommand implements Command{
 
 	private byte[] currencies;
+        private String[] currency;
+        private String[] amounts;
 	private byte[] data;
 	
 	@Override
@@ -38,12 +40,24 @@ public class TransactionCommand implements Command{
 			System.out.println("- " + Arrays.toString(getParams()));
 			return;
 		}
-
+                int currencyIndex = 0;
+                boolean stop = false;
 		if(args[0].equals("create")) {
 			if(args.length > 2 && args[1].equals("-private")) {
 				if(args.length > 4 && args[3].equals("-receiver")) {
 					if(args.length > 6 && args[5].equals("-amount")) {
-						if(args.length > 8 && args[7].equals("-currency")) {
+                                                for(int i = 6; i < args.length && stop == false; i++) {
+                                                    if(args[i].equals("-currency")) {
+                                                        currencyIndex = i;
+                                                        stop = true;
+                                                    }
+                                                }
+                                                System.out.println("Curency: " + currencyIndex);
+                                                amounts = new String[currencyIndex - 6];
+                                                for(int i = 6; i < currencyIndex; i++) {
+                                                    amounts[i] = args[i];
+                                                }
+						if(args.length > currencyIndex && args[currencyIndex].equals("-currency")) {
 							if(args[2].length() != 0) {
 								/*
 								 * TODO:
@@ -51,27 +65,21 @@ public class TransactionCommand implements Command{
 								 * Data:
 								 * 	Needs to include amount of the currencies.
 								 */
+                                                                currency = new String[args.length - (currencyIndex + 1)];
+                                                                for(int i = 0; i < args.length - (currencyIndex + 1); i++) {
+                                                                    currency[i] = args[i];
+                                                                }
+                                                                String dat = "";
+                                                                for(int i = 0; i < currency.length; i++) {
+                                                                    dat += amounts[i] + " " + currency[i];
+                                                                }
+                                                                data = dat.getBytes();
 								Wallet w = null;
 								try {
 									w = new Wallet(KeyUtil.stringToPrivateKey(args[2]));
 								} catch (GeneralSecurityException e) {
 									e.printStackTrace();
 								}
-								if(args.length > 8) {
-									data = args[6].getBytes();
-									for(int i = 8; i < args.length; i++) {
-										System.out.println("Currency: " + args[i]);
-										currencies = args[i].getBytes();
-										data = ByteUtil.concat(data, " ".getBytes(), currencies);
-									}
-								}
-								try {
-									String dataCur = new String(data, "UTF-8");
-									System.out.println(dataCur);
-								} catch (UnsupportedEncodingException e) {
-									e.printStackTrace();
-								}
-								System.out.println("Transaction Created");
 								Transaction t = new Transaction(Long.toString(w.getId()).getBytes(), w.getAdress(), args[4].getBytes(), "transactionCommand".getBytes(), "main".getBytes(), data);
 								System.out.println(t.toString());
 							}
