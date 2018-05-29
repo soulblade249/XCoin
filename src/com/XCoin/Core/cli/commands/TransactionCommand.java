@@ -13,10 +13,10 @@ import com.XCoin.Util.KeyUtil;
 public class TransactionCommand implements Command{
 
 	private byte[] currencies;
-        private String[] currency;
-        private String[] amounts;
+	private String[] currency;
+	private String[] amounts;
 	private byte[] data;
-	
+
 	@Override
 	public String getHelp() {
 		return  "cmd: transaction \n" +
@@ -40,47 +40,49 @@ public class TransactionCommand implements Command{
 			System.out.println("- " + Arrays.toString(getParams()));
 			return;
 		}
-                int currencyIndex = 0;
-                boolean stop = false;
+		int currencyIndex = 0;
+		boolean stop = false;
 		if(args[0].equals("create")) {
 			if(args.length > 2 && args[1].equals("-private")) {
 				if(args.length > 4 && args[3].equals("-receiver")) {
 					if(args.length > 6 && args[5].equals("-amount")) {
-                                                for(int i = 6; i < args.length && stop == false; i++) {
-                                                    if(args[i].equals("-currency")) {
-                                                        currencyIndex = i;
-                                                        stop = true;
-                                                    }
-                                                }
-                                                System.out.println("Curency: " + currencyIndex);
-                                                amounts = new String[currencyIndex - 6];
-                                                for(int i = 6; i < currencyIndex; i++) {
-                                                    amounts[i] = args[i];
-                                                }
+						for(int i = 6; i < args.length && stop == false; i++) {
+							if(args[i].equals("-currency")) {
+								currencyIndex = i;
+								stop = true;
+							}
+						}
+						System.out.println("Curency Index: " + currencyIndex);
+						amounts = new String[currencyIndex - 6];
+						currency = new String[amounts.length];
+						int b = 0;
+						for(int i = 6; i < currencyIndex; i++) {
+							if(!args[i].contains("-")) {
+								amounts[b] =  args[i];
+								b++;
+							}
+						}
+						b = 0;
+						for(int i = currencyIndex; i < args.length; i++) {
+							if(!args[i].contains("-")) {
+								currency[b] = args[i];
+								b++;
+							}
+						}
 						if(args.length > currencyIndex && args[currencyIndex].equals("-currency")) {
 							if(args[2].length() != 0) {
-								/*
-								 * TODO:
-								 * Data is not working, hashing returns non unicode characters
-								 * Data:
-								 * 	Needs to include amount of the currencies.
-								 */
-                                                                currency = new String[args.length - (currencyIndex + 1)];
-                                                                for(int i = 0; i < args.length - (currencyIndex + 1); i++) {
-                                                                    currency[i] = args[i];
-                                                                }
-                                                                String dat = "";
-                                                                for(int i = 0; i < currency.length; i++) {
-                                                                    dat += amounts[i] + " " + currency[i];
-                                                                }
-                                                                data = dat.getBytes();
+								String datArgs = "";
+								for(int i = 0; i < currency.length; i++) {
+									datArgs += amounts[i] + currency[i];
+								}
+								System.out.println("DatArgs: " + datArgs);
 								Wallet w = null;
 								try {
 									w = new Wallet(KeyUtil.stringToPrivateKey(args[2]));
 								} catch (GeneralSecurityException e) {
 									e.printStackTrace();
 								}
-								Transaction t = new Transaction(Long.toString(w.getId()).getBytes(), w.getAdress(), args[4].getBytes(), "transactionCommand".getBytes(), "main".getBytes(), data);
+								Transaction t = new Transaction(Long.toString(w.getId()).getBytes(), w.getAdress(), args[4].getBytes(), "transactionCommand".getBytes(), "main".getBytes(), datArgs.getBytes());
 								System.out.println(t.toString());
 							}
 						}
