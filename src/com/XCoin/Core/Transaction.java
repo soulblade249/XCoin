@@ -50,6 +50,10 @@ public class Transaction {
 		return data[0];
 	}
 	
+	public byte[] getData() {
+		return this.data;
+	}
+	
 	@Override
 	public String toString() {
 		String hash = "", nonce = "", sender = "", receiver = "", sig = "", net = "", data = "";

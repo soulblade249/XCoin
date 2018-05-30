@@ -20,6 +20,7 @@ public class PingCommand implements Command {
 	public void run(String[] args) {
 		System.out.println("Not Implemented Yet");
 		Commander.invalidArg = true;
+		Commander.repeat = false;
 	}
 		//Commander.invalidArg = true;
 }

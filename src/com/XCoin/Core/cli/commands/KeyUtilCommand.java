@@ -9,6 +9,7 @@ import java.security.interfaces.ECPrivateKey;
 import java.security.interfaces.ECPublicKey;
 import java.util.Arrays;
 
+import com.XCoin.Core.cli.Commander;
 import com.XCoin.Util.KeyUtil;
 import java.io.BufferedReader;
 import java.io.File;
@@ -134,8 +135,10 @@ public class KeyUtilCommand implements Command {
 					e.printStackTrace();
 				}
 			}
+			Commander.repeat = false;
 		}else if(args[0].equals("-help")){
 			System.out.println("- " + getHelp());
+			Commander.repeat = false;
 		}else if(args[0].equals("-get")) {
 			in = new Scanner(f);
 			System.out.println("--- [XCoin KEY PAIR] ---");
@@ -146,9 +149,10 @@ public class KeyUtilCommand implements Command {
 				}
 			}
 			System.out.println("------------------------");
-
+			Commander.repeat = false;
 		}else {
 			System.out.println("- " + "Sorry param not yet implemented");
+			Commander.repeat = false;
 		}
 	}
 }

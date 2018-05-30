@@ -5,8 +5,11 @@ import java.security.GeneralSecurityException;
 import java.security.Security;
 import java.util.Arrays;
 
+import com.XCoin.Core.BlockChain;
 import com.XCoin.Core.Transaction;
 import com.XCoin.Core.Wallet;
+import com.XCoin.Core.cli.Commander;
+import com.XCoin.Core.cli.Main;
 import com.XCoin.Util.ByteUtil;
 import com.XCoin.Util.KeyUtil;
 
@@ -22,7 +25,7 @@ public class TransactionCommand implements Command{
 		return  "cmd: transaction \n" +
 				"- description: A tool for creating transactions, if more info is needed about parameter, please type 'transaction help paramName' \n" +
 				"- usage: transaction param [situational...] \n"+
-				"- param: 'create' [-private] [-receiver] [-amount] [-currency], 'accept' [-privateKey], 'help' [-param] \n"+
+				"- param: 'create' [-private] [-receiver] [-amount] [-currency], 'accept' [-private], 'help' [-param] \n"+
 				"------------------------------------------------------------------------";
 	}
 
@@ -84,16 +87,43 @@ public class TransactionCommand implements Command{
 								}
 								Transaction t = new Transaction(Long.toString(w.getId()).getBytes(), w.getAdress(), args[4].getBytes(), "transactionCommand".getBytes(), "main".getBytes(), datArgs.getBytes());
 								System.out.println(t.toString());
+								BlockChain.addTransaction(t);
 							}
 						}
 					}
 				}
 			}
+			Commander.repeat = false;
+		}else if(args[0].equals("-help")) {//General help
+			System.out.println("-" + getHelp());
+			Commander.repeat = false;
+		}else if(args[0].equals("help")){//Specific parameter help
+			System.out.print("- ");
+			getParamHelp(args[1]);
+			Commander.repeat = false;
 		}
 	}
 
 	public void getParamHelp(String param) {
-
+		System.out.println("------------------------------------------------------------------------");
+		switch(param) {
+		case "-private" :
+			System.out.println("The private key of your wallet.");
+			break;
+		case "-receiver" :
+			System.out.println("The public key of the receiver of the transaction.");
+			break;
+		case "-amount" :
+			System.out.println("The different amounts of each currency. Must match the number of the currencies in the next parameter. Ex: 100 80 will create a transaction with a 100 of currency A and 80 of currency B");
+			break;
+		case "-currency" :
+			System.out.println("The 3 digit currency codes of the different currencies. Must match the number of amounts in the previous parameter. Ex: USD YEN will create a transaction with A USD and B YEN.");
+			break;
+		default :
+			System.out.println("Error: Invalid Parameter");
+			break;
+		}
+		System.out.println("------------------------------------------------------------------------");
 	}
 
 }
