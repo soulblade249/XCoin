@@ -6,6 +6,7 @@
 package com.XCoin.Core.cli.commands;
 
 import com.XCoin.Core.Wallet;
+import com.XCoin.Core.cli.Commander;
 import com.XCoin.Core.cli.Main;
 import com.XCoin.Util.KeyUtil;
 
@@ -13,6 +14,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.GeneralSecurityException;
@@ -30,12 +32,12 @@ import java.security.interfaces.ECPublicKey;
 public class WalletCommand implements Command{
 
 	private Wallet userWallet;
-	
+
 	private File file;
-	
+
 	private 	BufferedReader f;
-	
-	
+
+
 	@Override
 	public String getHelp() {
 		return "cmd: wallet \n" +
@@ -83,22 +85,16 @@ public class WalletCommand implements Command{
 			}
 			PrintWriter out = null;
 			try {
-				out = new PrintWriter(file);
-			} catch (FileNotFoundException e) {
+				out = new PrintWriter(new FileWriter(file, true));
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			out.println(userWallet.fileToString());
 			out.close();
 			Main.wallets.put(userWallet, userWallet.getAdress());
 		}else if(args[0].equals("retrieve")) {
-			if(args.length > 2 && args[1].equals("-private")) {
-				for(Map.Entry<Wallet, byte[]> w : Main.wallets.entrySet()) {
-					if(w.getKey().getPrivate().equals(KeyUtil.stringToPrivateKey(args[2]))) {
-						userWallet = w.getKey();
-						System.out.println(userWallet.toString());
-					}
-				}
-			}else if(file.exists()) {
+			if(file.exists()) {
+				System.out.println("File exists");
 				try {
 					f = new BufferedReader(new FileReader(file));
 				} catch (FileNotFoundException e) {
@@ -107,19 +103,36 @@ public class WalletCommand implements Command{
 				Scanner in = new Scanner(f);
 				while(in.hasNextLine()) {
 					String line = in.nextLine();
-					if(line.contains("Priv: ")) {
 						int index = line.indexOf(" ");
 						String privateKe = line.substring(index + 1, line.length());
-						ECPrivateKey privateKey = KeyUtil.stringToPrivateKey(privateKe);
-						try {
-							userWallet = new Wallet(privateKey);
-							System.out.println("- Wallet imported");
-						} catch (GeneralSecurityException e) {
-							e.printStackTrace();
+						if(privateKe.equals(args[1])) {
+							ECPrivateKey privateKey = KeyUtil.stringToPrivateKey(privateKe);
+							try {
+								userWallet = new Wallet(privateKey);
+								System.out.println("- Wallet imported");
+								String subMenu = "";
+								Scanner subMenuScanner = new Scanner(System.in);
+								while(!subMenu.equals("quit")) {
+									System.out.println("Wallet Options");
+									System.out.println("1. Get Private Key");
+									System.out.println("2. Get Public Key");
+									System.out.println("3. Get Bal");
+								}
+							} catch (GeneralSecurityException e) {
+								e.printStackTrace();
+							}
 						}
 					}
 				}
-			}else {
+			}else if(args.length > 2 && args[1].equals("-private")) {
+				System.out.println("Checking hashmap");
+				for(Map.Entry<Wallet, byte[]> w : Main.wallets.entrySet()) {
+					if(w.getKey().getPrivate().equals(KeyUtil.stringToPrivateKey(args[2]))) {
+						userWallet = w.getKey();
+						System.out.println(userWallet.toString());
+					}
+				}
+			}else { 
 				System.out.println("- Error: cannot retrieve without a private key. Would you like to create a wallet?(y/n): ");
 				Scanner in = new Scanner(System.in);
 				char choice = in.next().toLowerCase().charAt(0);
@@ -131,10 +144,13 @@ public class WalletCommand implements Command{
 					System.out.println("- Error: Invalid Choice");
 				}
 			}
+			Commander.repeat = false;
 		}else if(args[0].equals("-help")) {
 			System.out.println("- " + getHelp());
+			Commander.repeat = false;
 		}else if(args[0].equals("-params")){
 			getParams();
+			Commander.repeat = false;
 		}else {
 			System.out.println("- Not Supported");
 		}

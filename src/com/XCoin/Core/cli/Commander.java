@@ -25,6 +25,7 @@ public class Commander {
 	public KeyUtilCommand keyUtil = new KeyUtilCommand();
 	public MinerCommand miner = new MinerCommand();
 	public static boolean invalidArg = false;
+	public static boolean repeat = true;
 
 	/* we get the command object from cmds and call command.run(args)*/
 	public void call(String[] rawArgs){
@@ -67,7 +68,7 @@ public class Commander {
 
 	public void menu() {
 		while(true) {
-			if(!invalidArg) {
+			if(!invalidArg && repeat) {
 				System.out.println("------------------------------------------------------------------------");
 				System.out.println("			XCoin C.L.I Menu       						  ");
 				System.out.println("------------------------------------------------------------------------");

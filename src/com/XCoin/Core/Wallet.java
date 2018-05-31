@@ -113,17 +113,21 @@ public class Wallet{
 		this.balance -= amount;
 	}
 	
+	/**
+	 * Gets the id of the wallet
+	 * @return the id of the wallet
+	 */
 	public long getId() {
 		return this.walletId;
-	}
-	
-	public String fileToString() {
-		return "Priv: " + KeyUtil.privateKeyToString(this.privateKey);
 	}
 	
 	/**
 	 * To String for a file
 	 */
+	public String fileToString() {
+		return "Priv: " + KeyUtil.privateKeyToString(this.privateKey);
+	}
+	
 	@Override
 	public String toString() {
 		return "Priv: " + KeyUtil.privateKeyToString(this.privateKey) + " \n" + "Pub: " + KeyUtil.publicKeyToString(this.publicKey) + " \n" + "Bal: "+ this.balance + " \n"+ "Id: " + this.walletId;

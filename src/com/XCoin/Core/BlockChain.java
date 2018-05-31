@@ -10,33 +10,33 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 
 public class BlockChain{
-	
+
 	private static ArrayList<Block> blockchain = new ArrayList<Block>();
 	private static ArrayList<Transaction> mempool = new ArrayList<Transaction>();
 	public static boolean bMining;
 	private static int difficulty = 4;
 	private static float minimumTransaction = 0.1f;
 	private static Block newBlock;
-	
+
 	public static void main(String[] args) throws IOException {	
 		Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider()); //Setup Bouncey castle as a Security Provider	
 	}
-	
+
 	private void loadChain() {
-		
+
 	}
-	
+
 	private void saveChain() {
-		
+
 	}
-	
+
 	public static boolean isChainValid() {
 		Block currentBlock; 
 		Block previousBlock;
 		String hashTarget = new String(new char[difficulty]).replace('\0', '0');
-		
+
 		for(int i=1; i < blockchain.size(); i++) {
-			
+
 			currentBlock = blockchain.get(i);
 			previousBlock = blockchain.get(i-1);
 			if(!currentBlock.hash.equals(currentBlock.calculateHash()) ){
@@ -55,9 +55,9 @@ public class BlockChain{
 		//System.out.println("Blockchain is valid");
 		return true;
 	}
-	
+
 	public static void addTransaction(Transaction t) {
-		
+		mempool.add(t);
 	}
 
 	public static void mine(MinerGui gui) {
@@ -84,12 +84,20 @@ public class BlockChain{
 		}
 		System.out.println("Stopping mining");
 	}
-        
-        public static void onTerminate() throws FileNotFoundException {
-            PrintWriter out = new PrintWriter(new File("blockChain.txt"));
-            for(Block b : blockchain) {
-                out.println("Block Hash: " + b.hash + " Time: " + b.timeStamp);
-            }
-            out.close();
-        }
+
+	public static void onTerminate() throws FileNotFoundException {
+		PrintWriter out = new PrintWriter(new File("blockChain.txt"));
+		for(Block b : blockchain) {
+			out.println("Block Hash: " + b.hash + " Time: " + b.timeStamp);
+		}
+		out.close();
+	}
+	
+	public static void processTransactions() {
+		for(Transaction t : mempool) {
+			System.out.println(t.toString());
+			byte[] data = t.getData();
+			System.out.println(new String(data));
+		}
+	}
 }

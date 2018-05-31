@@ -12,6 +12,7 @@ import java.util.Scanner;
 
 import com.XCoin.Util.ByteUtil;
 import com.XCoin.Util.HashUtil;
+import com.XCoin.Util.KeyUtil;
 
 
 public class Transaction {
@@ -23,7 +24,7 @@ public class Transaction {
 	private final  byte[] signature;
 	private final byte[] networkId;
 	/* First byte is amount of different currency type, leading bytes will be currencies involved(firstByte(currencyType), secondByte(amount of bytes needed to hold the amount), thirdByte(amount)). */
-	private static byte[] data;
+	private byte[] data;
 	
 	public Transaction(byte[] nonce, byte[] sender, byte[] receiver, byte[] signature, byte[] networkid, byte[] data) {
 		this.data = data;
@@ -36,18 +37,27 @@ public class Transaction {
 	}
 	
 	private byte[] getHash() {
-		return HashUtil.applySHA256(ByteUtil.concat(nonce, sender, receiver, signature, networkId));
+		String hashS = new String(ByteUtil.concat(nonce, sender));
+		return HashUtil.applySHA256(hashS.getBytes());
 	}
 	
-	private static Byte getLeadingByte() {
+	private String hashToString(byte []nonce, byte[]sender) {
+		String hashS = new String(ByteUtil.concat(nonce, sender));
+		return hashS;
+	}
+	
+	public Byte getLeadingByte() {
 		return data[0];
+	}
+	
+	public byte[] getData() {
+		return this.data;
 	}
 	
 	@Override
 	public String toString() {
 		String hash = "", nonce = "", sender = "", receiver = "", sig = "", net = "", data = "";
 		try {
-			hash = new String(this.hash, "UTF-8");
 			nonce = new String(this.nonce, "UTF-8");
 			sender = new String(this.sender, "UTF-8");
 			receiver = new String(this.receiver, "UTF-8");
@@ -57,7 +67,7 @@ public class Transaction {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		return "Hash: " + hash + " | Nonce: " + nonce + " | Sender: " + sender + " | Receiver: " + receiver + " | Signature Id: " + sig + " | Network Id: " + net + " | Data: " + data;
+		return "Hash: " + hashToString(this.nonce, this.sender) + " | Nonce: " + nonce + " | Sender: " + sender + " | Receiver: " + receiver + " | Signature Id: " + sig + " | Network Id: " + net + " | Data: " + data;
 	}
 	
 }
