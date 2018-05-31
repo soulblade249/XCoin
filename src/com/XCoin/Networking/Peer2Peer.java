@@ -5,47 +5,28 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.XCoin.Core.BlockChain;
 import com.XCoin.Networking.Commands.Command;
 import com.XCoin.Networking.Commands.PingCommandHandler;
+import com.XCoin.Util.ByteArrayKey;
 
 public class Peer2Peer {
 
 	private int port;
     private ArrayList<Peer>  peers;
-    private DataOutputStream outputStream;
+    private DataOutputStream out;
     private Thread           serverThread;
     private boolean          runningServer;
-    private HashMap<String, Command> commands = new HashMap<>();
+    private HashMap<ByteArrayKey, Command> commands = new HashMap<>();
     private ServerSocket server;
-    private Socket socket = null;
-
-    //Node with access to blockchain
-    public Peer2Peer(int port, BlockChain bc){
-        this.port = port;
-        peers = new ArrayList<>();
-        serverThread = new Thread(new Runnable() {
-            public void run() {
-                try {
-                    listen();
-                    System.out.println("Connection Ended");
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });		
-        
-        initializeCommands();
-
-    }
+    private Socket socket;
     
     //Node with out storing Blockchain
     public Peer2Peer(int port){
-		System.out.println("Making node");
+	System.out.println("Launching node");
     this.port = port;
     peers = new ArrayList<>();
     serverThread = new Thread(new Runnable() {
@@ -63,8 +44,11 @@ public class Peer2Peer {
 }
     
     private void initializeCommands() {
-        this.commands.put("ping", new PingCommandHandler());
-       
+    		/**List of Commands
+    		 * 0xFF - Ping
+    		 * 0xFE - Block_Height
+    		 */
+        this.commands.put(new ByteArrayKey((byte)0xFF), new PingCommandHandler()); 
     }
 
     public void start(){
@@ -113,10 +97,17 @@ public class Peer2Peer {
 
     public void connect(Socket socket){
         try {
-            outputStream = new DataOutputStream(socket.getOutputStream());
-            Peer.send("ping", outputStream);		
+            out = new DataOutputStream(socket.getOutputStream());
+            Peer.send(commands.get(new ByteArrayKey((byte) 0xFF)).handle(new ByteArrayKey((byte) 0xFF)), out);		
         } catch (IOException e) {
             //e.printStackTrace();
         }
+    }
+    
+    public static void main(String[] args) throws IOException {
+    		Peer2Peer node1 = new Peer2Peer(8888);
+    		node1.start();
+		node1.connect(new Socket("10.61.32.226", 8888));
+		
     }
 }

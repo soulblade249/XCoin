@@ -1,9 +1,6 @@
 
 package com.XCoin.Core.cli;
 
-import com.XCoin.Core.Block;
-import com.XCoin.Core.BlockChain;
-import com.XCoin.Core.Wallet;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -12,14 +9,7 @@ import com.XCoin.Core.cli.commands.Command;
 import com.XCoin.Core.cli.commands.HelpCommand;
 import com.XCoin.Core.cli.commands.KeyUtilCommand;
 import com.XCoin.Core.cli.commands.MinerCommand;
-//import com.XCoin.Core.cli.commands.NodeCommand;
 import com.XCoin.Core.cli.commands.PingCommand;
-import com.XCoin.Core.cli.commands.TransactionCommand;
-import com.XCoin.Core.cli.commands.WalletCommand;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.util.Map;
 
 
 /**
@@ -34,8 +24,6 @@ public class Commander {
 	public PingCommand ping = new PingCommand();
 	public KeyUtilCommand keyUtil = new KeyUtilCommand();
 	public MinerCommand miner = new MinerCommand();
-	public WalletCommand wallet = new WalletCommand();
-	public TransactionCommand transaction = new TransactionCommand();
 	public static boolean invalidArg = false;
 
 	/* we get the command object from cmds and call command.run(args)*/
@@ -43,6 +31,7 @@ public class Commander {
 		try{
 			String function = rawArgs[0];
 			String[] args = Arrays.copyOfRange(rawArgs, 1,rawArgs.length);
+
 			Command command = cmds.get(function);
 			if(command == null){        
 				System.out.println("- " + "command function: '" + function +"' not found. Type -help for a list of functions");
@@ -50,11 +39,9 @@ public class Commander {
 				command.run(args);
 			}
 		}catch(ArrayIndexOutOfBoundsException e){
-			e.printStackTrace();
 			System.out.println("- " + "command couldn't execute, perhaps not enough arguments? try: "+ rawArgs[0] + " -help");
 			invalidArg = true;
 		}catch(Exception e){
-			e.printStackTrace();
 			System.out.println("- " + "command failed to execute.");
 		}
 
@@ -67,8 +54,6 @@ public class Commander {
 		cmds.put("ping", new PingCommand());
 		cmds.put("-help", new HelpCommand());
 		cmds.put("miner", new MinerCommand());
-		cmds.put("wallet", new WalletCommand());
-		cmds.put("transaction", new TransactionCommand());
 		scanner = new Scanner(System.in);
 	}
 
@@ -80,7 +65,7 @@ public class Commander {
 		return instance;
 	}
 
-	public void menu() throws FileNotFoundException{
+	public void menu() {
 		while(true) {
 			if(!invalidArg) {
 				System.out.println("------------------------------------------------------------------------");
@@ -88,18 +73,14 @@ public class Commander {
 				System.out.println("------------------------------------------------------------------------");
 				System.out.println("			  Commands       					  		  ");
 				System.out.println(help.getHelp());
-				//System.out.println(node.getHelp());
 				System.out.println(ping.getHelp());
 				System.out.println(keyUtil.getHelp());
 				System.out.println(miner.getHelp());
-				System.out.println(wallet.getHelp());
-				System.out.println(transaction.getHelp());
 				System.out.println("cmd: quit");
 			}
 			System.out.print("XCoin-cli: ");
 			String input = (String) scanner.nextLine(); //Casted as string just in case
 			if(input.equals("quit")) {
-				onTerminate();
 				break;
 			}
 			String[] argumentArray = input.split("\\s+");
@@ -114,13 +95,5 @@ public class Commander {
 	public Commander(){
 		setup();
 		instance = this;
-	}
-
-	public void onTerminate() throws FileNotFoundException {
-		PrintWriter out = new PrintWriter(new File("wallets.dat"));
-		for(Map.Entry<Wallet, byte[]> w : Main.wallets.entrySet()) {
-			out.println(w.getKey().toString() + " " + w.getValue());
-		}
-		out.close();
 	}
 }
