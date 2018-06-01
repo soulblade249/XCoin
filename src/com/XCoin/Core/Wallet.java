@@ -28,12 +28,12 @@ public class Wallet{
 	 * The balance of the wallet
 	 */
 	private long balance;
-	
+
 	/**
 	 * The id of the wallet
 	 */
 	private long walletId;
-	
+
 	/**
 	 * Default constructor with no arguments
 	 */
@@ -59,13 +59,13 @@ public class Wallet{
 		this.balance = 0;
 		this.walletId = Main.wallets.size();
 	}
-	
+
 	/**
 	 * Creates a new wallet
 	 * @param privKey the private key of the wallet
 	 * @throws GeneralSecurityException 
 	 */
-	
+
 	public Wallet(ECPrivateKey privKey) throws GeneralSecurityException {
 		this.privateKey = privKey;
 		this.publicKey = KeyUtil.getPublicKey(privKey);
@@ -73,30 +73,37 @@ public class Wallet{
 		this.balance = 0;
 		this.walletId = Main.wallets.size();
 	}
-	
+
 	/**
 	 * Gets the private key of the wallet
-         * @return the private key
+	 * @return the private key
 	 */
 	public ECPrivateKey getPrivate() {
 		return this.privateKey;
 	}
-	
+
+	/**
+	 * Gets the public key of the wallet
+	 * @return the public key
+	 */
+	public ECPublicKey getPublic() {
+		return this.publicKey;
+	}
 	/**
 	 * Returns the address of the wallet
-         * @return the address
+	 * @return the address
 	 */
 	public byte[] getAdress() {
 		return this.adress;
 	}
-	
+
 	/**
 	 * Returns the balance
 	 */
 	public long getBal() {
 		return this.balance;
 	}
-	
+
 	/**
 	 * Adds funds to the wallet
 	 * @param amount to add
@@ -104,7 +111,7 @@ public class Wallet{
 	public void addFunds(long amount) {
 		this.balance += amount;
 	}
-	
+
 	/**
 	 * Removes funds from the wallet
 	 * @param amount to remove
@@ -112,7 +119,7 @@ public class Wallet{
 	public void removeFunds(long amount) {
 		this.balance -= amount;
 	}
-	
+
 	/**
 	 * Gets the id of the wallet
 	 * @return the id of the wallet
@@ -120,14 +127,14 @@ public class Wallet{
 	public long getId() {
 		return this.walletId;
 	}
-	
+
 	/**
 	 * To String for a file
 	 */
 	public String fileToString() {
 		return "Priv: " + KeyUtil.privateKeyToString(this.privateKey);
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Priv: " + KeyUtil.privateKeyToString(this.privateKey) + " \n" + "Pub: " + KeyUtil.publicKeyToString(this.publicKey) + " \n" + "Bal: "+ this.balance + " \n"+ "Id: " + this.walletId;

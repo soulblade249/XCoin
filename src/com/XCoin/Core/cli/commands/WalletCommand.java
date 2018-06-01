@@ -92,9 +92,10 @@ public class WalletCommand implements Command{
 			out.println(userWallet.fileToString());
 			out.close();
 			Main.wallets.put(userWallet, userWallet.getAdress());
+			Commander.repeat = false;
 		}else if(args[0].equals("retrieve")) {
 			if(file.exists()) {
-				System.out.println("File exists");
+				//System.out.println("File exists");
 				try {
 					f = new BufferedReader(new FileReader(file));
 				} catch (FileNotFoundException e) {
@@ -102,25 +103,51 @@ public class WalletCommand implements Command{
 				}
 				Scanner in = new Scanner(f);
 				while(in.hasNextLine()) {
+					//System.out.println("In Loop");
 					String line = in.nextLine();
-						int index = line.indexOf(" ");
-						String privateKe = line.substring(index + 1, line.length());
-						if(privateKe.equals(args[1])) {
-							ECPrivateKey privateKey = KeyUtil.stringToPrivateKey(privateKe);
-							try {
-								userWallet = new Wallet(privateKey);
-								System.out.println("- Wallet imported");
-								String subMenu = "";
-								Scanner subMenuScanner = new Scanner(System.in);
-								while(!subMenu.equals("quit")) {
-									System.out.println("Wallet Options");
-									System.out.println("1. Get Private Key");
-									System.out.println("2. Get Public Key");
-									System.out.println("3. Get Bal");
+					int index = line.indexOf(" ");
+					String privateKe = line.substring(index + 1, line.length());
+					if(privateKe.equals(args[2])) {
+						ECPrivateKey privateKey = KeyUtil.stringToPrivateKey(privateKe);
+						try {
+							userWallet = new Wallet(privateKey);
+							System.out.println("- Wallet imported");
+							String subMenu = "";
+							Scanner subMenuScanner = new Scanner(System.in);
+							while(!subMenu.equals("quit")) {
+								System.out.println("Wallet Options");
+								System.out.println("1. Get Private Key");
+								System.out.println("2. Get Public Key");
+								System.out.println("3. Get Address");
+								System.out.println("4. Get Bal");
+								System.out.println("5. Quit");
+								System.out.print("Choice: ");
+								int choice = subMenuScanner.nextInt();
+								switch(choice) {
+								case 1:
+									System.out.println("Private Key: " + KeyUtil.privateKeyToString(userWallet.getPrivate()));
+									break;
+								case 2:
+									System.out.println("Public Key: " + KeyUtil.publicKeyToString(userWallet.getPublic()));
+									break;
+								case 3:
+									System.out.println("Address: " + new String(userWallet.getAdress()));
+									break;
+								case 4:
+									System.out.println("Balance: " + userWallet.getBal());
+									break;
+								case 5:
+									break;
+								default:
+									System.out.println("Incorrect Choice");
+									break;
 								}
-							} catch (GeneralSecurityException e) {
-								e.printStackTrace();
+								if(choice == 5) {
+									break;
+								}
 							}
+						} catch (GeneralSecurityException e) {
+							e.printStackTrace();
 						}
 					}
 				}
