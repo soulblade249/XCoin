@@ -3,3 +3,5 @@
 .classpath
 /nbproject/private/
 /build/
+bin/com/XCoin/Core/cli/Commander.class
+bin/com/XCoin/Core/cli/Commander.class

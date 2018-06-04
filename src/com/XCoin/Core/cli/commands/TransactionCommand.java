@@ -125,5 +125,13 @@ public class TransactionCommand implements Command{
 		}
 		System.out.println("------------------------------------------------------------------------");
 	}
+	
+	public String[] getAmounts() {
+		return this.amounts;
+	}
+	
+	public String[] getCurrencies() {
+		return this.currency;
+	}
 
 }

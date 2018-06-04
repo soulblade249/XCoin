@@ -10,6 +10,8 @@ import com.XCoin.Core.cli.commands.HelpCommand;
 import com.XCoin.Core.cli.commands.KeyUtilCommand;
 import com.XCoin.Core.cli.commands.MinerCommand;
 import com.XCoin.Core.cli.commands.PingCommand;
+import com.XCoin.Core.cli.commands.TransactionCommand;
+import com.XCoin.Core.cli.commands.WalletCommand;
 
 
 /**
@@ -24,6 +26,8 @@ public class Commander {
 	public PingCommand ping = new PingCommand();
 	public KeyUtilCommand keyUtil = new KeyUtilCommand();
 	public MinerCommand miner = new MinerCommand();
+	public WalletCommand wallet = new WalletCommand();
+	public TransactionCommand transaction = new TransactionCommand();
 	public static boolean invalidArg = false;
 	public static boolean repeat = true;
 
@@ -55,6 +59,8 @@ public class Commander {
 		cmds.put("ping", new PingCommand());
 		cmds.put("-help", new HelpCommand());
 		cmds.put("miner", new MinerCommand());
+		cmds.put("wallet", new WalletCommand());
+		cmds.put("transaction", new TransactionCommand());
 		scanner = new Scanner(System.in);
 	}
 
@@ -77,6 +83,8 @@ public class Commander {
 				System.out.println(ping.getHelp());
 				System.out.println(keyUtil.getHelp());
 				System.out.println(miner.getHelp());
+				System.out.println(wallet.getHelp());
+				System.out.println(transaction.getHelp());
 				System.out.println("cmd: quit");
 			}
 			System.out.print("XCoin-cli: ");

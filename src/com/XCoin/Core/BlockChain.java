@@ -8,6 +8,7 @@ import com.XCoin.GUI.*;
 import java.io.FileNotFoundException;
 //import com.google.gson.GsonBuilder;
 import java.io.PrintWriter;
+import com.XCoin.Core.Transaction.*;
 
 public class BlockChain{
 
@@ -97,7 +98,10 @@ public class BlockChain{
 		for(Transaction t : mempool) {
 			System.out.println(t.toString());
 			byte[] data = t.getData();
-			System.out.println(new String(data));
+			for(Byte b : data) {
+				System.out.println(b.toString());
+			}
+			
 		}
 	}
 }
