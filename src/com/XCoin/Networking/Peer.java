@@ -63,6 +63,7 @@ public class Peer {
     public static void send(byte[] data, DataOutputStream out){
         System.out.println("Sending message: " + data);
         try {
+        		System.out.println(data.length);
         		out.writeInt(data.length);
             out.write(data);
             out.flush();
@@ -73,8 +74,10 @@ public class Peer {
 
     public byte[] receive(DataInputStream in){
 		byte[] data = null;
+		int size = 0;
 		try {
-        		int size = in.readInt();
+        		size = in.readInt();
+        		data = new byte[size];
         		in.readFully(data, 0, size);
             System.out.println("Received message: "+ data);
         } catch (IOException e) {

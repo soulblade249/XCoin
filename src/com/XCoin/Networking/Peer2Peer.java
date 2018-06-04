@@ -12,6 +12,7 @@ import java.util.HashMap;
 import com.XCoin.Networking.Commands.Command;
 import com.XCoin.Networking.Commands.PingCommandHandler;
 import com.XCoin.Util.ByteArrayKey;
+import com.XCoin.Util.ByteUtil;
 
 public class Peer2Peer {
 
@@ -98,7 +99,7 @@ public class Peer2Peer {
     public void connect(Socket socket){
         try {
             out = new DataOutputStream(socket.getOutputStream());
-            Peer.send(commands.get(new ByteArrayKey((byte) 0xFF)).handle(new ByteArrayKey((byte) 0xFF)), out);		
+            Peer.send(commands.get(new ByteArrayKey((byte) 0xFF)).handle(new ByteArrayKey(ByteUtil.concat(new ByteArrayKey((byte) 0xFF).toByteArray(), new ByteArrayKey((byte) 0x00).toByteArray()))), out);		
         } catch (IOException e) {
             //e.printStackTrace();
         }
@@ -107,7 +108,7 @@ public class Peer2Peer {
     public static void main(String[] args) throws IOException {
     		Peer2Peer node1 = new Peer2Peer(8888);
     		node1.start();
-		node1.connect(new Socket("10.61.32.226", 8888));
+		node1.connect(new Socket("10.70.21.135", 8888));
 		
     }
 }
