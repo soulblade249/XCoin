@@ -73,19 +73,26 @@ public class TransactionCommand implements Command{
 							}
 						}
 						if(args.length > currencyIndex && args[currencyIndex].equals("-currency")) {
+							//TODO:
+							// Transform a string to single byte
 							if(args[2].length() != 0) {
-								String datArgs = "";
-								for(int i = 0; i < currency.length; i++) {
-									datArgs += amounts[i] + currency[i];
+								byte[] data = new byte[amounts.length], transHold = new byte[1];
+								data = Integer.toString(amounts.length).getBytes();
+								for(int a = 0; a < amounts.length; a++) {
+									byte[] currencyHold = new byte[1], amountHold = new byte[1];
+									currencyHold = currency[a].getBytes();
+									amountHold = amounts[a].getBytes();
+									transHold = ByteUtil.concat(transHold, currencyHold, amountHold);
 								}
-								System.out.println("DatArgs: " + datArgs);
+								data = ByteUtil.concat(data, transHold);
+								System.out.println(new String(data));
 								Wallet w = null;
 								try {
 									w = new Wallet(KeyUtil.stringToPrivateKey(args[2]));
 								} catch (GeneralSecurityException e) {
 									e.printStackTrace();
 								}
-								Transaction t = new Transaction(Long.toString(w.getId()).getBytes(), w.getAdress(), args[4].getBytes(), "transactionCommand".getBytes(), "main".getBytes(), datArgs.getBytes());
+								Transaction t = new Transaction(Long.toString(w.getId()).getBytes(), w.getAdress(), args[4].getBytes(), "transactionCommand".getBytes(), "main".getBytes(), data);
 								System.out.println(t.toString());
 								BlockChain.addTransaction(t);
 							}

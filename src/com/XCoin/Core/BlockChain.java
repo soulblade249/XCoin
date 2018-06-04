@@ -3,6 +3,8 @@ import java.io.File;
 import java.io.IOException;
 import java.security.Security;
 import java.util.ArrayList;
+import java.util.HashMap;
+
 //import java.util.Base64;
 import com.XCoin.GUI.*;
 import java.io.FileNotFoundException;
@@ -14,6 +16,7 @@ public class BlockChain{
 
 	private static ArrayList<Block> blockchain = new ArrayList<Block>();
 	private static ArrayList<Transaction> mempool = new ArrayList<Transaction>();
+	private static HashMap<String, Integer> decodedTransactions = new HashMap<String, Integer>();
 	public static boolean bMining;
 	private static int difficulty = 4;
 	private static float minimumTransaction = 0.1f;
@@ -101,7 +104,6 @@ public class BlockChain{
 			for(Byte b : data) {
 				System.out.println(b.toString());
 			}
-			
 		}
 	}
 }

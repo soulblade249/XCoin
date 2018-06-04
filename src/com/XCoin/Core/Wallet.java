@@ -127,7 +127,7 @@ public class Wallet{
 	public long getId() {
 		return this.walletId;
 	}
-
+	
 	/**
 	 * To String for a file
 	 */
@@ -139,5 +139,6 @@ public class Wallet{
 	public String toString() {
 		return "Priv: " + KeyUtil.privateKeyToString(this.privateKey) + " \n" + "Pub: " + KeyUtil.publicKeyToString(this.publicKey) + " \n" + "Bal: "+ this.balance + " \n"+ "Id: " + this.walletId;
 	}
+
 }
 
