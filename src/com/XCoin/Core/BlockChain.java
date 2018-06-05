@@ -7,10 +7,13 @@ import java.util.HashMap;
 
 //import java.util.Base64;
 import com.XCoin.GUI.*;
+import com.XCoin.Util.TransactionUtil;
+
 import java.io.FileNotFoundException;
 //import com.google.gson.GsonBuilder;
 import java.io.PrintWriter;
 import com.XCoin.Core.Transaction.*;
+import com.XCoin.Util.*;
 
 public class BlockChain{
 
@@ -96,14 +99,25 @@ public class BlockChain{
 		}
 		out.close();
 	}
-	
+
 	public static void processTransactions() {
+		String retrievedData = "";
 		for(Transaction t : mempool) {
 			System.out.println(t.toString());
 			byte[] data = t.getData();
-			for(Byte b : data) {
-				System.out.println(b.toString());
+			for(int a = 0; a < data.length; a++) {
+				Byte b = data[a];
+				System.out.println(b);
+				if(b.equals("|".getBytes()[0])) {
+					a++;
+					int endIndex = TransactionUtil.getIndex(data, "|".getBytes()[0], a);
+					while(a != endIndex) {
+						retrievedData += new String(new byte[] { data[a] });
+						a++;
+					}
+				}
 			}
 		}
+		System.out.println("Retrieved Data: " + retrievedData);
 	}
 }
