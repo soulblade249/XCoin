@@ -15,10 +15,11 @@ public class PingCommandHandler extends Command {
 		return ByteUtil.concat(new ByteArrayKey((byte) 0xFF).toByteArray(), new ByteArrayKey((byte) 0x01).toByteArray(), data);
 	}
 
-	public byte[] send(byte[] data) {
+	public byte[] send() {
 		bInt = BigInteger.valueOf(new Random().nextLong());
-		System.out.println("Sending Int: " + bInt.toString() );
-		System.out.println(ByteUtil.bigIntegerToBytes(bInt).length);
+		System.out.println("Sending Int: " + bInt + " " + ByteUtil.bigIntegerToBytes(bInt).length);
+		System.out.println(bInt.toString());
+		System.out.println(new ByteArrayKey(ByteUtil.concat(new ByteArrayKey((byte) 0xFF).toByteArray(), new ByteArrayKey((byte) 0x01).toByteArray(), ByteUtil.bigIntegerToBytes(bInt))).hashCode());
 		return ByteUtil.concat(new ByteArrayKey((byte) 0xFF).toByteArray(), new ByteArrayKey((byte) 0x01).toByteArray(), ByteUtil.bigIntegerToBytes(bInt));
 	}
 	
@@ -31,7 +32,7 @@ public class PingCommandHandler extends Command {
 		System.out.println("Test");
 		if(new ByteArrayKey(args.toByteArray()[1]).equals(new ByteArrayKey((byte) 0x00))) {
 			System.out.println("Sending Ping");
-			return send(args.subSet(2, args.toByteArray().length)); 
+			return send(); 
 		} else if(new ByteArrayKey(args.toByteArray()[1]).equals(new ByteArrayKey((byte) 0x01))) {
 			System.out.println("Recieved Ping");
 			return recieve(args.subSet(2, args.toByteArray().length));

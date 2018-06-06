@@ -34,6 +34,7 @@ public final class ByteArrayKey
     }
     
     public byte[] subSet(int a, int b) {
+    		System.out.println("B" + b + "A" + a);
 		byte[] temp = new byte[b-a+1];
 		try {
     			for(int i = 0; i < b-a+1; i++) {
