@@ -12,7 +12,7 @@ public class PingCommandHandler extends Command {
 	
 	public byte[] recieve(byte[] data) {
 		System.out.println(ByteUtil.bytesToBigInteger(data));
-		return ByteUtil.concat(new ByteArrayKey((byte) 0xFF).toByteArray(), new ByteArrayKey((byte) 0x01).toByteArray(), data);
+		return ByteUtil.concat(new ByteArrayKey((byte) 0xFF).toByteArray(), new ByteArrayKey((byte) 0x02).toByteArray(), data);
 	}
 
 	public byte[] send() {
