@@ -3,17 +3,23 @@ import java.io.File;
 import java.io.IOException;
 import java.security.Security;
 import java.util.ArrayList;
+import java.util.HashMap;
+
 //import java.util.Base64;
 import com.XCoin.GUI.*;
+import com.XCoin.Util.TransactionUtil;
+
 import java.io.FileNotFoundException;
 //import com.google.gson.GsonBuilder;
 import java.io.PrintWriter;
 import com.XCoin.Core.Transaction.*;
+import com.XCoin.Util.*;
 
 public class BlockChain{
 
 	private static ArrayList<Block> blockchain = new ArrayList<Block>();
 	private static ArrayList<Transaction> mempool = new ArrayList<Transaction>();
+	private static HashMap<String, Integer> decodedTransactions = new HashMap<String, Integer>();
 	public static boolean bMining;
 	private static int difficulty = 4;
 	private static float minimumTransaction = 0.1f;
@@ -93,15 +99,25 @@ public class BlockChain{
 		}
 		out.close();
 	}
-	
+
 	public static void processTransactions() {
+		String retrievedData = "";
 		for(Transaction t : mempool) {
 			System.out.println(t.toString());
 			byte[] data = t.getData();
-			for(Byte b : data) {
-				System.out.println(b.toString());
+			for(int a = 0; a < data.length; a++) {
+				Byte b = data[a];
+				System.out.println(b);
+				if(b.equals("|".getBytes()[0])) {
+					a++;
+					int endIndex = TransactionUtil.getIndex(data, "|".getBytes()[0], a);
+					while(a != endIndex) {
+						retrievedData += new String(new byte[] { data[a] });
+						a++;
+					}
+				}
 			}
-			
 		}
+		System.out.println("Retrieved Data: " + retrievedData);
 	}
 }
