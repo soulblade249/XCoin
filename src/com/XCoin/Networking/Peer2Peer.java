@@ -27,22 +27,21 @@ public class Peer2Peer {
     
     //Node with out storing Blockchain
     public Peer2Peer(int port){
-	System.out.println("Launching node");
-    this.port = port;
-    peers = new ArrayList<>();
-    serverThread = new Thread(new Runnable() {
-        public void run() {
-            try {
-                listen();
-                System.out.println("Connection Ended");
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    });		
-    initializeCommands();
-}
+		System.out.println("Launching node");
+	    this.port = port;
+	    serverThread = new Thread(new Runnable() {
+	        public void run() {
+	            try {
+	                listen();
+	                System.out.println("Connection Ended");
+	
+	            } catch (IOException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    });		
+	    initializeCommands();
+	}
     
     private void initializeCommands() {
     		/**List of Commands
@@ -109,5 +108,6 @@ public class Peer2Peer {
     		Peer2Peer node1 = new Peer2Peer(8888);
     		node1.start();
 		node1.connect(new Socket("10.70.21.149", 8888));
+		node1.peers.add(new Peer(new Socket("10.70.21.149", 8888)));
     }
 }
