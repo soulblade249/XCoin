@@ -99,7 +99,7 @@ public class Peer2Peer {
     public void connect(Socket socket){
         try {
             out = new DataOutputStream(socket.getOutputStream());
-            Peer.send(commands.get(new ByteArrayKey((byte) 0xFF)).handle(new ByteArrayKey(ByteUtil.concat(new ByteArrayKey((byte) 0xFF).toByteArray(), new ByteArrayKey((byte) 0x00).toByteArray()))), out);		
+            Peer.send(commands.get(new ByteArrayKey((byte) 0xFF)).handle(new ByteArrayKey((byte) 0xFF, (byte) 0x00)), out);		
         } catch (IOException e) {
             //e.printStackTrace();
         }

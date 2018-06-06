@@ -18,6 +18,7 @@ public class PingCommandHandler extends Command {
 	public byte[] send(ByteArrayKey args) {
 		bInt = BigInteger.valueOf(new Random().nextLong());
 		System.out.println("Sending Int: " + bInt.toString() );
+		System.out.println(ByteUtil.bigIntegerToBytes(bInt).length);
 		return ByteUtil.concat(new ByteArrayKey((byte) 0xFF).toByteArray(), new ByteArrayKey((byte) 0x01).toByteArray(), ByteUtil.bigIntegerToBytes(bInt));
 	}
 	
