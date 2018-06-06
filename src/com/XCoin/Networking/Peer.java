@@ -10,6 +10,7 @@ import java.util.HashMap;
 
 import com.XCoin.Networking.Commands.Command;
 import com.XCoin.Util.ByteArrayKey;
+import com.XCoin.Util.*;
 
 public class Peer {
 	
@@ -79,7 +80,7 @@ public class Peer {
         		size = in.readInt();
         		data = new byte[size];
         		in.readFully(data, 0, size);
-            System.out.println("Received message: "+ data);
+            System.out.println("Received message: "+ ByteUtil.bytesToBigInteger(new ByteArrayKey(data).subSet(2, data.length)));
         } catch (IOException e) {
             e.printStackTrace();
         }
