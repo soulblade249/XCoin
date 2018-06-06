@@ -9,6 +9,7 @@ import java.util.HashMap;
 
 
 import com.XCoin.Networking.Commands.Command;
+import com.XCoin.Networking.Commands.PingCommandHandler;
 import com.XCoin.Util.ByteArrayKey;
 import com.XCoin.Util.*;
 
@@ -16,7 +17,7 @@ public class Peer {
 	
     private Thread peerThread;  
     public Socket socket;
-    private static HashMap<String, Command> commands = new HashMap<>();
+    private static HashMap<ByteArrayKey, Command> commands = new HashMap<>();
     public DataOutputStream out;
     public DataInputStream in;
     
@@ -37,7 +38,11 @@ public class Peer {
 	}
 
 	private void initializeCommands() {
-		
+		/**List of Commands
+		 * 0xFF - Ping
+		 * 0xFE - Block_Height
+		 */
+		this.commands.put(new ByteArrayKey((byte)0xFF), new PingCommandHandler()); 
     }
 	
 	public void listen() throws IOException {
