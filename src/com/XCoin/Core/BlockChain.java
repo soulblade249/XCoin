@@ -4,15 +4,16 @@ import java.io.IOException;
 import java.security.Security;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 //import java.util.Base64;
 import com.XCoin.GUI.*;
-import com.XCoin.Util.TransactionUtil;
 
 import java.io.FileNotFoundException;
 //import com.google.gson.GsonBuilder;
 import java.io.PrintWriter;
 import com.XCoin.Core.Transaction.*;
+import com.XCoin.Core.cli.Main;
 import com.XCoin.Util.*;
 
 public class BlockChain{
@@ -111,13 +112,27 @@ public class BlockChain{
 				if(b.equals("|".getBytes()[0])) {
 					a++;
 					int endIndex = TransactionUtil.getIndex(data, "|".getBytes()[0], a);
-					while(a != endIndex) {
+					while(a != endIndex && a < data.length) {
 						retrievedData += new String(new byte[] { data[a] });
 						a++;
 					}
+					a--;
 				}
 			}
-		}
-		System.out.println("Retrieved Data: " + retrievedData);
+			Wallet senderWallet = null;
+			Wallet receiverWallet = null;
+			for(Map.Entry<Wallet, byte[]> w : Main.wallets.entrySet()) {
+				if(w.getKey().getPrivate().equals(KeyUtil.stringToPrivateKey(new String(t.getSender())))) {
+					senderWallet = w.getKey();
+				}
+			}
+			
+			for(Map.Entry<Wallet, byte[]> w : Main.wallets.entrySet()) {
+				if(w.getKey().getPublic().equals(KeyUtil.stringToPublicKey(new String(t.getReceiver())))) {
+					receiverWallet = w.getKey();
+				}
+			}
+			
+		}	
 	}
 }

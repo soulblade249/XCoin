@@ -54,6 +54,14 @@ public class Transaction {
 		return this.data;
 	}
 	
+	public byte[] getSender() {
+		return this.sender;
+	}
+	
+	public byte[] getReceiver() {
+		return this.receiver;
+	}
+	
 	@Override
 	public String toString() {
 		String hash = "", nonce = "", sender = "", receiver = "", sig = "", net = "", data = "";
