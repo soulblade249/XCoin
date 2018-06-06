@@ -80,7 +80,7 @@ public class Peer {
         		size = in.readInt();
         		data = new byte[size];
         		in.readFully(data, 0, size);
-            System.out.println("Received message: "+ ByteUtil.bytesToBigInteger(new ByteArrayKey(data).subSet(2, data.length)));
+            System.out.println("Received message: "+ ByteUtil.bytesToBigInteger(new ByteArrayKey(data).subSet(2, data.length-1)));
         } catch (IOException e) {
             e.printStackTrace();
         }

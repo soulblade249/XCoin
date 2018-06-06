@@ -23,8 +23,12 @@ public class PingCommandHandler extends Command {
 		return ByteUtil.concat(new ByteArrayKey((byte) 0xFF).toByteArray(), new ByteArrayKey((byte) 0x01).toByteArray(), ByteUtil.bigIntegerToBytes(bInt));
 	}
 	
-	private byte[] check(byte[] data) {
-		return null;
+	private void check(byte[] data) {
+		if(ByteUtil.bytesToBigInteger(data).equals(bInt)) {
+			System.out.println("Passed Ping Test!");
+		} else {
+			System.out.println("Failed!");
+		}
 	}
 
 	@Override
@@ -37,7 +41,7 @@ public class PingCommandHandler extends Command {
 			System.out.println("Recieved Ping");
 			return recieve(args.subSet(2, args.toByteArray().length));
 		} else if(new ByteArrayKey(args.toByteArray()[1]).equals(new ByteArrayKey((byte) 0x02))) {
-			//return check(args);
+		  check(args.subSet(2, args.toByteArray().length));
 		}
 	
 		return null;
