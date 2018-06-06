@@ -39,7 +39,7 @@ public class PingCommandHandler extends Command {
 			return send(); 
 		} else if(new ByteArrayKey(args.toByteArray()[1]).equals(new ByteArrayKey((byte) 0x01))) {
 			System.out.println("Recieved Ping");
-			return recieve(args.subSet(2, args.toByteArray().length));
+			return recieve(args.subSet(2, args.toByteArray().length-1));
 		} else if(new ByteArrayKey(args.toByteArray()[1]).equals(new ByteArrayKey((byte) 0x02))) {
 		  check(args.subSet(2, args.toByteArray().length));
 		}
