@@ -29,6 +29,7 @@ public class Peer2Peer {
     public Peer2Peer(int port){
 		System.out.println("Launching node");
 	    this.port = port;
+	    peers = new ArrayList<Peer>();
 	    serverThread = new Thread(new Runnable() {
 	        public void run() {
 	            try {
@@ -107,7 +108,8 @@ public class Peer2Peer {
     public static void main(String[] args) throws IOException {
     		Peer2Peer node1 = new Peer2Peer(8888);
     		node1.start();
+    		node1.peers.add(new Peer(new Socket("10.70.21.149", 8888)));
 		node1.connect(new Socket("10.70.21.149", 8888));
-		node1.peers.add(new Peer(new Socket("10.70.21.149", 8888)));
+		//node1.peers.add(new Peer(new Socket("10.70.21.149", 8888)));
     }
 }
