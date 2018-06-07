@@ -5,6 +5,8 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.interfaces.ECPrivateKey;
 import java.security.interfaces.ECPublicKey;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.XCoin.Core.cli.Main;
 import com.XCoin.Util.KeyUtil;
@@ -12,6 +14,9 @@ import com.XCoin.Util.KeyUtil;
 import java.math.BigInteger;
 
 public class Wallet{
+	
+	HashMap<String, Long> balanceList = new HashMap<String, Long>();
+	
 	/**
 	 * The private key of the wallet
 	 */
