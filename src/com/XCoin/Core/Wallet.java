@@ -6,7 +6,11 @@ import java.security.PublicKey;
 import java.security.interfaces.ECPrivateKey;
 import java.security.interfaces.ECPublicKey;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Currency;
 import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 
 import com.XCoin.Core.cli.Main;
 import com.XCoin.Util.KeyUtil;
@@ -14,9 +18,9 @@ import com.XCoin.Util.KeyUtil;
 import java.math.BigInteger;
 
 public class Wallet{
-	
+
 	HashMap<String, Long> balanceList = new HashMap<String, Long>();
-	
+
 	/**
 	 * The private key of the wallet
 	 */
@@ -63,6 +67,7 @@ public class Wallet{
 		this.adress = (KeyUtil.publicKeyToAddress(publicKey)).getBytes();
 		this.balance = 0;
 		this.walletId = Main.wallets.size();
+		this.balanceList = setUpBal();
 	}
 
 	/**
@@ -77,6 +82,7 @@ public class Wallet{
 		this.adress = (KeyUtil.publicKeyToAddress(this.publicKey)).getBytes();
 		this.balance = 0;
 		this.walletId = Main.wallets.size();
+		this.balanceList = setUpBal();
 	}
 
 	/**
@@ -105,24 +111,34 @@ public class Wallet{
 	/**
 	 * Returns the balance
 	 */
-	public long getBal() {
-		return this.balance;
+	public HashMap<String, Long> getBal() {
+		return this.balanceList;
 	}
 
 	/**
 	 * Adds funds to the wallet
 	 * @param amount to add
 	 */
-	public void addFunds(long amount) {
-		this.balance += amount;
+	public void addFunds(String code, long amount) {
+		for(Map.Entry<String, Long> b : this.balanceList.entrySet()) {
+			if(code.equals(b.getKey())) {
+				b.setValue(b.getValue() + amount);
+				break;
+			}
+		}
 	}
 
 	/**
 	 * Removes funds from the wallet
 	 * @param amount to remove
 	 */
-	public void removeFunds(long amount) {
-		this.balance -= amount;
+	public void removeFunds(String code, long amount) {
+		for(Map.Entry<String, Long> b : this.balanceList.entrySet()) {
+			if(code.equals(b.getKey())) {
+				b.setValue(b.getValue() - amount);
+				break;
+			}
+		}
 	}
 
 	/**
@@ -132,7 +148,22 @@ public class Wallet{
 	public long getId() {
 		return this.walletId;
 	}
-	
+
+	private HashMap<String, Long> setUpBal() {
+		HashMap<String, Long> toret = new HashMap<String, Long>();
+		Locale[] locs = Locale.getAvailableLocales();
+		for(Locale loc : locs) {
+			try {
+				Currency currency = Currency.getInstance(loc);
+				if (currency != null) {
+					toret.put(currency.getCurrencyCode(), (long) 0);
+				}
+			} catch(Exception e) {
+			}
+		}
+		return toret;
+	}
+
 	/**
 	 * To String for a file
 	 */

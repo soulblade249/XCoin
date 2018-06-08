@@ -10,6 +10,7 @@ import java.util.Map;
 import com.XCoin.GUI.*;
 
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 //import com.google.gson.GsonBuilder;
 import java.io.PrintWriter;
 import com.XCoin.Core.Transaction.*;
@@ -101,7 +102,8 @@ public class BlockChain{
 		out.close();
 	}
 
-	public static void processTransactions() {
+	public static void processTransactions() throws IOException {
+		PrintWriter out = new PrintWriter(new FileWriter("wallets.dat"));
 		String retrievedData = "";
 		for(Transaction t : mempool) {
 			System.out.println(t.toString());
@@ -121,18 +123,33 @@ public class BlockChain{
 			}
 			Wallet senderWallet = null;
 			Wallet receiverWallet = null;
-			for(Map.Entry<Wallet, byte[]> w : Main.wallets.entrySet()) {
+			for(Map.Entry<Wallet, byte[]> w : Main.wallets.entrySet()) { //Get the sender's wallet
 				if(w.getKey().getPrivate().equals(KeyUtil.stringToPrivateKey(new String(t.getSender())))) {
 					senderWallet = w.getKey();
 				}
 			}
 			
-			for(Map.Entry<Wallet, byte[]> w : Main.wallets.entrySet()) {
+			for(Map.Entry<Wallet, byte[]> w : Main.wallets.entrySet()) { //Get the receiver's wallet
 				if(w.getKey().getPublic().equals(KeyUtil.stringToPublicKey(new String(t.getReceiver())))) {
 					receiverWallet = w.getKey();
 				}
 			}
+			String[] part = retrievedData.split("(?<=\\D)(?=\\d)");
+			for(int a = 0; a < part.length; a++) {
+				if(TransactionUtil.hasBalance(senderWallet, part[a])) {
+					senderWallet.removeFunds(part[a], Long.parseLong(part[a+2]));
+					receiverWallet.addFunds(part[a], Long.parseLong(part[a+2]));
+					a++;
+				}else {
+					System.out.println("Error: Sender has none of the currency: " + part[a]);
+				}
+			}
 			
-		}	
+		}
+		
+		for(Map.Entry<Wallet, byte[]> w : Main.wallets.entrySet()) { //Get the receiver's wallet
+			out.println(w);
+		}
+		out.close();
 	}
 }

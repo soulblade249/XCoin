@@ -1,6 +1,7 @@
 package com.XCoin.Util;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import com.XCoin.Core.Wallet;
 
@@ -15,33 +16,18 @@ public class TransactionUtil {
 		}
 		return 0;
 	}
-	
-	public static ArrayList<String> extrapolateCodes(String data) {
-		String[] test = new String[data.length()];
-		ArrayList<String> toReturn = new ArrayList<String>();
-		test = data.split("");
-		for(String c : test) {
-			if(!c.contains("[0-9]+")) {
-				toReturn.add(c);
+
+	public static boolean hasBalance(Wallet w, String code) {
+		try {
+			for(Map.Entry<String, Long> b : w.getBal().entrySet()) {
+				if(code.equals(b.getKey())) {
+					return true;
+				}
 			}
+		}catch(Exception e) {
+			e.printStackTrace();
 		}
-		return toReturn;
+		return false;
 	}
-	
-	public static ArrayList<String> extrapolateNums(String data) {
-		String[] test = new String[data.length()];
-		ArrayList<String> toReturn = new ArrayList<String>();
-		test = data.split("");
-		for(String c : test) {
-			if(c.contains("[0-9]+")) {
-				toReturn.add(c);
-			}
-		}
-		return toReturn;
-	}
-	
-	public static boolean hasBalance(Wallet w) {
-		
-	}
-	
+
 }
