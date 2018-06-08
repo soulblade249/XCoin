@@ -6,7 +6,7 @@ import java.util.Random;
 import com.XCoin.Util.ByteArrayKey;
 import com.XCoin.Util.ByteUtil;
 
-public class PingCommandHandler extends Command {
+public class PingCommandHandler extends CommandHandler {
 
 	private BigInteger bInt;
 	
@@ -24,6 +24,7 @@ public class PingCommandHandler extends Command {
 	}
 	
 	private void check(byte[] data) {
+		System.out.println(ByteUtil.bytesToBigInteger(data) + " " + bInt);
 		if(ByteUtil.bytesToBigInteger(data).equals(bInt)) {
 			System.out.println("Passed Ping Test!");
 		} else {
@@ -33,7 +34,6 @@ public class PingCommandHandler extends Command {
 
 	@Override
 	public byte[] handle(ByteArrayKey args) {
-		System.out.println("Test");
 		if(new ByteArrayKey(args.toByteArray()[1]).equals(new ByteArrayKey((byte) 0x00))) {
 			System.out.println("Sending Ping");
 			return send(); 
@@ -41,7 +41,7 @@ public class PingCommandHandler extends Command {
 			System.out.println("Recieved Ping");
 			return recieve(args.subSet(2, args.toByteArray().length-1));
 		} else if(new ByteArrayKey(args.toByteArray()[1]).equals(new ByteArrayKey((byte) 0x02))) {
-		  check(args.subSet(2, args.toByteArray().length));
+		  check(args.subSet(2, args.toByteArray().length-1));
 		}
 	
 		return null;

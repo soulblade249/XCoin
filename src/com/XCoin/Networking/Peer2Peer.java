@@ -9,7 +9,7 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.XCoin.Networking.Commands.Command;
+import com.XCoin.Networking.Commands.CommandHandler;
 import com.XCoin.Networking.Commands.PingCommandHandler;
 import com.XCoin.Util.ByteArrayKey;
 import com.XCoin.Util.ByteUtil;
@@ -21,7 +21,7 @@ public class Peer2Peer {
     private DataOutputStream out;
     private Thread           serverThread;
     private boolean          runningServer;
-    private HashMap<ByteArrayKey, Command> commands = new HashMap<>();
+    public HashMap<ByteArrayKey, CommandHandler> commands = new HashMap<>();
     private ServerSocket server;
     private Socket socket;
     
@@ -51,6 +51,10 @@ public class Peer2Peer {
     		 */
         this.commands.put(new ByteArrayKey((byte)0xFF), new PingCommandHandler()); 
     }
+    
+    public HashMap<ByteArrayKey, CommandHandler> getCommands() {
+    		return commands;
+    }
 
     public void start(){
         if(serverThread.isAlive()){
@@ -66,6 +70,9 @@ public class Peer2Peer {
     		try {
         		serverThread.interrupt();
     			socket.close();
+    			for(Peer p : peers) {
+            		p.stop();
+            }
         } catch (NullPointerException n) {
         		n.printStackTrace();
         }
@@ -84,7 +91,7 @@ public class Peer2Peer {
         		try{
         			socket = server.accept();
                 System.out.println("Passed Accept");
-                peer = new Peer(socket);
+                peer = new Peer(socket, this);
                 System.out.println("Connection received from: " + peer.toString());
                 peers.add(peer);
                 System.out.println("New peer: " + peer.toString());
@@ -99,7 +106,9 @@ public class Peer2Peer {
     public void connect(Socket socket){
         try {
             out = new DataOutputStream(socket.getOutputStream());
-            Peer.send(commands.get(new ByteArrayKey((byte) 0xFF)).handle(new ByteArrayKey((byte) 0xFF, (byte) 0x00)), out);		
+            Peer peer = new Peer(socket, this);
+            peer.send(commands.get(new ByteArrayKey((byte) 0xFF)).handle(new ByteArrayKey((byte) 0xFF, (byte) 0x00)), out);	
+            peers.add(peer);
         } catch (IOException e) {
             //e.printStackTrace();
         }
@@ -108,8 +117,7 @@ public class Peer2Peer {
     public static void main(String[] args) throws IOException {
     		Peer2Peer node1 = new Peer2Peer(8888);
     		node1.start();
-    		node1.peers.add(new Peer(new Socket("10.70.21.149", 8888)));
-		node1.connect(new Socket("10.70.21.149", 8888));
+		node1.connect(new Socket("10.70.21.135", 8888));
 		//node1.peers.add(new Peer(new Socket("10.70.21.149", 8888)));
     }
 }

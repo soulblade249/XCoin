@@ -25,7 +25,7 @@ public class HelpCommand implements Command{
     @Override
     public void run(String[] args) {
         for( String key : Commander.getInstance().cmds.keySet() ){
-        	System.out.println(Commander.getInstance().cmds.get(key).getHelp());
+        		System.out.println(Commander.getInstance().cmds.get(key).getHelp());
         }
     }
 
