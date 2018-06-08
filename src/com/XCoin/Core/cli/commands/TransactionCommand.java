@@ -76,12 +76,11 @@ public class TransactionCommand implements Command{
 							if(args[2].length() != 0) {
 								byte[] data = new byte[amounts.length], transHold = new byte[1];
 								data = Integer.toString(amounts.length).getBytes();
-								String numEnder = "|";
 								for(int a = 0; a < amounts.length; a++) {
 									byte[] currencyHold = new byte[1], amountHold = new byte[1];
 									currencyHold = currency[a].getBytes();
 									amountHold = amounts[a].getBytes();
-									transHold = ByteUtil.concat(transHold, numEnder.getBytes(), currencyHold, numEnder.getBytes(), amountHold);
+									transHold = ByteUtil.concat(transHold, currencyHold, amountHold);
 								}
 								data = ByteUtil.concat(data, transHold);
 								System.out.println(new String(data));

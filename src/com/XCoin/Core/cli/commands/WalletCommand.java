@@ -91,7 +91,7 @@ public class WalletCommand implements Command{
 			}
 			out.println(userWallet.fileToString());
 			out.close();
-			Main.wallets.put(userWallet, userWallet.getAdress());
+			Main.wallets.add(userWallet);
 			Commander.repeat = false;
 		}else if(args[0].equals("retrieve")) {
 			if(file.exists()) {
@@ -153,10 +153,9 @@ public class WalletCommand implements Command{
 				}
 			}else if(args.length > 2 && args[1].equals("-private")) {
 				System.out.println("Checking hashmap");
-				for(Map.Entry<Wallet, byte[]> w : Main.wallets.entrySet()) {
-					if(w.getKey().getPrivate().equals(KeyUtil.stringToPrivateKey(args[2]))) {
-						userWallet = w.getKey();
-						System.out.println(userWallet.toString());
+				for(Wallet w : Main.wallets) {
+					if(w.getPrivate().equals(KeyUtil.stringToPrivateKey(args[2]))) {
+						userWallet = w;
 					}
 				}
 			}else { 

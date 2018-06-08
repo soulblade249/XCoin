@@ -13,7 +13,7 @@ import com.XCoin.Util.KeyUtil;
 
 public class Main {
 	
-	public static HashMap<Wallet, byte[]> wallets = new HashMap<Wallet, byte[]>();
+	public static ArrayList<Wallet> wallets = new ArrayList<Wallet>();
 	
 	public static void main(String [] args) throws IOException {	
 		

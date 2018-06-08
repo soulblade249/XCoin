@@ -26,6 +26,8 @@ public class BlockChain{
 	private static int difficulty = 4;
 	private static float minimumTransaction = 0.1f;
 	private static Block newBlock;
+	private static Wallet senderWallet;
+	private static Wallet receiverWallet;
 
 	public static void main(String[] args) throws IOException {	
 		Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider()); //Setup Bouncey castle as a Security Provider	
@@ -121,21 +123,17 @@ public class BlockChain{
 					a--;
 				}
 			}
-			Wallet senderWallet = null;
-			Wallet receiverWallet = null;
-			for(Map.Entry<Wallet, byte[]> w : Main.wallets.entrySet()) { //Get the sender's wallet
-				if(w.getKey().getPrivate().equals(KeyUtil.stringToPrivateKey(new String(t.getSender())))) {
-					senderWallet = w.getKey();
-				}
-			}
-			
-			for(Map.Entry<Wallet, byte[]> w : Main.wallets.entrySet()) { //Get the receiver's wallet
-				if(w.getKey().getPublic().equals(KeyUtil.stringToPublicKey(new String(t.getReceiver())))) {
-					receiverWallet = w.getKey();
+			for(Wallet w : Main.wallets) {
+				if(w.getPrivate().equals(KeyUtil.stringToPrivateKey(new String(t.getSender())))) {
+					senderWallet = w;
+					System.out.println("Sender");
+				}else if(w.getPublic().equals(KeyUtil.stringToPublicKey(new String(t.getReceiver())))) {
+					receiverWallet = w;
+					System.out.println("Receiver");
 				}
 			}
 			String[] part = retrievedData.split("(?<=\\D)(?=\\d)");
-			for(int a = 0; a < part.length; a++) {
+			for(int a = 0; a < part.length/2 ; a++) {
 				if(TransactionUtil.hasBalance(senderWallet, part[a])) {
 					senderWallet.removeFunds(part[a], Long.parseLong(part[a+2]));
 					receiverWallet.addFunds(part[a], Long.parseLong(part[a+2]));
@@ -147,7 +145,7 @@ public class BlockChain{
 			
 		}
 		
-		for(Map.Entry<Wallet, byte[]> w : Main.wallets.entrySet()) { //Get the receiver's wallet
+		for(Wallet w : Main.wallets) { //Get the receiver's wallet
 			out.println(w);
 		}
 		out.close();
