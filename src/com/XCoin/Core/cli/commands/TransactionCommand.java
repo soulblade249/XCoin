@@ -76,11 +76,12 @@ public class TransactionCommand implements Command{
 							if(args[2].length() != 0) {
 								byte[] data = new byte[amounts.length], transHold = new byte[1];
 								data = Integer.toString(amounts.length).getBytes();
+								String ender = "|";
 								for(int a = 0; a < amounts.length; a++) {
 									byte[] currencyHold = new byte[1], amountHold = new byte[1];
 									currencyHold = currency[a].getBytes();
 									amountHold = amounts[a].getBytes();
-									transHold = ByteUtil.concat(transHold, currencyHold, amountHold);
+									transHold = ByteUtil.concat(transHold, ender.getBytes(), currencyHold, ender.getBytes(), amountHold);
 								}
 								data = ByteUtil.concat(data, transHold);
 								System.out.println(new String(data));
@@ -90,7 +91,7 @@ public class TransactionCommand implements Command{
 								} catch (GeneralSecurityException e) {
 									e.printStackTrace();
 								}
-								Transaction t = new Transaction(Long.toString(w.getId()).getBytes(), w.getAdress(), args[4].getBytes(), "transactionCommand".getBytes(), "main".getBytes(), data);
+								Transaction t = new Transaction(Long.toString(w.getId()).getBytes(), KeyUtil.privateKeyToString(w.getPrivate()).getBytes(), args[4].getBytes(), "transactionCommand".getBytes(), "main".getBytes(), data);
 								System.out.println(t.toString());
 								BlockChain.addTransaction(t);
 							}

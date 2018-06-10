@@ -86,7 +86,7 @@ public class Commander {
 				System.out.println(ping.getHelp());
 				System.out.println(keyUtil.getHelp());
 				System.out.println(miner.getHelp());
-				System.out.println(net.getHelp());
+				//System.out.println(net.getHelp());
 				System.out.println(wallet.getHelp());
 				System.out.println(transaction.getHelp());
 				System.out.println("cmd: quit");

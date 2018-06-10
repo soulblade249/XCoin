@@ -1,6 +1,8 @@
 package com.XCoin.Util;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import com.XCoin.Core.Wallet;
@@ -19,8 +21,9 @@ public class TransactionUtil {
 
 	public static boolean hasBalance(Wallet w, String code) {
 		try {
-			for(Map.Entry<String, Long> b : w.getBal().entrySet()) {
-				if(code.equals(b.getKey())) {
+			HashMap<String, Long> walletBal = w.getBal();
+			for(String currentKey : walletBal.keySet()) {
+				if(code.equals(currentKey)) {
 					return true;
 				}
 			}
@@ -29,5 +32,20 @@ public class TransactionUtil {
 		}
 		return false;
 	}
-
+	
+	public static boolean hasAmount(Wallet w, String code, long amount) {
+		try {
+			HashMap<String, Long> walletBal = w.getBal();
+			for(int a = 0; a < walletBal.size(); a++) {
+				if(code.equals(walletBal.keySet().toArray()[a])) {
+					if(walletBal.get(walletBal.keySet().toArray()[a]) > amount) {
+						return true;
+					}
+				}
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 }

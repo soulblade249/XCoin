@@ -1,15 +1,19 @@
 package com.XCoin.Core;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.security.Security;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 //import java.util.Base64;
 import com.XCoin.GUI.*;
 
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 //import com.google.gson.GsonBuilder;
 import java.io.PrintWriter;
@@ -120,6 +124,7 @@ public class BlockChain{
 						retrievedData += new String(new byte[] { data[a] });
 						a++;
 					}
+					retrievedData += "|";
 					a--;
 				}
 			}
@@ -132,8 +137,9 @@ public class BlockChain{
 					System.out.println("Receiver");
 				}
 			}
-			String[] part = retrievedData.split("(?<=\\D)(?=\\d)");
+			String[] part = retrievedData.replace("|", " ").split(" ");		
 			for(int a = 0; a < part.length/2 ; a++) {
+				System.out.println("Calling has balance with senderWallet: " + senderWallet + " partA: " + part[a]);
 				if(TransactionUtil.hasBalance(senderWallet, part[a])) {
 					senderWallet.removeFunds(part[a], Long.parseLong(part[a+2]));
 					receiverWallet.addFunds(part[a], Long.parseLong(part[a+2]));
@@ -141,13 +147,25 @@ public class BlockChain{
 				}else {
 					System.out.println("Error: Sender has none of the currency: " + part[a]);
 				}
-			}
-			
+			}			
 		}
 		
-		for(Wallet w : Main.wallets) { //Get the receiver's wallet
+		for(Wallet w : Main.wallets) { //Print the Wallets
 			out.println(w);
 		}
 		out.close();
+	}
+	
+	public static void propagateWallet() throws FileNotFoundException, GeneralSecurityException {
+		String homeDir = System.getProperty("user.home");
+		File file = new File(homeDir + "/Desktop/" + "wallets.txt");
+		BufferedReader f = new BufferedReader(new FileReader(file));
+		Scanner in = new Scanner(f);
+		while(in.hasNextLine()) {
+			String line = in.nextLine();
+			int index = line.indexOf(" ");
+			String privateKe = line.substring(index + 1, line.length());
+			Wallet w = new Wallet(KeyUtil.stringToPrivateKey(privateKe));
+		}
 	}
 }
