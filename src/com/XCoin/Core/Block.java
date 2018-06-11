@@ -14,7 +14,7 @@ public class Block {
 	private static ArrayList<Transaction> transactionTable = new ArrayList<Transaction>();
 	
 	//Block Constructor.  
-	public Block(String previousHash ) {
+	public Block(String previousHash) {
 		this.previousHash = previousHash;
 		this.timeStamp = new Date().getTime();
 		this.hash = calculateHash(); //Making sure we do this after we set the other values.

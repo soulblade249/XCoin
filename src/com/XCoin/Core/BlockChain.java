@@ -36,6 +36,14 @@ public class BlockChain{
 	public static void main(String[] args) throws IOException {	
 		Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider()); //Setup Bouncey castle as a Security Provider	
 	}
+	
+	public BlockChain() {
+		Block genesisBlock = null;
+		if(blockchain.size() == 0) {
+			genesisBlock = new Block("0");
+			blockchain.add(genesisBlock);
+		}
+	}
 
 	private void loadChain() {
 
@@ -76,11 +84,6 @@ public class BlockChain{
 	}
 
 	public static void mine(MinerGui gui) {
-		Block genesisBlock = null;
-		if(blockchain.size() == 0) {
-			genesisBlock = new Block("0");
-			blockchain.add(genesisBlock);
-		}
 		bMining = true;
 		String target = new String(new char[difficulty]).replace('\0', '0'); //Create a string with difficulty * "0" 
 		while(bMining) {

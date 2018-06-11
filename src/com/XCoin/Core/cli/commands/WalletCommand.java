@@ -23,6 +23,9 @@ import java.security.interfaces.ECPrivateKey;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Scanner;
+
+import org.bouncycastle.util.encoders.Hex;
+
 import java.security.interfaces.ECPublicKey;
 
 /**
@@ -131,7 +134,7 @@ public class WalletCommand implements Command{
 									System.out.println("Public Key: " + KeyUtil.publicKeyToString(userWallet.getPublic()));
 									break;
 								case 3:
-									System.out.println("Address: " + new String(userWallet.getAddress()));
+									System.out.println("Address: " + Hex.toHexString(userWallet.getAddress()));
 									break;
 								case 4:
 									System.out.println("Balance: " + userWallet.getBal());

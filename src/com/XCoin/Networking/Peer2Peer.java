@@ -123,7 +123,7 @@ public class Peer2Peer {
 		//node1.peers.add(new Peer(new Socket("10.70.21.149", 8888)));
     }
     
-    public static void propogate(ByteArrayKey data) {
+    public static void propagate(ByteArrayKey data) {
     		for(Peer p: peers) {
     			p.send(data.toByteArray(), p.out);
     		}

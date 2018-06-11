@@ -11,6 +11,8 @@ import com.XCoin.Core.Transaction;
 import com.XCoin.Core.Wallet;
 import com.XCoin.Core.cli.Commander;
 import com.XCoin.Core.cli.Main;
+import com.XCoin.Networking.Peer2Peer;
+import com.XCoin.Util.ByteArrayKey;
 import com.XCoin.Util.ByteUtil;
 import com.XCoin.Util.KeyUtil;
 
@@ -86,14 +88,10 @@ public class TransactionCommand implements Command{
 								}
 								data = ByteUtil.concat(data, transHold);
 								System.out.println(new String(data));
-								Wallet w = null;
-								try {
-									w = new Wallet(KeyUtil.stringToPrivateKey(args[2]));
-								} catch (GeneralSecurityException e) {
-									e.printStackTrace();
-								}
-								Transaction t = new Transaction(KeyUtil.publicKeyToAddress(w.getPublic()), args[4].getBytes(), "transactionCommand".getBytes(), "main".getBytes(), data);
+								Transaction t = new Transaction(args[2].getBytes(), args[4].getBytes(), "transactionCommand".getBytes(), "main".getBytes(), data);
 								System.out.println(t.toString());
+								byte[] temp =  null;
+								Peer2Peer.propagate(new ByteArrayKey(ByteUtil.concat(new ByteArrayKey((byte) 0x00, (byte) 0x00).toByteArray(), t.toByteArray())));
 								BlockChain.addTransaction(t);
 							}
 						}
