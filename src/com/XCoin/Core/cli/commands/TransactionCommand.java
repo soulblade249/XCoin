@@ -89,9 +89,11 @@ public class TransactionCommand implements Command{
 								data = ByteUtil.concat(data, transHold);
 								System.out.println(new String(data));
 								Transaction t = new Transaction(args[2].getBytes(), args[4].getBytes(), "transactionCommand".getBytes(), "main".getBytes(), data);
+								System.out.println("Created Transaction");
 								System.out.println(t.toString());
-								byte[] temp =  null;
+								System.out.println("Propagating");
 								Peer2Peer.propagate(new ByteArrayKey(ByteUtil.concat(new ByteArrayKey((byte) 0x00, (byte) 0x00).toByteArray(), t.toByteArray())));
+								System.out.println("Propagated");
 								BlockChain.addTransaction(t);
 							}
 						}
