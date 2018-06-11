@@ -3,13 +3,15 @@ package com.XCoin.Networking.Commands;
 import java.math.BigInteger;
 import java.util.Random;
 
+import com.XCoin.Core.Transaction;
 import com.XCoin.Util.ByteArrayKey;
 import com.XCoin.Util.ByteUtil;
 
 public class TransactionCommandHandler extends CommandHandler {
 
-	public byte[] recieve(byte[] data) {
-		Transaction t = new Transaction()
+	public byte[] recieve(ByteArrayKey data) {
+		Transaction t = new Transaction(data.subSet(0, 31), data.subSet(32, 63), data.subSet(64, 81), data.subSet(82, 82), data.subSet(83, data.toByteArray().length-1));
+		return t;
 	}
 
 	public byte[] send(byte[] data) {
@@ -27,7 +29,7 @@ public class TransactionCommandHandler extends CommandHandler {
 			return send(args.subSet(2, args.toByteArray().length-1)); 
 		} else if(new ByteArrayKey(args.toByteArray()[1]).equals(new ByteArrayKey((byte) 0x01))) {
 			System.out.println("Recieved Transaction");
-			return recieve(args.subSet(2, args.toByteArray().length-1));
+			return recieve(new ByteArrayKey(args.subSet(2, args.toByteArray().length-1)));
 		} else if(new ByteArrayKey(args.toByteArray()[1]).equals(new ByteArrayKey((byte) 0x02))) {
 		  check(args.subSet(2, args.toByteArray().length-1));
 		}

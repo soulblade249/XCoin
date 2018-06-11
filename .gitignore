@@ -5,3 +5,5 @@
 /build/
 bin/com/XCoin/Core/cli/Commander.class
 bin/com/XCoin/Core/cli/Commander.class
+src/com/XCoin/Core/cli/commands/TransactionCommand.java
+src/com/XCoin/Core/cli/commands/TransactionCommand.java
