@@ -39,15 +39,21 @@ public class Block {
 		}
 	}
 	
-	public static void addTransaction(Transaction t) {
-		transactionTable.add(t);
-	}
-	
 	public static int getTransactionTableSize() {
 		return transactionTable.size();	
 	}
 	
 	public static Transaction getTransaction(int a) {
 		return transactionTable.get(a);
+	}
+	
+	public static void getTransactions() {
+		while(BlockChain.getMemPool().size() != 0) {
+			if(transactionTable.size() < 10) {
+				transactionTable.add(BlockChain.getMemPool().remove(0));
+			}else {
+				break;
+			}
+		}
 	}
 }

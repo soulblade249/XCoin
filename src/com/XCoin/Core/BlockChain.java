@@ -27,7 +27,7 @@ public class BlockChain{
 	private static ArrayList<Transaction> mempool = new ArrayList<Transaction>();
 	private static HashMap<String, Integer> decodedTransactions = new HashMap<String, Integer>();
 	public static boolean bMining;
-	private static int difficulty = 4;
+	private static int difficulty = 5;
 	private static float minimumTransaction = 0.1f;
 	private static Block newBlock;
 	private static Wallet senderWallet;
@@ -132,10 +132,10 @@ public class BlockChain{
 					}
 				}
 				for(Wallet w : Main.wallets) {
-					if(w.getPrivate().equals(KeyUtil.stringToPrivateKey(new String(t.getSender())))) {
+					if(w.getAdress().equals(t.getSender())) {
 						senderWallet = w;
 						System.out.println("Sender");
-					}else if(w.getPublic().equals(KeyUtil.stringToPublicKey(new String(t.getReceiver())))) {
+					}else if(w.getAdress().equals(t.getReceiver())) {
 						receiverWallet = w;
 						System.out.println("Receiver");
 					}
@@ -170,6 +170,11 @@ public class BlockChain{
 			int index = line.indexOf(" ");
 			String privateKe = line.substring(index + 1, line.length());
 			Wallet w = new Wallet(KeyUtil.stringToPrivateKey(privateKe), true);
+			Main.wallets.add(w);
 		}
+	}
+	
+	public static ArrayList<Transaction> getMemPool() {
+		return mempool;
 	}
 }

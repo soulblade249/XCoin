@@ -32,22 +32,17 @@ public class Transaction {
 		this.sender = sender;
 		this.receiver = receiver;
 		this.signature = signature;
-		System.out.println("Sig Length: " + this.signature.length);
 		this.networkId = networkid;
-		System.out.println("Created stuff, getting to hash");
+		System.out.println("Created Stuff, Hash");
 		this.hash = getHash(this.sender, this.receiver, this.signature, this.networkId, this.data);
-		System.out.println("After hash");
+		System.out.println("Created Hash");
 	}
 	
 	
 	private byte[] getHash(byte[] ... data) {
 		byte[] temp = null;
-		System.out.println("Entered Hash");
-		for(byte[] b : data) {
-			ByteUtil.concat(temp, b);
-		}
-		System.out.println("Made Hash");
-		return temp;
+		temp = ByteUtil.merge(data);
+		return HashUtil.applySHA256(temp);
 	}
 	
 	private String hashToString(byte[] data) {

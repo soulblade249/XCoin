@@ -92,9 +92,9 @@ public class TransactionCommand implements Command{
 								} catch (GeneralSecurityException e) {
 									e.printStackTrace();
 								}
-								Transaction t = new Transaction(KeyUtil.privateKeyToString(w.getPrivate()).getBytes(), args[4].getBytes(), "transactionCommand".getBytes(), "main".getBytes(), data);
+								Transaction t = new Transaction(KeyUtil.publicKeyToAddress(w.getPublic()).getBytes(), args[4].getBytes(), "transactionCommand".getBytes(), "main".getBytes(), data);
 								System.out.println(t.toString());
-								Block.addTransaction(t);
+								BlockChain.addTransaction(t);
 							}
 						}
 					}

@@ -85,6 +85,13 @@ public class Wallet{
 		this.balanceList = setUpBal();
 	}
 	
+	/**
+	 * Creates a new Wallet
+	 * @param privKey the private key of the wallet
+	 * @param balSet wether or not to make a new bal
+	 * @throws GeneralSecurityException
+	 */
+	
 	public Wallet(ECPrivateKey privKey, boolean balSet) throws GeneralSecurityException {
 		this.privateKey = privKey;
 		this.publicKey = KeyUtil.getPublicKey(privKey);
@@ -127,12 +134,7 @@ public class Wallet{
 	 * @param amount to add
 	 */
 	public void addFunds(String code, long amount) {
-		for(Map.Entry<String, Long> b : this.balanceList.entrySet()) {
-			if(code.equals(b.getKey())) {
-				b.setValue(b.getValue() + amount);
-				break;
-			}
-		}
+		balanceList.replace(code, amount);
 	}
 
 	/**
