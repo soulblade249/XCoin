@@ -15,15 +15,20 @@ import com.XCoin.Util.KeyUtil;
 public class Main {
 	
 	public static ArrayList<Wallet> wallets = new ArrayList<Wallet>();
-	public static Wallet testWallet = new Wallet();
+	public static Wallet testWallet = setUpTestWallet();
 	
 	public static void main(String [] args) throws IOException, GeneralSecurityException {
-		testWallet.addFunds("USD", 500);
-		testWallet.addFunds("JYP", 500);
 		Commander cmd = new Commander();
 		cmd.menu();
 		BlockChain.propagateWallet();
 		System.out.println("Propagated Wallets");
 		BlockChain.processTransactions();
+	}
+	
+	public static Wallet setUpTestWallet() {
+		Wallet test = new Wallet();
+		test.addFunds("USD", 500);
+		test.addFunds("JYP", 500);
+		return test;
 	}
 }

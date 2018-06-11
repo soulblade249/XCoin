@@ -139,25 +139,28 @@ public class BlockChain{
 						receiverWallet = w;
 						System.out.println("Receiver");
 					}
-				}
-				String[] part = retrievedData.replace("|", " ").split(" ");		
-				for(int a = 0; a < part.length/2 ; a++) {
-					System.out.println("Calling has balance with senderWallet: " + senderWallet + " partA: " + part[a]);
-					if(TransactionUtil.hasBalance(senderWallet, part[a])) {
-						senderWallet.removeFunds(part[a], Long.parseLong(part[a+1]));
-						receiverWallet.addFunds(part[a], Long.parseLong(part[a+1]));
-						a++;
-					}else {
-						System.out.println("Error: Sender has none of the currency: " + part[a]);
+					senderWallet = Main.testWallet;
+					String[] part = retrievedData.replace("|", " ").split(" ");		
+					for(int a = 0; a < part.length/2 ; a++) {
+						System.out.println("Calling has balance with senderWallet: " + senderWallet + " partA: " + part[a]);
+						if(TransactionUtil.hasBalance(senderWallet, part[a])) {
+							senderWallet.removeFunds(part[a], Long.parseLong(part[a+1]));
+							receiverWallet.addFunds(part[a], Long.parseLong(part[a+1]));
+							a++;
+						}else {
+							System.out.println("Error: Sender has none of the currency: " + part[a]);
+						}
 					}
+					size--;
 				}
-				size--;
 			}
+			for(Wallet w : Main.wallets) { //Print the Wallets
+				out.println(w);
+			}
+			System.out.println("Sender Wallet now has balance: " + senderWallet.getBal());
+			System.out.println("Receiver Wallet now has balance: " + receiverWallet.getBal());
+			out.close();
 		}
-		for(Wallet w : Main.wallets) { //Print the Wallets
-			out.println(w);
-		}
-		out.close();
 	}
 
 	public static void propagateWallet() throws FileNotFoundException, GeneralSecurityException {
@@ -173,7 +176,7 @@ public class BlockChain{
 			Main.wallets.add(w);
 		}
 	}
-	
+
 	public static ArrayList<Transaction> getMemPool() {
 		return mempool;
 	}
