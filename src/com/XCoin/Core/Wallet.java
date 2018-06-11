@@ -32,7 +32,7 @@ public class Wallet{
 	/**
 	 * The address of the wallet
 	 */
-	private byte[] adress;
+	private byte[] address;
 	/**
 	 * The balance of the wallet
 	 */
@@ -64,7 +64,7 @@ public class Wallet{
 		String pubK = KeyUtil.publicKeyToString((ECPublicKey) pub);
 		this.privateKey = KeyUtil.stringToPrivateKey(privateK);
 		this.publicKey = KeyUtil.stringToPublicKey(pubK);
-		this.address = (KeyUtil.publicKeyToAddress(publicKey)).getBytes();
+		this.address = (KeyUtil.publicKeyToAddress(publicKey));
 		this.balance = 0;
 		this.walletId = Main.wallets.size();
 		this.balanceList = setUpBal();
@@ -79,7 +79,7 @@ public class Wallet{
 	public Wallet(ECPrivateKey privKey) throws GeneralSecurityException {
 		this.privateKey = privKey;
 		this.publicKey = KeyUtil.getPublicKey(privKey);
-		this.address = (KeyUtil.publicKeyToAddress(this.publicKey)).getBytes();
+		this.address = (KeyUtil.publicKeyToAddress(this.publicKey));
 		this.balance = 0;
 		this.walletId = Main.wallets.size();
 		this.balanceList = setUpBal();
@@ -95,7 +95,7 @@ public class Wallet{
 	public Wallet(ECPrivateKey privKey, boolean balSet) throws GeneralSecurityException {
 		this.privateKey = privKey;
 		this.publicKey = KeyUtil.getPublicKey(privKey);
-		this.address = (KeyUtil.publicKeyToAddress(this.publicKey)).getBytes();
+		this.address = (KeyUtil.publicKeyToAddress(this.publicKey));
 		this.walletId = Main.wallets.size();
 	}
 
