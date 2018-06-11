@@ -10,8 +10,9 @@ import com.XCoin.Util.ByteUtil;
 public class TransactionCommandHandler extends CommandHandler {
 
 	public byte[] recieve(ByteArrayKey data) {
-		Transaction t = new Transaction(data.subSet(0, 31), data.subSet(32, 63), data.subSet(64, 81), data.subSet(82, 82), data.subSet(83, data.toByteArray().length-1));
-		return t;
+		Transaction t = new Transaction(data.subSet(0, 31), data.subSet(32, 63), data.subSet(64, 81), data.subSet(82, 82), data.subSet(83, 98), data.subSet(99, data.toByteArray().length-1));
+		System.out.println(t);
+		return null;
 	}
 
 	public byte[] send(byte[] data) {

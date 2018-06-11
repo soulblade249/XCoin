@@ -38,6 +38,15 @@ public class Transaction {
 		System.out.println("Created Hash");
 	}
 	
+	public Transaction(byte[] hash, byte[] sender, byte[] receiver, byte[] signature, byte[] networkid, byte[] data) {
+		this.data = data;
+		this.sender = sender;
+		this.receiver = receiver;
+		this.signature = signature;
+		this.networkId = networkid;
+		this.hash = hash;
+	}
+	
 	
 	private byte[] getHash(byte[] ... data) {
 		byte[] temp = null;
