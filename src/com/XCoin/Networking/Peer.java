@@ -88,10 +88,12 @@ public class Peer {
     public void send(byte[] data, DataOutputStream out){
         System.out.println("Sending message: " + data);
         try {
-        		System.out.println(data.length);
-        		out.writeInt(data.length);
-            out.write(data);
-            out.flush();
+        		if(data != null) {
+        			System.out.println(data.length);
+	        		out.writeInt(data.length);
+	            out.write(data);
+	            out.flush();
+        		}
         } catch (IOException e) {
             e.printStackTrace();
         }
