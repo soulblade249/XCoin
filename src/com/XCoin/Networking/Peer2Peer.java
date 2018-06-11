@@ -28,7 +28,6 @@ public class Peer2Peer {
     
     //Node with out storing Blockchain
     public Peer2Peer(int port){
-		System.out.println("Launching node");
 	    this.port = port;
 	    peers = new ArrayList<Peer>();
 	    serverThread = new Thread(new Runnable() {
@@ -82,10 +81,7 @@ public class Peer2Peer {
     }
 
     public void listen() throws IOException, SocketTimeoutException{
-        System.out.println("Server starting...");
         server = new ServerSocket(this.port);
-        System.out.println("Server started on port " + this.port);
-        	
         Peer peer;
         server.setSoTimeout(10000);
         while(runningServer){

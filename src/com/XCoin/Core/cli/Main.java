@@ -17,9 +17,12 @@ public class Main {
 	
 	public static ArrayList<Wallet> wallets = new ArrayList<Wallet>();
 	public static Wallet testWallet = setUpTestWallet();
+	public static Peer2Peer node;
 	
 	public static void main(String [] args) throws IOException, GeneralSecurityException {
 		Commander cmd = new Commander();
+		node = new Peer2Peer(8888);
+		node.start();
 		cmd.menu();
 		BlockChain.propagateWallet();
 		System.out.println("Propagated Wallets");
