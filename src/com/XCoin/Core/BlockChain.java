@@ -111,51 +111,55 @@ public class BlockChain{
 	public static void processTransactions() throws IOException {
 		PrintWriter out = new PrintWriter(new FileWriter("wallets.dat"));
 		String retrievedData = "";
-		for(Transaction t : mempool) {
-			System.out.println(t.toString());
-			byte[] data = t.getData();
-			for(int a = 0; a < data.length; a++) {
-				Byte b = data[a];
-				System.out.println(b);
-				if(b.equals("|".getBytes()[0])) {
-					a++;
-					int endIndex = TransactionUtil.getIndex(data, "|".getBytes()[0], a);
-					while(a != endIndex && a < data.length) {
-						retrievedData += new String(new byte[] { data[a] });
+		int size = Block.getTransactionTableSize();
+		for(Block c : blockchain) {
+			while(c.hasTransaction(size)) {
+				Transaction t = c.getTransaction(size);
+				System.out.println(t.toString());
+				byte[] data = t.getData();
+				for(int a = 0; a < data.length; a++) {
+					Byte b = data[a];
+					System.out.println(b);
+					if(b.equals("|".getBytes()[0])) {
 						a++;
+						int endIndex = TransactionUtil.getIndex(data, "|".getBytes()[0], a);
+						while(a != endIndex && a < data.length) {
+							retrievedData += new String(new byte[] { data[a] });
+							a++;
+						}
+						retrievedData += "|";
+						a--;
 					}
-					retrievedData += "|";
-					a--;
 				}
+				for(Wallet w : Main.wallets) {
+					if(w.getPrivate().equals(KeyUtil.stringToPrivateKey(new String(t.getSender())))) {
+						senderWallet = w;
+						System.out.println("Sender");
+					}else if(w.getPublic().equals(KeyUtil.stringToPublicKey(new String(t.getReceiver())))) {
+						receiverWallet = w;
+						System.out.println("Receiver");
+					}
+				}
+				String[] part = retrievedData.replace("|", " ").split(" ");		
+				for(int a = 0; a < part.length/2 ; a++) {
+					System.out.println("Calling has balance with senderWallet: " + senderWallet + " partA: " + part[a]);
+					if(TransactionUtil.hasBalance(senderWallet, part[a])) {
+						senderWallet.removeFunds(part[a], Long.parseLong(part[a+1]));
+						receiverWallet.addFunds(part[a], Long.parseLong(part[a+1]));
+						a++;
+					}else {
+						System.out.println("Error: Sender has none of the currency: " + part[a]);
+					}
+				}
+				size--;
 			}
-			for(Wallet w : Main.wallets) {
-				if(w.getPrivate().equals(KeyUtil.stringToPrivateKey(new String(t.getSender())))) {
-					senderWallet = w;
-					System.out.println("Sender");
-				}else if(w.getPublic().equals(KeyUtil.stringToPublicKey(new String(t.getReceiver())))) {
-					receiverWallet = w;
-					System.out.println("Receiver");
-				}
-			}
-			String[] part = retrievedData.replace("|", " ").split(" ");		
-			for(int a = 0; a < part.length/2 ; a++) {
-				System.out.println("Calling has balance with senderWallet: " + senderWallet + " partA: " + part[a]);
-				if(TransactionUtil.hasBalance(senderWallet, part[a])) {
-					senderWallet.removeFunds(part[a], Long.parseLong(part[a+2]));
-					receiverWallet.addFunds(part[a], Long.parseLong(part[a+2]));
-					a++;
-				}else {
-					System.out.println("Error: Sender has none of the currency: " + part[a]);
-				}
-			}			
 		}
-		
 		for(Wallet w : Main.wallets) { //Print the Wallets
 			out.println(w);
 		}
 		out.close();
 	}
-	
+
 	public static void propagateWallet() throws FileNotFoundException, GeneralSecurityException {
 		String homeDir = System.getProperty("user.home");
 		File file = new File(homeDir + "/Desktop/" + "wallets.txt");
@@ -165,7 +169,7 @@ public class BlockChain{
 			String line = in.nextLine();
 			int index = line.indexOf(" ");
 			String privateKe = line.substring(index + 1, line.length());
-			Wallet w = new Wallet(KeyUtil.stringToPrivateKey(privateKe));
+			Wallet w = new Wallet(KeyUtil.stringToPrivateKey(privateKe), true);
 		}
 	}
 }

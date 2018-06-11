@@ -84,6 +84,13 @@ public class Wallet{
 		this.walletId = Main.wallets.size();
 		this.balanceList = setUpBal();
 	}
+	
+	public Wallet(ECPrivateKey privKey, boolean balSet) throws GeneralSecurityException {
+		this.privateKey = privKey;
+		this.publicKey = KeyUtil.getPublicKey(privKey);
+		this.adress = (KeyUtil.publicKeyToAddress(this.publicKey)).getBytes();
+		this.walletId = Main.wallets.size();
+	}
 
 	/**
 	 * Gets the private key of the wallet

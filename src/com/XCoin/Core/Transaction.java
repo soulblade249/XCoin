@@ -32,15 +32,21 @@ public class Transaction {
 		this.sender = sender;
 		this.receiver = receiver;
 		this.signature = signature;
+		System.out.println("Sig Length: " + this.signature.length);
 		this.networkId = networkid;
-		this.hash = getHash();
+		System.out.println("Created stuff, getting to hash");
+		this.hash = getHash(this.sender, this.receiver, this.signature, this.networkId, this.data);
+		System.out.println("After hash");
 	}
+	
 	
 	private byte[] getHash(byte[] ... data) {
 		byte[] temp = null;
+		System.out.println("Entered Hash");
 		for(byte[] b : data) {
 			ByteUtil.concat(temp, b);
 		}
+		System.out.println("Made Hash");
 		return temp;
 	}
 	

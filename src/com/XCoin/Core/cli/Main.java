@@ -1,5 +1,6 @@
 package com.XCoin.Core.cli;
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -15,10 +16,10 @@ public class Main {
 	
 	public static ArrayList<Wallet> wallets = new ArrayList<Wallet>();
 	
-	public static void main(String [] args) throws IOException {	
-		
+	public static void main(String [] args) throws IOException, GeneralSecurityException {	
 		Commander cmd = new Commander();
 		cmd.menu();
+		BlockChain.propagateWallet();
 		BlockChain.processTransactions();
 	}
 }
