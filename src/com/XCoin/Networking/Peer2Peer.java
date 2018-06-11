@@ -11,6 +11,7 @@ import java.util.HashMap;
 
 import com.XCoin.Networking.Commands.CommandHandler;
 import com.XCoin.Networking.Commands.PingCommandHandler;
+import com.XCoin.Networking.Commands.TransactionCommandHandler;
 import com.XCoin.Util.ByteArrayKey;
 import com.XCoin.Util.ByteUtil;
 
@@ -47,9 +48,10 @@ public class Peer2Peer {
     private void initializeCommands() {
     		/**List of Commands
     		 * 0xFF - Ping
-    		 * 0xFE - Block_Height
+    		 * 0x00 - Transaction
     		 */
         this.commands.put(new ByteArrayKey((byte)0xFF), new PingCommandHandler()); 
+        this.commands.put(new ByteArrayKey((byte)0x00), new TransactionCommandHandler());
     }
     
     public HashMap<ByteArrayKey, CommandHandler> getCommands() {
