@@ -50,9 +50,9 @@ public class Wallet{
 		/*
 		 * Create the key pair and the different keys
 		 */
-		KeyPair keys = null;
-		PrivateKey priv = null;
-		PublicKey pub = null;
+		KeyPair keys;
+		PrivateKey priv;
+		PublicKey pub;
 
 		/*
 		 * Generate the keys and get private and public ones 

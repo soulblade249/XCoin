@@ -1,6 +1,7 @@
 package com.XCoin.Core.cli;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.security.Security;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -26,6 +27,7 @@ public class Main {
 	}
 	
 	public static Wallet setUpTestWallet() {
+		Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider()); //Setup Bouncey castle as a Security Provider
 		Wallet test = new Wallet();
 		test.addFunds("USD", 500);
 		test.addFunds("JYP", 500);
