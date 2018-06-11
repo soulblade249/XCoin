@@ -18,11 +18,11 @@ import com.XCoin.Util.ByteUtil;
 public class Peer2Peer {
 
 	private int port;
-    private ArrayList<Peer>  peers;
+    private static ArrayList<Peer>  peers;
     private DataOutputStream out;
     private Thread           serverThread;
     private boolean          runningServer;
-    public HashMap<ByteArrayKey, CommandHandler> commands = new HashMap<>();
+    public 	static HashMap<ByteArrayKey, CommandHandler> commands = new HashMap<>();
     private ServerSocket server;
     private Socket socket;
     
@@ -121,5 +121,11 @@ public class Peer2Peer {
     		node1.start();
 		node1.connect(new Socket("10.70.21.135", 8888));
 		//node1.peers.add(new Peer(new Socket("10.70.21.149", 8888)));
+    }
+    
+    public static void propogate(ByteArrayKey data) {
+    		for(Peer p: peers) {
+    			p.send(data.toByteArray(), p.out);
+    		}
     }
 }
