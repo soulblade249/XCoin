@@ -132,10 +132,10 @@ public class BlockChain{
 					}
 				}
 				for(Wallet w : Main.wallets) {
-					if(w.getAdress().equals(t.getSender())) {
+					if(w.getAddress().equals(t.getSender())) {
 						senderWallet = w;
 						System.out.println("Sender");
-					}else if(w.getAdress().equals(t.getReceiver())) {
+					}else if(w.getAddress().equals(t.getReceiver())) {
 						receiverWallet = w;
 						System.out.println("Receiver");
 					}

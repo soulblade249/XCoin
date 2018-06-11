@@ -131,7 +131,7 @@ public class WalletCommand implements Command{
 									System.out.println("Public Key: " + KeyUtil.publicKeyToString(userWallet.getPublic()));
 									break;
 								case 3:
-									System.out.println("Address: " + new String(userWallet.getAdress()));
+									System.out.println("Address: " + new String(userWallet.getAddress()));
 									break;
 								case 4:
 									System.out.println("Balance: " + userWallet.getBal());
