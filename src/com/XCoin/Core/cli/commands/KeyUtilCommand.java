@@ -98,7 +98,7 @@ public class KeyUtilCommand implements Command {
 			ECPrivateKey privkey = KeyUtil.stringToPrivateKey(priv);
 			ECPublicKey pubkey = KeyUtil.stringToPublicKey(pub);
 			//converting key to address:
-			String address = KeyUtil.publicKeyToAddress(pubkey);
+			byte[] address = KeyUtil.publicKeyToAddress(pubkey);
 			// String private = KeyUtil.privateKeyToString(privkey);
 
 
