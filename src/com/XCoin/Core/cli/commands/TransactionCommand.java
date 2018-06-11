@@ -5,6 +5,7 @@ import java.security.GeneralSecurityException;
 import java.security.Security;
 import java.util.Arrays;
 
+import com.XCoin.Core.Block;
 import com.XCoin.Core.BlockChain;
 import com.XCoin.Core.Transaction;
 import com.XCoin.Core.Wallet;
@@ -91,7 +92,11 @@ public class TransactionCommand implements Command{
 								} catch (GeneralSecurityException e) {
 									e.printStackTrace();
 								}
+<<<<<<< HEAD
 								Transaction t = new Transaction(KeyUtil.publicKeyToAddress(w.getPublic()), args[4].getBytes(), "transactionCommand".getBytes(), "main".getBytes(), data);
+=======
+								Transaction t = new Transaction(KeyUtil.publicKeyToAddress(w.getPublic()).getBytes(), args[4].getBytes(), "transactionCommand".getBytes(), "main".getBytes(), data);
+>>>>>>> bcb5c7addd2b237863e1d5d186ff64df4579cb9e
 								System.out.println(t.toString());
 								BlockChain.addTransaction(t);
 							}

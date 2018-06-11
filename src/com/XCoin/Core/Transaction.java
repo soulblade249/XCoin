@@ -33,15 +33,16 @@ public class Transaction {
 		this.receiver = receiver;
 		this.signature = signature;
 		this.networkId = networkid;
-		this.hash = getHash();
+		System.out.println("Created Stuff, Hash");
+		this.hash = getHash(this.sender, this.receiver, this.signature, this.networkId, this.data);
+		System.out.println("Created Hash");
 	}
+	
 	
 	private byte[] getHash(byte[] ... data) {
 		byte[] temp = null;
-		for(byte[] b : data) {
-			ByteUtil.concat(temp, b);
-		}
-		return temp;
+		temp = ByteUtil.merge(data);
+		return HashUtil.applySHA256(temp);
 	}
 	
 	private String hashToString(byte[] data) {

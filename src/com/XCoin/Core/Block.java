@@ -11,6 +11,7 @@ public class Block {
 	public static String merkleRoot;
 	public static long timeStamp; //as number of milliseconds since 1/1/1970.
 	public static int nonce;
+	private static ArrayList<Transaction> transactionTable = new ArrayList<Transaction>();
 	
 	//Block Constructor.  
 	public Block(String previousHash ) {
@@ -28,5 +29,31 @@ public class Block {
 				merkleRoot
 				);
 		return calculatedhash;
+	}
+	
+	public static boolean hasTransaction(int size) {
+		if(size > 0) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	public static int getTransactionTableSize() {
+		return transactionTable.size();	
+	}
+	
+	public static Transaction getTransaction(int a) {
+		return transactionTable.get(a);
+	}
+	
+	public static void getTransactions() {
+		while(BlockChain.getMemPool().size() != 0) {
+			if(transactionTable.size() < 10) {
+				transactionTable.add(BlockChain.getMemPool().remove(0));
+			}else {
+				break;
+			}
+		}
 	}
 }
