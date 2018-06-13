@@ -99,6 +99,7 @@ public class BlockChain{
 				blockchain.add(newBlock);
 				gui.displayText("Block Mined: " + newBlock.hash + " Time: " + newBlock.timeStamp);
 			}
+			newBlock.getTransactions();
 		}
 		System.out.println("Stopping mining");
 	}
