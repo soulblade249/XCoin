@@ -28,13 +28,13 @@ public class TransactionCommand implements Command{
 		return  "cmd: transaction \n" +
 				"- description: A tool for creating transactions, if more info is needed about parameter, please type 'transaction help paramName' \n" +
 				"- usage: transaction param [situational...] \n"+
-				"- param: 'create' [-private] [-receiver] [-amount] [-currency], 'accept' [-private], 'help' [-param] \n"+
+				"- param: 'create' [-sender] [-receiver] [-amount] [-currency], 'accept' [-private], 'help' [-param] \n"+
 				"------------------------------------------------------------------------";
 	}
 
 	@Override
 	public String[] getParams() {
-		return new String[] {"create", "-private", "-receiver", "-amount", "-currency", "accept", "privateKey", "help", "-param"};
+		return new String[] {"create", "-sender", "-receiver", "-amount", "-currency", "accept", "privateKey", "help", "-param"};
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public class TransactionCommand implements Command{
 		int currencyIndex = 0;
 		boolean stop = false;
 		if(args[0].equals("create")) {
-			if(args.length > 2 && args[1].equals("-private")) {
+			if(args.length > 2 && args[1].equals("-sender")) {
 				if(args.length > 4 && args[3].equals("-receiver")) {
 					if(args.length > 6 && args[5].equals("-amount")) {
 						for(int i = 6; i < args.length && stop == false; i++) {
