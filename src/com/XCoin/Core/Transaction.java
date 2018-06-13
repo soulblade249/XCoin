@@ -86,11 +86,11 @@ public class Transaction {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		return "Hash: " + hashToString(getHash(this.sender, this.receiver, this.signature, this.networkId, this.data)) + "| Sender: " + sender + " | Receiver: " + receiver + " | Signature Id: " + sig + " | Network Id: " + net + " | Data: " + data;
+		return "Hash: " + hashToString(getHash(this.sender, this.receiver, this.signature, this.networkId, this.data)) + "| Sender: " + sender + " | Receiver: " + receiver + " | Signature Id: " + sig + " | Network Id: " + net.toString() + " | Data: " + data;
 	}
 	
 	public byte[] toByteArray() {
-		return ByteUtil.concat(hash, sender, receiver, networkId, signature, data);
+		return ByteUtil.concat(hash, sender, receiver, signature, networkId, data);
 	}
 }
 
