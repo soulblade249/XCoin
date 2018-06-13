@@ -121,6 +121,7 @@ public class Peer2Peer {
     
     public static void propagate(ByteArrayKey data) {
     		for(Peer p: peers) {
+    			System.out.println(p.socket.toString());
     			p.send(data.toByteArray(), p.out);
     		}
     }

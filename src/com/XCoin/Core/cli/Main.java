@@ -1,5 +1,6 @@
 package com.XCoin.Core.cli;
 import java.io.IOException;
+import java.net.Socket;
 import java.security.GeneralSecurityException;
 import java.security.Security;
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class Main {
 		Commander cmd = new Commander();
 		node = new Peer2Peer(8888);
 		node.start();
+		node.connect(new Socket("10.70.21.135", 8888));
 		cmd.menu();
 		BlockChain.propagateWallet();
 		System.out.println("Propagated Wallets");

@@ -16,7 +16,7 @@ public class TransactionCommandHandler extends CommandHandler {
 	}
 
 	public byte[] send(byte[] data) {
-		return data;
+		return ByteUtil.concat(new ByteArrayKey((byte) 0x00, (byte) 0x01).toByteArray(), data);
 	}
 	
 	private void check(byte[] data) {

@@ -26,6 +26,11 @@ public class Peer {
 	public Peer(Socket socket, Peer2Peer p2p)  {
 		this.p2p = p2p;
 		this.socket = socket;
+		try {
+			this.out = new DataOutputStream(socket.getOutputStream());
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
         initializeCommands();
 		peerThread = new Thread(new Runnable() {
 			public void run() {
@@ -92,8 +97,11 @@ public class Peer {
         	        System.out.println("Sending message: " + data);
         			System.out.println(data.length);
 	        		out.writeInt(data.length);
+	        		System.out.println(data.length);
 	            out.write(data);
+	            System.out.println(data.length);
 	            out.flush();
+	            System.out.println("Data sent");
         		}
         } catch (IOException e) {
             e.printStackTrace();
