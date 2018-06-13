@@ -1,25 +1,23 @@
 package com.XCoin.Core;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+//import com.google.gson.GsonBuilder;
+import java.io.PrintWriter;
 import java.security.GeneralSecurityException;
 import java.security.Security;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
-//import java.util.Base64;
-import com.XCoin.GUI.*;
-
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-//import com.google.gson.GsonBuilder;
-import java.io.PrintWriter;
-import com.XCoin.Core.Transaction.*;
 import com.XCoin.Core.cli.Main;
-import com.XCoin.Util.*;
+//import java.util.Base64;
+import com.XCoin.GUI.MinerGui;
+import com.XCoin.Util.KeyUtil;
+import com.XCoin.Util.TransactionUtil;
 
 public class BlockChain{
 
@@ -115,9 +113,12 @@ public class BlockChain{
 	public static void processTransactions() throws IOException {
 		PrintWriter out = new PrintWriter(new FileWriter("wallets.dat"));
 		String retrievedData = "";
-		int size = Block.getTransactionTableSize();
+		int size = Block.getTransactionTableSize()-1;
+		System.out.println("Size: " + size);
 		for(Block c : blockchain) {
+			System.out.println("We have a block");
 			while(c.hasTransaction(size)) {
+				System.out.println("Block has Transaction");
 				Transaction t = c.getTransaction(size);
 				System.out.println(t.toString());
 				byte[] data = t.getData();
