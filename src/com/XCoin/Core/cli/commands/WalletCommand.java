@@ -113,7 +113,7 @@ public class WalletCommand implements Command{
 					if(privateKe.equals(args[2])) {
 						ECPrivateKey privateKey = KeyUtil.stringToPrivateKey(privateKe);
 						try {
-							userWallet = new Wallet(privateKey);
+							userWallet = new Wallet(privateKey, true);
 							System.out.println("- Wallet imported");
 							String subMenu = "";
 							Scanner subMenuScanner = new Scanner(System.in);
