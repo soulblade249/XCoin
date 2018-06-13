@@ -24,7 +24,8 @@ public class Main {
 		Commander cmd = new Commander();
 		node = new Peer2Peer(8888);
 		node.start();
-		node.connect(new Socket("10.70.21.135", 8888));
+		//node.connect(new Socket("10.70.21.135", 8888));
+		System.out.println("Test Wallet Bal: " + testWallet.getBal());
 		cmd.menu();
 		BlockChain.propagateWallet();
 		System.out.println("Propagated Wallets");
@@ -35,7 +36,7 @@ public class Main {
 		Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider()); //Setup Bouncey castle as a Security Provider
 		Wallet test = new Wallet();
 		test.addFunds("USD", 500);
-		test.addFunds("JYP", 500);
+		test.addFunds("JPY", 500);
 		return test;
 	}
 }

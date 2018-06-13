@@ -114,11 +114,11 @@ public class TransactionCommand implements Command{
 	public void getParamHelp(String param) {
 		System.out.println("------------------------------------------------------------------------");
 		switch(param) {
-		case "-private" :
-			System.out.println("The private key of your wallet.");
+		case "-sender" :
+			System.out.println("Your wallet's adress.");
 			break;
 		case "-receiver" :
-			System.out.println("The public key of the receiver of the transaction.");
+			System.out.println("The adress of the wallet of the person receiving the money");
 			break;
 		case "-amount" :
 			System.out.println("The different amounts of each currency. Must match the number of the currencies in the next parameter. Ex: 100 80 will create a transaction with a 100 of currency A and 80 of currency B");
