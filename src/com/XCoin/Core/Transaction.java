@@ -90,7 +90,7 @@ public class Transaction {
 	}
 	
 	public byte[] toByteArray() {
-		return ByteUtil.concat(hash, sender, receiver, signature, networkId, data);
+		return ByteUtil.concat(hash, sender, receiver, networkId, signature, data);
 	}
 }
 

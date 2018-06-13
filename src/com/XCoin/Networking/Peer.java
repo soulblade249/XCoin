@@ -67,6 +67,7 @@ public class Peer {
 	public void listen() throws IOException {
 		byte[] command;
 		DataInputStream in = new DataInputStream(socket.getInputStream());
+		System.out.println("Listening to socket :" + socket.toString());
 		while(runningServer){
 	    		try{
         			DataOutputStream out = new DataOutputStream(socket.getOutputStream());
@@ -86,9 +87,9 @@ public class Peer {
     }
 
     public void send(byte[] data, DataOutputStream out){
-        System.out.println("Sending message: " + data);
         try {
         		if(data != null) {
+        	        System.out.println("Sending message: " + data);
         			System.out.println(data.length);
 	        		out.writeInt(data.length);
 	            out.write(data);
@@ -106,7 +107,7 @@ public class Peer {
         		size = in.readInt();
         		data = new byte[size];
         		in.readFully(data, 0, size);
-            System.out.println("Received message: "+ ByteUtil.bytesToBigInteger(new ByteArrayKey(data).subSet(2, data.length-1)) + " " + size);
+            System.out.println("Received message " + size);
         } catch (IOException e) {
             e.printStackTrace();
         }
