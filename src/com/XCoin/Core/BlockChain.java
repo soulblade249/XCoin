@@ -138,6 +138,7 @@ public class BlockChain{
 				}
 				for(Wallet w : Main.wallets) {
 					System.out.println("W: " + w.toString());
+					System.out.println("Address: " + w.getAddress());
 				}
 				for(Wallet w : Main.wallets) {
 					System.out.println("Checking Wallets");
