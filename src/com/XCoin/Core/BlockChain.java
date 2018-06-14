@@ -137,17 +137,22 @@ public class BlockChain{
 					}
 				}
 				for(Wallet w : Main.wallets) {
+					System.out.println("W: " + w.toString());
+				}
+				for(Wallet w : Main.wallets) {
+					System.out.println("Checking Wallets");
 					if(w.getAddress().equals(t.getSender())) {
 						senderWallet = w;
 						System.out.println("Sender");
-					}else if(w.getAddress().equals(t.getReceiver())) {
+					}else if(w.getAddress().equals(t.getReceiver())) { //is null
 						receiverWallet = w;
-						System.out.println("Receiver");
+						System.out.println("Receiver"); //Never gets set
 					}
 					senderWallet = Main.testWallet;
 					String[] part = retrievedData.replace("|", " ").split(" ");		
 					for(int a = 0; a < part.length/2 ; a++) {
 						System.out.println("Calling has balance with senderWallet: " + senderWallet + " partA: " + part[a]);
+						System.out.println("Receiver Wallet: " + receiverWallet + " partA: " + part[a]);
 						if(TransactionUtil.hasBalance(senderWallet, part[a])) {
 							senderWallet.removeFunds(part[a], Long.parseLong(part[a+1]));
 							receiverWallet.addFunds(part[a], Long.parseLong(part[a+1]));
@@ -168,7 +173,7 @@ public class BlockChain{
 		}
 	}
 
-	public static void propagateWallet() throws FileNotFoundException, GeneralSecurityException {
+	public static void propagateWallet() throws FileNotFoundException, GeneralSecurityException { //Propagation of the wallets is not working as intented
 		String homeDir = System.getProperty("user.home");
 		File file = new File(homeDir + "/Desktop/" + "wallets.txt");
 		BufferedReader f = new BufferedReader(new FileReader(file));
@@ -177,6 +182,7 @@ public class BlockChain{
 			String line = in.nextLine();
 			int index = line.indexOf(" ");
 			String privateKe = line.substring(index + 1, line.length());
+			System.out.println("Current Private Key: " + privateKe);
 			Wallet w = new Wallet(KeyUtil.stringToPrivateKey(privateKe), true);
 			Main.wallets.add(w);
 		}
