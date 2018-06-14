@@ -32,7 +32,7 @@ public class Block {
 	}
 	
 	public static boolean hasTransaction(int size) {
-		if(size > 0) {
+		if(size >= 0) {
 			return true;
 		}else {
 			return false;
@@ -43,7 +43,7 @@ public class Block {
 		return transactionTable.size();	
 	}
 	
-	public static Transaction getTransaction(int a) {
+	public Transaction getTransaction(int a) {
 		return transactionTable.get(a);
 	}
 	

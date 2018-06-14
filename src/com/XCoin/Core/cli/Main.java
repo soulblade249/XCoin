@@ -15,14 +15,13 @@ public class Main {
 	public static Peer2Peer node;
 	
 	public static void main(String [] args) throws IOException, GeneralSecurityException {
+		BlockChain.propagateWallet();
 		Commander cmd = new Commander();
 		node = new Peer2Peer(8888);
 		node.start();
 		//node.connect(new Socket("10.70.21.135", 8888));
-		System.out.println("Test Wallet Bal: " + testWallet.getBal());
+		//System.out.println("Test Wallet Bal: " + testWallet.getBal());
 		cmd.menu();
-		BlockChain.propagateWallet();
-		System.out.println("Propagated Wallets");
 		BlockChain.processTransactions();
 	}
 	

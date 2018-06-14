@@ -10,6 +10,7 @@ import java.io.PrintWriter;
 import java.security.GeneralSecurityException;
 import java.security.Security;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -99,9 +100,9 @@ public class BlockChain{
 				blockchain.add(newBlock);
 				gui.displayText("Block Mined: " + newBlock.hash + " Time: " + newBlock.timeStamp);
 			}
-			newBlock.getTransactions();
+			Block.getTransactions();
 		}
-		System.out.println("Stopping mining");
+		//System.out.println("Stopping mining");
 	}
 
 	public static void onTerminate() throws FileNotFoundException {
@@ -113,13 +114,14 @@ public class BlockChain{
 	}
 
 	public static void processTransactions() throws IOException {
+		boolean noFunds = false;
 		PrintWriter out = new PrintWriter(new FileWriter("wallets.dat"));
 		String retrievedData = "";
-		int size = Block.getTransactionTableSize()-1;
+		int size = Block.getTransactionTableSize()-1, senderIndex = 0, receiverIndex = 0;
 		System.out.println("Size: " + size);
 		for(Block c : blockchain) {
 			//System.out.println("We have a block");
-			while(c.hasTransaction(size)) {
+			while(Block.hasTransaction(size) && noFunds == false) {
 				//System.out.println("Block has Transaction");
 				Transaction t = c.getTransaction(size);
 				System.out.println(t.toString());
@@ -138,52 +140,44 @@ public class BlockChain{
 						a--;
 					}
 				}
-				ArrayList<Wallet> SenderwalletHold = new ArrayList<Wallet>();
-				ArrayList<Wallet> ReceiverWalletHold = new ArrayList<Wallet>();
-				//System.out.println("How many wallets: " + Main.wallets.size());
+				int walletIndex = 0;
 				for(Wallet w : Main.wallets) {
-					//System.out.println("Checking Wallets");
-					String wAddress = Hex.toHexString(w.getAddress());
-					//System.out.println("Wallet Adress: " + wAddress);
-					String senderAdress = Hex.toHexString(t.getSender());
-					//System.out.println("Sender Adress: " + senderAdress);
-					String receiverAdress = Hex.toHexString(t.getReceiver());
-					//System.out.println("Receiver Adress: " + receiverAdress);
-					if(wAddress.equals(senderAdress)) {
+					String wHex = Hex.toHexString(w.getAddress());
+					byte[] walletAddress = wHex.getBytes();
+					if(Arrays.equals(walletAddress, t.getSender())) {
 						senderWallet = w;
-						SenderwalletHold.add(senderWallet);
-						//System.out.println("Sender");
-					}else if(wAddress.equals(receiverAdress)) {
+						senderIndex = walletIndex;
+					}else if(Arrays.equals(walletAddress, t.getReceiver())) {
 						receiverWallet = w;
-						ReceiverWalletHold.add(receiverWallet);
-						//System.out.println("Receiver");
+						receiverIndex = walletIndex;
+					}
+					walletIndex++;
+				}
+				senderWallet = Main.testWallet;
+				String[] part = retrievedData.replace("|", " ").split(" ");
+				for(int a = 0; a < part.length/2; a += 2) {
+					if(senderWallet.hasFunds(part[a], Long.parseLong(part[a+1]))) {
+						System.out.println("Sender Wallet bfr: " + senderWallet.getBal() + " now removing " + part[a+1] + " " + part[a]);
+						senderWallet.removeFunds(part[a], Long.parseLong(part[a+1]));
+						System.out.println("Sender Wallet After: " + senderWallet.getBal());
+						System.out.println("Receiver Wallet bfr: " + receiverWallet.getBal() + " now adding " + part[a+1] + " " + part[a]);
+						receiverWallet.addFunds(part[a], Long.parseLong(part[a+1]));
+						System.out.println("ReceiverWallet After: " + receiverWallet.getBal());
+					}else {
+						System.out.println("Error: User does not have enough funds");
+						noFunds = true;
 					}
 				}
-				System.out.println("Out of wallet adderr loop");
-				for(int a = 0; a < SenderwalletHold.size() && a < ReceiverWalletHold.size(); a++) {
-					senderWallet = Main.testWallet;
-					String[] part = retrievedData.replace("|", " ").split(" ");		
-					for(int b = 0; b < part.length/2 ; b++) {
-						//System.out.println("Calling has balance with senderWallet: " + SenderwalletHold.get(a) + " partA: " + part[b]);
-						//System.out.println("Receiver Wallet: " + ReceiverWalletHold.get(a) + " partA: " + part[b]);
-						if(TransactionUtil.hasBalance(senderWallet, part[b])) {
-							SenderwalletHold.get(a).removeFunds(part[b], Long.parseLong(part[b+1]));
-							ReceiverWalletHold.get(a).addFunds(part[b], Long.parseLong(part[b+1]));
-							b++;
-						}else {
-							System.out.println("Error: Sender has none of the currency: " + part[b]);
-						}
-					}
-					size--;
-				}
+				Main.wallets.set(senderIndex, senderWallet);
+				Main.wallets.set(receiverIndex, receiverWallet);
+				size--;
 			}
 		}
 		for(Wallet w : Main.wallets) { //Print the Wallets
 			out.println(w);
 		}
-		System.out.println("Sender Wallet now has balance: " + senderWallet.getBal());
-		System.out.println("Receiver Wallet now has balance: " + receiverWallet.getBal());
 		out.close();
+		System.exit(1);
 	}
 
 	public static void propagateWallet() throws FileNotFoundException, GeneralSecurityException { //Propagation of the wallets is not working as intented
@@ -196,8 +190,7 @@ public class BlockChain{
 			int index = line.indexOf(" ");
 			String privateKe = line.substring(index + 1, line.length());
 			System.out.println("Current Private Key: " + privateKe);
-			Wallet w = new Wallet(KeyUtil.stringToPrivateKey(privateKe), true);
-			System.out.println("");
+			Wallet w = new Wallet(KeyUtil.stringToPrivateKey(privateKe));
 			Main.wallets.add(w);
 		}
 	}

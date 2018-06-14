@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import org.bouncycastle.util.encoders.Hex;
+
 import com.XCoin.Core.cli.Main;
 import com.XCoin.Util.KeyUtil;
 
@@ -84,20 +86,6 @@ public class Wallet{
 		this.walletId = Main.wallets.size();
 		this.balanceList = setUpBal();
 	}
-	
-	/**
-	 * Creates a new Wallet
-	 * @param privKey the private key of the wallet
-	 * @param balSet wether or not to make a new bal
-	 * @throws GeneralSecurityException
-	 */
-	
-	public Wallet(ECPrivateKey privKey, boolean balSet) throws GeneralSecurityException {
-		this.privateKey = privKey;
-		this.publicKey = KeyUtil.getPublicKey(privKey);
-		this.address = (KeyUtil.publicKeyToAddress(this.publicKey));
-		this.walletId = Main.wallets.size();
-	}
 
 	/**
 	 * Gets the private key of the wallet
@@ -142,12 +130,11 @@ public class Wallet{
 	 * @param amount to remove
 	 */
 	public void removeFunds(String code, long amount) {
-		for(Map.Entry<String, Long> b : this.balanceList.entrySet()) {
-			if(code.equals(b.getKey())) {
-				b.setValue(b.getValue() - amount);
-				break;
-			}
-		}
+		balanceList.replace(code, balanceList.get(code) - amount);
+	}
+	
+	public boolean hasFunds(String code, long amount) {
+		return balanceList.get(code) >= amount;
 	}
 
 	/**
