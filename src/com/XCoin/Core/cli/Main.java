@@ -9,6 +9,8 @@ import com.XCoin.Core.Wallet;
 import com.XCoin.Networking.Peer2Peer;
 
 public class Main {
+
+	//TODO: Set Readin from wallets.dat
 	
 	public static ArrayList<Wallet> wallets = new ArrayList<Wallet>();
 	public static Wallet testWallet = setUpTestWallet();

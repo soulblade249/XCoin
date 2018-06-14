@@ -86,6 +86,10 @@ public class Wallet{
 		this.walletId = Main.wallets.size();
 		this.balanceList = setUpBal();
 	}
+	
+	public Wallet(ECPrivateKey privKey, ECPublicKey pubKey, byte[] address, HashMap<String, Long> bal, int id) {
+		
+	}
 
 	/**
 	 * Gets the private key of the wallet

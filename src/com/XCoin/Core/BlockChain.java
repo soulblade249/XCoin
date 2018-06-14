@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.GeneralSecurityException;
 import java.security.Security;
+import java.security.interfaces.ECPrivateKey;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -180,18 +181,24 @@ public class BlockChain{
 		System.exit(1);
 	}
 
-	public static void propagateWallet() throws FileNotFoundException, GeneralSecurityException { //Propagation of the wallets is not working as intented
-		String homeDir = System.getProperty("user.home");
-		File file = new File(homeDir + "/Desktop/" + "wallets.txt");
+	public static void propagateWallet() throws FileNotFoundException, GeneralSecurityException {
+		File file = new File("wallets.dat");
+		ECPrivateKey privateKe = null;
 		BufferedReader f = new BufferedReader(new FileReader(file));
 		Scanner in = new Scanner(f);
 		while(in.hasNextLine()) {
 			String line = in.nextLine();
-			int index = line.indexOf(" ");
-			String privateKe = line.substring(index + 1, line.length());
-			System.out.println("Current Private Key: " + privateKe);
-			Wallet w = new Wallet(KeyUtil.stringToPrivateKey(privateKe));
-			Main.wallets.add(w);
+			if(line.contains("Priv: ")) {
+				int index = line.indexOf(" ");
+				String privateKey = line.substring(index+1, line.length());
+				privateKe = KeyUtil.stringToPrivateKey(privateKey);
+			}else if(line.contains("Pub: ")) {
+				
+			}else if(line.contains("Bal: ")) {
+				
+			}else if(line.contains("Id: ")) {
+				
+			}
 		}
 	}
 
