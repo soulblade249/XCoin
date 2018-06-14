@@ -116,7 +116,7 @@ public class BlockChain{
 		PrintWriter out = new PrintWriter(new FileWriter("wallets.dat"));
 		String retrievedData = "";
 		int size = Block.getTransactionTableSize()-1;
-		//System.out.println("Size: " + size);
+		System.out.println("Size: " + size);
 		for(Block c : blockchain) {
 			//System.out.println("We have a block");
 			while(c.hasTransaction(size)) {
@@ -159,10 +159,11 @@ public class BlockChain{
 						//System.out.println("Receiver");
 					}
 				}
+				System.out.println("Out of wallet adderr loop");
 				for(int a = 0; a < SenderwalletHold.size() && a < ReceiverWalletHold.size(); a++) {
 					senderWallet = Main.testWallet;
 					String[] part = retrievedData.replace("|", " ").split(" ");		
-					for(int b = 0; a < part.length/2 ; b++) {
+					for(int b = 0; b < part.length/2 ; b++) {
 						//System.out.println("Calling has balance with senderWallet: " + SenderwalletHold.get(a) + " partA: " + part[b]);
 						//System.out.println("Receiver Wallet: " + ReceiverWalletHold.get(a) + " partA: " + part[b]);
 						if(TransactionUtil.hasBalance(senderWallet, part[b])) {
