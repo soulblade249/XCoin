@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import org.bouncycastle.util.encoders.Hex;
+
 import com.XCoin.Core.cli.Main;
 //import java.util.Base64;
 import com.XCoin.GUI.MinerGui;
@@ -135,19 +137,18 @@ public class BlockChain{
 						retrievedData += "|";
 						a--;
 					}
-				}
-				for(Wallet w : Main.wallets) {
-					System.out.println("W: " + w.toString());
-					System.out.println("Address: " + w.getAddress());
-				}
+				}	
 				for(Wallet w : Main.wallets) {
 					System.out.println("Checking Wallets");
-					if(w.getAddress().equals(t.getSender())) {
+					String wAddress = Hex.toHexString(w.getAddress());
+					String senderAdress = Hex.toHexString(t.getSender());
+					String receiverAdress = Hex.toHexString(t.getReceiver());
+					if(wAddress.equals(senderAdress)) {
 						senderWallet = w;
 						System.out.println("Sender");
-					}else if(w.getAddress().equals(t.getReceiver())) { //is null
+					}else if(wAddress.equals(receiverAdress)) {
 						receiverWallet = w;
-						System.out.println("Receiver"); //Never gets set
+						System.out.println("Receiver");
 					}
 					senderWallet = Main.testWallet;
 					String[] part = retrievedData.replace("|", " ").split(" ");		
