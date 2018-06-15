@@ -87,8 +87,12 @@ public class Wallet{
 		this.balanceList = setUpBal();
 	}
 	
-	public Wallet(ECPrivateKey privKey, ECPublicKey pubKey, byte[] address, HashMap<String, Long> bal, int id) {
-		
+	public Wallet(ECPrivateKey privKey, ECPublicKey pubKey, HashMap<String, Long> bal, int id) {
+		this.privateKey = privKey;
+		this.publicKey = pubKey;
+		this.address = KeyUtil.publicKeyToAddress(pubKey);
+		this.balanceList = bal;
+		this.walletId = id;
 	}
 
 	/**

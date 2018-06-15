@@ -10,6 +10,7 @@ import java.io.PrintWriter;
 import java.security.GeneralSecurityException;
 import java.security.Security;
 import java.security.interfaces.ECPrivateKey;
+import java.security.interfaces.ECPublicKey;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -183,7 +184,11 @@ public class BlockChain{
 
 	public static void propagateWallet() throws FileNotFoundException, GeneralSecurityException {
 		File file = new File("wallets.dat");
+		boolean priv = false, pub = false, bal1 = false, id1 = false;
 		ECPrivateKey privateKe = null;
+		ECPublicKey pubKey = null;
+		int id = 0;
+		HashMap<String, Long> balMap = new HashMap<String, Long>();
 		BufferedReader f = new BufferedReader(new FileReader(file));
 		Scanner in = new Scanner(f);
 		while(in.hasNextLine()) {
@@ -192,12 +197,38 @@ public class BlockChain{
 				int index = line.indexOf(" ");
 				String privateKey = line.substring(index+1, line.length());
 				privateKe = KeyUtil.stringToPrivateKey(privateKey);
+				priv = true;
 			}else if(line.contains("Pub: ")) {
-				
+				int index = line.indexOf(" ");
+				String publicKey = line.substring(index+1, line.length());
+				pubKey = KeyUtil.stringToPublicKey(publicKey);
+				pub = true;
 			}else if(line.contains("Bal: ")) {
-				
+				int index = line.indexOf(" ");
+				String output = line.substring(index+1, line.length());
+				output = output.replace("{", "");
+				output = output.replace("}", "");
+				output = output.replace(",", "");
+				output = output.replace("=", "-");
+				String[] balArray = output.split(" ");
+				for(String bal : balArray) {
+					String[] balStuff = bal.split("-");
+					balMap.put(balStuff[0], Long.parseLong(balStuff[1]));
+				}
+				bal1 = true;
 			}else if(line.contains("Id: ")) {
-				
+				int index = line.indexOf(" ");
+				id = Integer.parseInt(line.substring(index+1, line.length()));
+				id1 = true;
+			}
+			if(priv && pub && bal1 && id1) {
+				Wallet w = new Wallet(privateKe, pubKey, balMap, id);
+				Main.wallets.add(w);
+				System.out.println(w.getBal());
+				priv = false;
+				pub = false;
+				bal1 = false;
+				id1 = false;
 			}
 		}
 	}

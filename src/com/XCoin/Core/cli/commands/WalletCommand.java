@@ -97,82 +97,49 @@ public class WalletCommand implements Command{
 			Main.wallets.add(userWallet);
 			Commander.repeat = false;
 		}else if(args[0].equals("retrieve")) {
-			if(file.exists()) {
-				//System.out.println("File exists");
-				try {
-					f = new BufferedReader(new FileReader(file));
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				}
-				Scanner in = new Scanner(f);
-				while(in.hasNextLine()) {
-					//System.out.println("In Loop");
-					String line = in.nextLine();
-					int index = line.indexOf(" ");
-					String privateKe = line.substring(index + 1, line.length());
-					if(privateKe.equals(args[2])) {
-						ECPrivateKey privateKey = KeyUtil.stringToPrivateKey(privateKe);
-						try {
-							userWallet = new Wallet(privateKey);
-							System.out.println("- Wallet imported");
-							String subMenu = "";
-							Scanner subMenuScanner = new Scanner(System.in);
-							while(!subMenu.equals("quit")) {
-								System.out.println("Wallet Options");
-								System.out.println("1. Get Private Key");
-								System.out.println("2. Get Public Key");
-								System.out.println("3. Get Address");
-								System.out.println("4. Get Bal");
-								System.out.println("5. Quit");
-								System.out.print("Choice: ");
-								int choice = subMenuScanner.nextInt();
-								switch(choice) {
-								case 1:
-									System.out.println("Private Key: " + KeyUtil.privateKeyToString(userWallet.getPrivate()));
-									break;
-								case 2:
-									System.out.println("Public Key: " + KeyUtil.publicKeyToString(userWallet.getPublic()));
-									break;
-								case 3:
-									System.out.println("Address: " + Hex.toHexString(userWallet.getAddress()));
-									break;
-								case 4:
-									System.out.println("Balance: " + userWallet.getBal());
-									break;
-								case 5:
-									break;
-								default:
-									System.out.println("Incorrect Choice");
-									break;
-								}
-								if(choice == 5) {
-									break;
-								}
-							}
-						} catch (GeneralSecurityException e) {
-							e.printStackTrace();
+			for(Wallet w : Main.wallets) {
+				System.out.println("Private Key: " + KeyUtil.privateKeyToString(w.getPrivate()));
+				if(KeyUtil.privateKeyToString(w.getPrivate()).equals(args[2])) {
+					System.out.println("Private key is: " + args[2] + " wallet has bal: " + w.getBal());
+					userWallet = w;
+					System.out.println("- Wallet imported");
+					String subMenu = "";
+					Scanner subMenuScanner = new Scanner(System.in);
+					while(!subMenu.equals("quit")) {
+						System.out.println("Wallet Options");
+						System.out.println("1. Get Private Key");
+						System.out.println("2. Get Public Key");
+						System.out.println("3. Get Address");
+						System.out.println("4. Get Bal");
+						System.out.println("5. Quit");
+						System.out.print("Choice: ");
+						int choice = subMenuScanner.nextInt();
+						switch(choice) {
+						case 1:
+							System.out.println("Private Key: " + KeyUtil.privateKeyToString(userWallet.getPrivate()));
+							break;
+						case 2:
+							System.out.println("Public Key: " + KeyUtil.publicKeyToString(userWallet.getPublic()));
+							break;
+						case 3:
+							System.out.println("Address: " + Hex.toHexString(userWallet.getAddress()));
+							break;
+						case 4:
+							System.out.println("Balance: " + userWallet.getBal());
+							break;
+						case 5:
+							break;
+						default:
+							System.out.println("Incorrect Choice");
+							break;
+						}
+						if(choice == 5) {
+							break;
 						}
 					}
 				}
-			}else if(args.length > 2 && args[1].equals("-private")) {
-				System.out.println("Checking hashmap");
-				for(Wallet w : Main.wallets) {
-					if(w.getPrivate().equals(KeyUtil.stringToPrivateKey(args[2]))) {
-						userWallet = w;
-					}
-				}
-			}else { 
-				System.out.println("- Error: cannot retrieve without a private key. Would you like to create a wallet?(y/n): ");
-				Scanner in = new Scanner(System.in);
-				char choice = in.next().toLowerCase().charAt(0);
-				if(choice == 'y') {
-					run(new String[] {"create"});
-				}else if(choice == 'n') {
-					getHelp();
-				}else {
-					System.out.println("- Error: Invalid Choice");
-				}
 			}
+			System.out.println("Error: Invalid private key");
 			Commander.repeat = false;
 		}else if(args[0].equals("-help")) {
 			System.out.println("- " + getHelp());
