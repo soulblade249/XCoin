@@ -17,14 +17,8 @@ public class Main {
 	public static Peer2Peer node;
 	
 	public static void main(String [] args) throws IOException, GeneralSecurityException {
-		System.out.println("Propagation Function");
 		BlockChain.propagateWallet();
-		System.out.println("-----------------------");
 		Commander cmd = new Commander();
-		System.out.println("After Propagation");
-		for(Wallet w : Main.wallets) {
-			System.out.println(w.getBal());
-		}
 		node = new Peer2Peer(8888);
 		node.start();
 		//node.connect(new Socket("10.70.21.135", 8888));

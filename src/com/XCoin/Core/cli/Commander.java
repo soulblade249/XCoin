@@ -107,11 +107,6 @@ public class Commander {
 	}
 
 	public Commander(){
-		System.out.println("In Commander Constructor");
-		for(Wallet w : Main.wallets) {
-			System.out.println(w.getBal());
-		}
-		System.out.println("-----------------------");
 		setup();
 		instance = this;
 	}

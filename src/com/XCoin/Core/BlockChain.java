@@ -224,7 +224,6 @@ public class BlockChain{
 			if(priv && pub && bal1 && id1) {
 				Wallet w = new Wallet(privateKe, pubKey, balMap, id);
 				Main.wallets.add(w);
-				System.out.println(w.getBal());
 				priv = false;
 				pub = false;
 				bal1 = false;

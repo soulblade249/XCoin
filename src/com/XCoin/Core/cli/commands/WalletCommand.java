@@ -98,14 +98,12 @@ public class WalletCommand implements Command{
 			Commander.repeat = false;
 		}else if(args[0].equals("retrieve")) {
 			for(Wallet w : Main.wallets) {
-				System.out.println("Private Key: " + KeyUtil.privateKeyToString(w.getPrivate()));
 				if(KeyUtil.privateKeyToString(w.getPrivate()).equals(args[2])) {
-					System.out.println("Private key is: " + args[2] + " wallet has bal: " + w.getBal());
 					userWallet = w;
 					System.out.println("- Wallet imported");
-					String subMenu = "";
 					Scanner subMenuScanner = new Scanner(System.in);
-					while(!subMenu.equals("quit")) {
+					int choice = 0;
+					while(choice != 5) {
 						System.out.println("Wallet Options");
 						System.out.println("1. Get Private Key");
 						System.out.println("2. Get Public Key");
@@ -113,7 +111,7 @@ public class WalletCommand implements Command{
 						System.out.println("4. Get Bal");
 						System.out.println("5. Quit");
 						System.out.print("Choice: ");
-						int choice = subMenuScanner.nextInt();
+						choice = subMenuScanner.nextInt();
 						switch(choice) {
 						case 1:
 							System.out.println("Private Key: " + KeyUtil.privateKeyToString(userWallet.getPrivate()));
