@@ -25,7 +25,6 @@ public class Main {
 		for(Wallet w : Main.wallets) {
 			System.out.println(w.getBal());
 		}
-		System.out.println("-----------------------");
 		node = new Peer2Peer(8888);
 		node.start();
 		//node.connect(new Socket("10.70.21.135", 8888));

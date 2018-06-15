@@ -183,14 +183,14 @@ public class BlockChain{
 	}
 
 	public static void propagateWallet() throws FileNotFoundException, GeneralSecurityException {
-		File file = new File("wallets.dat");
 		boolean priv = false, pub = false, bal1 = false, id1 = false;
+		File file = new File("wallets.dat");
+		BufferedReader f = new BufferedReader(new FileReader(file));
+		Scanner in = new Scanner(f);
 		ECPrivateKey privateKe = null;
 		ECPublicKey pubKey = null;
 		int id = 0;
 		HashMap<String, Long> balMap = new HashMap<String, Long>();
-		BufferedReader f = new BufferedReader(new FileReader(file));
-		Scanner in = new Scanner(f);
 		while(in.hasNextLine()) {
 			String line = in.nextLine();
 			if(line.contains("Priv: ")) {
@@ -229,6 +229,10 @@ public class BlockChain{
 				pub = false;
 				bal1 = false;
 				id1 = false;
+				privateKe = null;
+				pubKey = null;
+				id = 0;
+				balMap = new HashMap<String, Long>();
 			}
 		}
 	}
