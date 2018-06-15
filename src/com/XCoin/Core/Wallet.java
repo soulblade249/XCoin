@@ -130,6 +130,7 @@ public class Wallet{
 	 * @param amount to add
 	 */
 	public void addFunds(String code, long amount) {
+		System.out.println("Fund system accessed");
 		balanceList.replace(code, amount);
 	}
 
@@ -138,6 +139,7 @@ public class Wallet{
 	 * @param amount to remove
 	 */
 	public void removeFunds(String code, long amount) {
+		System.out.println("Fund system accessed");
 		balanceList.replace(code, balanceList.get(code) - amount);
 	}
 	

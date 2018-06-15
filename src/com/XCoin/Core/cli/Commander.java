@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import com.XCoin.Core.Wallet;
 import com.XCoin.Core.cli.commands.Command;
 import com.XCoin.Core.cli.commands.HelpCommand;
 import com.XCoin.Core.cli.commands.KeyUtilCommand;
@@ -54,7 +55,7 @@ public class Commander {
 
 	}
 
-	public void setup(){
+	public void setup() {
 		cmds = new HashMap<String,Command>();
 		cmds.put("key-util", new KeyUtilCommand());
 		//cmds.put("node", new NodeCommand());
@@ -106,6 +107,11 @@ public class Commander {
 	}
 
 	public Commander(){
+		System.out.println("In Commander Constructor");
+		for(Wallet w : Main.wallets) {
+			System.out.println(w.getBal());
+		}
+		System.out.println("-----------------------");
 		setup();
 		instance = this;
 	}
